@@ -51,12 +51,18 @@
     $.getJSON(DATA_SERVER_GET, function(dataFromServer){
       var datalist = dataFromServer.data;
       var dataElement ;
-      // console.log(dataFromServer.data);
-      console.log(datalist[0]);
-      for (let i = 0; i < datalist.length; i++) {
-        dataElement = datalist[i];
-        console.log(dataElement['word']);
-      }
+
+      // for (let i = 0; i < datalist.length; i++) {
+      //   dataElement = datalist[i];
+      //   console.log(dataElement['word']);
+      // }
+
+      var table = document.getElementById("myTable");
+      var row = table.insertRow(0);
+      var cell1 = row.insertCell(0);
+      var cell2 = row.insertCell(1);
+      cell1.innerHTML = "aaaaa";
+      cell2.innerHTML = "bbb";
       
     });
 
@@ -99,9 +105,9 @@
           <button class="btn btn-primary" type="submit" id="btn_search"><i class="fas fa-search"></i></button> 
         </div>
       </div>
-      <div id="word_list">
-        <table class="table table-hover">
-          <tbody style="font-size: small;">
+      <div >
+        <table id="myTable" class="table table-hover">
+          <tbody id="word_table"  style="font-size: small;">
             <tr>
               <td>John</td>
               <td style="text-align: right;" >John</td>
