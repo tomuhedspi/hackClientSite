@@ -48,10 +48,16 @@
          
       
         
-    $.getJSON(DATA_SERVER_GET, function(result){
-      // alert("hihi");
+    $.getJSON(DATA_SERVER_GET, function(dataFromServer){
+      var datalist = dataFromServer.data;
+      var dataElement ;
+      // console.log(dataFromServer.data);
+      console.log(datalist[0]);
+      for (let i = 0; i < datalist.length; i++) {
+        dataElement = datalist[i];
+        console.log(dataElement);
+      }
       
-      console.log(result);
     });
 
 
