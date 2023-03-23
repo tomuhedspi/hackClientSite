@@ -38,6 +38,7 @@
       }
       .row.content {height: auto;} 
     }
+
   </style>
 
 
@@ -57,13 +58,6 @@
 
       for (let i = 0; i < datalist.length; i++) {
         dataElement = datalist[i];
-        // row = table.insertRow(0);
-        // cell1 = row.insertCell(0);
-        // cell2 = row.insertCell(1);
-        // cell1.innerHTML = "<span style='text-align: left'>"+dataElement['word']+"</span>";
-        // cell2.innerHTML = "<span style='text-align: right'>"+dataElement['meaning']+"</span>";
-
-
         markup = "<tr><td>" + dataElement['word'] + "</td><td>" + dataElement['meaning'] + "</td></tr>";
         $('#myTable > tbody:last-child').append(markup);
 
@@ -114,12 +108,13 @@
       </div>
       <div >
         <table id="myTable" class="table table-hover">
+          <colgroup>
+            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 70%;">
+         </colgroup>
           <tbody id="word_table"  style="font-size: small;">
           </tbody>
         </table>
-  
-
-
       </div>
     </div>
 
