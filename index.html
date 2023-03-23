@@ -60,18 +60,12 @@
       for (let i = 0; i < datalist.length; i++) {
         dataElement = datalist[i];
         markup = "<tr onclick='tdclick("+i+");'><td>" + dataElement['word'] + "</td><td>" + dataElement['meaning'] + "</td></tr>";
-        $('#myTable > tbody:last-child').append(markup);
-
-
-
-
-
-        
+        $('#myTable > tbody:last-child').append(markup); 
       }
     });
     });
   });
-    function trclick(){console.log('tr clicked')};
+    function trclick(){};
 
     function tdclick(i){
         console.log(i); 
