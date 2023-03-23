@@ -82,9 +82,10 @@
     };
 
     function searchWord(){
-  var obj = { search: 'あ'};
-  var url = DATA_SERVER_GET + '?'+ $.param(obj);
-  console.log(url);
+      var keyword =$("#input_keyword").val();
+      // var obj = { search: keyword};
+      // var url = DATA_SERVER_GET + '?'+ $.param(obj);
+      console.log(keyword);
 
 
 
