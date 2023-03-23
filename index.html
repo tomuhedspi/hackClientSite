@@ -45,10 +45,28 @@
 
 <script>
   var datalist;
+  var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
+  var table = document.getElementById("myTable");
+
+
   $(document).ready(function(){
-    var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
-    var table = document.getElementById("myTable");
-    $("#btn_search").click(function(){
+
+    setWordList();
+
+  });
+  
+    function trclick(){};
+
+    function tdclick(i){
+        var detail =datalist[i];
+        $("#word_text").text(detail['word']);
+        $("#word_reading").text(detail['reading']);
+        $("#word_meaning").text(detail['meaning']);
+        $("#word_note").text(detail['note']);
+    };
+
+    function setWordList(){
+   
     $.getJSON(DATA_SERVER_GET, function(dataFromServer){
       datalist = dataFromServer.data;
       var detail ;
@@ -56,23 +74,14 @@
       var cell1;
       var cell2;
       var markup;
-      
-
       for (let i = 0; i < datalist.length; i++) {
         detail = datalist[i];
         markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
         $('#myTable > tbody:last-child').append(markup); 
       }
     });
-    });
-  });
-    function trclick(){};
-
-    function tdclick(i){
-        
-        var detail =datalist[i];
-        console.log(detail); 
     };
+
 
   
   </script>
@@ -125,10 +134,10 @@
 
     <div class="col-sm-9">
 
-      <h2 id="word">私</h2>
+      <h2 id="word_text">私</h2>
       <h5><span class="label label-success" id="word_reading">わたし</span></h5>
       <!-- <p id="word_note" id="word_meaning">tôi</p> -->
-      <p id="word_note" id="word_meaning">tôi</p>
+      <p id="word_meaning">tôi</p>
       <h5 id="word_note">Oa ta xin con gà thì là của ta</h5>
       <hr>
 
