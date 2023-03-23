@@ -44,13 +44,14 @@
 
 
 <script>
+  var datalist;
   $(document).ready(function(){
     var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
     var table = document.getElementById("myTable");
     $("#btn_search").click(function(){
     $.getJSON(DATA_SERVER_GET, function(dataFromServer){
-      var datalist = dataFromServer.data;
-      var dataElement ;
+      datalist = dataFromServer.data;
+      var detail ;
       var row ;
       var cell1;
       var cell2;
@@ -58,8 +59,8 @@
       
 
       for (let i = 0; i < datalist.length; i++) {
-        dataElement = datalist[i];
-        markup = "<tr onclick='tdclick("+i+");'><td>" + dataElement['word'] + "</td><td>" + dataElement['meaning'] + "</td></tr>";
+        detail = datalist[i];
+        markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
         $('#myTable > tbody:last-child').append(markup); 
       }
     });
@@ -68,8 +69,9 @@
     function trclick(){};
 
     function tdclick(i){
-        console.log(i); 
         
+        var detail =datalist[i];
+        console.log(detail); 
     };
 
   
