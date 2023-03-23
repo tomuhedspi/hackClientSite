@@ -59,7 +59,7 @@
 
       for (let i = 0; i < datalist.length; i++) {
         dataElement = datalist[i];
-        markup = "<tr onclick='tdclick(event);'><td>" + dataElement['word'] + "</td><td>" + dataElement['meaning'] + "</td></tr>";
+        markup = "<tr onclick='tdclick("+i+");'><td>" + dataElement['word'] + "</td><td>" + dataElement['meaning'] + "</td></tr>";
         $('#myTable > tbody:last-child').append(markup);
 
 
@@ -73,9 +73,9 @@
   });
     function trclick(){console.log('tr clicked')};
 
-    function tdclick(event){
-        console.log('td clicked'); 
-        event.stopPropagation()
+    function tdclick(i){
+        console.log(i); 
+        
     };
 
   
