@@ -82,8 +82,8 @@
     };
 
     function searchWord(){
-  var obj = { id: 'search', token: '' };
-  var url = 'http://domain.com/file.html?' + $.param(obj);
+  var obj = { search: 'あ'};
+  var url = DATA_SERVER_GET + '?'+ $.param(obj);
   console.log(url);
 
 
