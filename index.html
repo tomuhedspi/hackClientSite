@@ -89,14 +89,25 @@
     };
 
     function searchWord(){
-
-      alert($('#combo :selected').val());
-      var keyword =$("#input_keyword").val();
-      var obj = { search: keyword};
+      // get the parameter for search
+      // alert($('#combo :selected').val());
+      // var obj = { search: keyword};
+      var obj=getSearchParam();
       var url = DATA_SERVER_GET + '?'+ $.param(obj);
       setWordListClean();
       setWordList(url);
-    }
+    };
+
+    function getSearchParam(){
+      var keyword =$("#input_keyword").val();
+      // var obj = { search: keyword};
+      var obj=new Object();
+      obj.search = keyword;
+
+      return obj;
+    };
+
+
     function setWordListClean(){
       $("#myTable > tbody").empty();
     }
