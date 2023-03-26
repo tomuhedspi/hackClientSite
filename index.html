@@ -87,22 +87,12 @@
       var url = DATA_SERVER_GET + '?'+ $.param(obj);
       setWordListClean();
       setWordList(url);
-
-
-
-
     }
     function setWordListClean(){
       $("#myTable > tbody").empty();
     }
 
-
-  
   </script>
-
-
-
-
 
 </head>
 <body>
@@ -117,6 +107,9 @@
   <ul class="navbar-nav">
     <li class="nav-item active">
       <a class="nav-link" href="index.html">HOME</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="unit.html">BÀI HỌC</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="info.html">LIÊN HỆ</a>
@@ -155,16 +148,16 @@
       <h5 id="word_note">Oa ta xin con gà thì là của ta</h5>
       <hr>
 
-      <p>Comment:</p>
-      <form role="form">
+      <!-- <p>Comment:</p> -->
+      <!-- <form role="form">
         <div class="form-group">
           <textarea class="form-control" rows="1" required id="input_comment"></textarea>
         </div>
         <button type="submit" class="btn btn-outline-primary btn-sm" id="btn_comment">Gửi Comment</button>
-      </form>
-      <br><br>
+      </form> -->
+      <!-- <br><br>
 
-      <div class="row">
+      <div class="row" id="user_comment">
         <div class="col-sm-2 text-center">
           <img src="image/user.png" height="50" width="50" alt="Avatar">
         </div>
@@ -174,7 +167,7 @@
           <br>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>
 </body>
