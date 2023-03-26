@@ -99,10 +99,13 @@
     };
 
     function getSearchParam(){
+      var obj=new Object();
+
       var keyword =$("#input_keyword").val();
-      // var obj = { search: keyword};
+      var type =$('#combo :selected').val();
       var obj=new Object();
       obj.search = keyword;
+      obj.type = type;
 
       return obj;
     };
