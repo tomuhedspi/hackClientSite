@@ -46,26 +46,31 @@
 <script>
   var datalist;
   var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
+  var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
   var table = document.getElementById("myTable");
 
 
   $(document).ready(function(){
-
     setWordList(DATA_SERVER_GET);
-    setDropdownType();
   });
 
-    function setDropdownType(){
+    function sendComment(){
+      var url = DATA_SERVER_POST_COMMENT.replace("word_id",l);
 
-      $('#button1').click(function(){ 
-    alert($('#combo :selected').val());
-  });
+
+
+
+
     };
+
+
 
     function trclick(){};
 
     function tdclick(i){
         var detail =datalist[i];
+        
+        $("#word_id").val(detail['id']);
         $("#word_text").text(detail['word']);
         $("#word_reading").text(detail['reading']);
         $("#word_meaning").text(detail['meaning']);
@@ -146,13 +151,6 @@
         <option value="1"class="btn btn-primary" >HÁN TỰ</option>
       </select>
 
-
-
-
-
-
-
-
       <div class="input-group mb-3 margin:3">
         <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="searchWord();" 　>
         <div class="input-group-append">
@@ -172,12 +170,12 @@
     </div>
 
     <div class="col-sm-9">
-
-      <h2 id="word_text">私</h2>
-      <h5><span class="label label-success" id="word_reading">わたし</span></h5>
+      <input type="hidden" id="word_id" value ="1" >
+      <h2 id="word_text"></h2>
+      <h5><span class="label label-success" id="word_reading"></span></h5>
       <!-- <p id="word_note" id="word_meaning">tôi</p> -->
-      <p id="word_meaning">tôi</p>
-      <h5 id="word_note">Oa ta xin con gà thì là của ta</h5>
+      <p id="word_meaning"></p>
+      <h5 id="word_note"></h5>
       <hr>
 
       <!-- <p>Comment:</p> -->
