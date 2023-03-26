@@ -89,6 +89,8 @@
     };
 
     function searchWord(){
+
+      alert($('#combo :selected').val());
       var keyword =$("#input_keyword").val();
       var obj = { search: keyword};
       var url = DATA_SERVER_GET + '?'+ $.param(obj);
@@ -128,11 +130,10 @@
   <div class="row content">
     <div class="col-sm-3 sidenav">
 
-      <select id="combo">
-        <option value="1">Test 1</option>
-        <option value="2">Test 2</option>
+      <select id="combo"  style="background-color: rgb(66, 135, 245,0.6); border: none;width: 50%; border-radius: 2px; color: #f1f1f1;">
+        <option value="1"class="btn btn-primary" >Test 1</option>
+        <option value="2"class="btn btn-primary" >Test 2</option>
       </select>
-      <input id="button1" type="button" value="Click!" />
 
 
 
