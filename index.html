@@ -52,8 +52,16 @@
   $(document).ready(function(){
 
     setWordList(DATA_SERVER_GET);
-
+    setDropdownType();
   });
+
+    function setDropdownType(){
+
+      $(".dropdown-menu li a").click(function(){
+      $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+      $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+    });
+    }
 
     function trclick(){};
 
@@ -120,7 +128,27 @@
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-3 sidenav">
-      <br>
+
+      <div class="dropdown">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="width: 50%;  margin-top: 5px;margin-bottom: 5px;"></button>
+        <!-- <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> -->
+          <!-- Dropdown
+          <span class="caret"></span> -->
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><a href="#" data-value="action">Action</a></li>
+          <li><a href="#" data-value="another action">Another action</a></li>
+          <li><a href="#" data-value="something else here">Something else here</a></li>
+          <li><a href="#" data-value="separated link">Separated link</a></li>
+        </ul>
+      </div>
+
+
+
+
+
+
+
       <div class="input-group mb-3 margin:3">
         <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="searchWord();" 　>
         <div class="input-group-append">
