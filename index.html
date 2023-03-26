@@ -55,8 +55,8 @@
   });
 
     function sendComment(){
-      var url = DATA_SERVER_POST_COMMENT.replace("word_id",l);
-
+      var comment_url = DATA_SERVER_POST_COMMENT.replace("word_id",$("#word_id").val());
+      console.log(comment_url);
 
 
 
@@ -178,14 +178,14 @@
       <h5 id="word_note"></h5>
       <hr>
 
-      <!-- <p>Comment:</p> -->
-      <!-- <form role="form">
+      <p>Comment:</p>
+      <form role="form">
         <div class="form-group">
           <textarea class="form-control" rows="1" required id="input_comment"></textarea>
         </div>
-        <button type="submit" class="btn btn-outline-primary btn-sm" id="btn_comment">Gửi Comment</button>
-      </form> -->
-      <!-- <br><br>
+        <button type="submit" class="btn btn-outline-primary btn-sm" id="btn_comment" onclick="sendComment();">Gửi Comment</button>
+      </form>
+      <br><br>
 
       <div class="row" id="user_comment">
         <div class="col-sm-2 text-center">
@@ -197,7 +197,7 @@
           <br>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>
 </body>
