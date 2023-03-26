@@ -57,12 +57,19 @@
     function sendComment(){
       var comment_url = DATA_SERVER_POST_COMMENT.replace("word_id",$("#word_id").val());
       console.log(comment_url);
-
-
+      var body=getCommentParam();
+      console.log(body);
 
 
     };
+    function getCommentParam(){
+      var obj=new Object();
 
+      obj.search = $("#input_comment").val();
+      obj.author_name = "Thành Viên";
+
+      return obj;
+    };
 
 
     function trclick(){};
