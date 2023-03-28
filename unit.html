@@ -59,6 +59,7 @@
   var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
   var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
   var CURRENT_UNIT ="MINA1";
+  var CURRENT_PAGE = 0;
   var table = document.getElementById("myTable");
 
 
@@ -72,7 +73,9 @@
         $('#scroll_word').scroll(function() {   
           // alert(1);
           if($('#scroll_word').scrollTop() + $('#scroll_word').height() >= ($(document).height())) {
-              alert($('#scroll_word').height());
+              // alert($('#scroll_word').height());
+              CURRENT_PAGE=CURRENT_PAGE+1;
+              searchWord();
           }
         });
     };
@@ -149,6 +152,7 @@
       var obj=new Object();
       obj.search = keyword;
       obj.book = CURRENT_UNIT;
+      obj.page = CURRENT_PAGE;
 
       return obj;
     };
