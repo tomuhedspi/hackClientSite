@@ -69,9 +69,10 @@
   });
 
     function setMoreDataWhenScroll(){
-        $(window).scroll(function() {   
-          if($(window).scrollTop() + $(window).height() == $(document).height()) {
-              alert($(window).height());
+        $('#scroll_word').scroll(function() {   
+          // alert(1);
+          if($('#scroll_word').scrollTop() + $('#scroll_word').height() >= ($(document).height())) {
+              alert($('#scroll_word').height());
           }
         });
     };
