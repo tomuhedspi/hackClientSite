@@ -65,8 +65,16 @@
   $(document).ready(function(){
     setWordList(DATA_SERVER_GET);
     setClickEventForUnitButton();
+    setMoreDataWhenScroll();
   });
 
+    function setMoreDataWhenScroll(){
+        $(window).scroll(function() {   
+          if($(window).scrollTop() + $(window).height() == $(document).height()) {
+              alert($(window).height());
+          }
+        });
+    };
 
     function setClickEventForUnitButton(){
       $('.unit').click(function () {;
@@ -187,7 +195,7 @@
           <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button> 
         </div>
       </div>
-      <div style="height: 85%; overflow: auto;">
+      <div id = "scroll_word" style="height: 85%; overflow: auto;">
         <table id="myTable" class="table table-hover" >
           <colgroup>
             <col span="1" style="width: 30%;">
