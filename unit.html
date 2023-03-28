@@ -59,7 +59,7 @@
   var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
   var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
   var CURRENT_UNIT ="MINA1";
-  var CURRENT_PAGE = 0;
+  var CURRENT_PAGE = 1;
   var table = document.getElementById("myTable");
 
 
@@ -79,15 +79,15 @@
         //   }
         // });
 
-
-        $('#scroll_word').on('scroll', function() {
-                if ($(this).scrollTop() +
-                    $(this).innerHeight() >= 
-                    $(this)[0].scrollHeight) {
-                    
-                    alert('End of DIV is reached!');
-                }
-            });
+          $('#scroll_word').scroll(function() {   
+          // alert(1);
+          if($('#scroll_word').scrollTop()%500 <=  2) {
+              console.log($('#scroll_word').scrollTop()%500);
+              loadMoreword();
+              
+          }
+        });
+      
 
 
 
@@ -151,7 +151,15 @@
     });
     };
 
+    function loadMoreword(){
+      CURRENT_PAGE=CURRENT_PAGE+1;
+      var obj=getSearchParam();
+      var url = DATA_SERVER_GET + '?'+ $.param(obj);
+      setWordList(url);
+    };
+
     function searchWord(){
+      CURRENT_PAGE=1;
       var obj=getSearchParam();
       var url = DATA_SERVER_GET + '?'+ $.param(obj);
       setWordListClean();
