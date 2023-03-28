@@ -39,6 +39,13 @@
       .row.content {height: auto;} 
     }
 
+    .avatar{
+      height: 50px; 
+      width:50px ;
+    }
+
+
+
   </style>
 
 
@@ -54,38 +61,16 @@
     setWordList(DATA_SERVER_GET);
   });
 
-    function sendComment(){
-      var comment_url = DATA_SERVER_POST_COMMENT.replace("word_id",$("#word_id").val());
-      var body=getCommentParam();
-
-      $.ajax({
-        url: comment_url,
-        type: 'POST',
-        data: jQuery.param(body) ,
-        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-        success: function (response) {
-          setMoreComment(body);
-        },
-        error: function () {
-          alert("Hình như mạng đang kém. Hãy thử lại sau nhé!");
-        }
-      }); 
-
-    };
-
-    function setMoreComment(body){
-      console.log(body);
-      // TODO: add item to comment list
-    };
-
-
-    function getCommentParam(){
-      var obj=new Object();
-
-      obj.content = $("#input_comment").val();
-      obj.author_name = "Thành Viên";
-
-      return obj;
+    function setWordComment(singleWord){
+      var detail;
+      var comment_list=new Object;
+      $("#table_comment > tbody").empty();
+      comment_list=singleWord['comment'];
+      for (let i = 0; i < comment_list.length; i++) {
+        detail= comment_list[i];
+        markup = "<tr><td>" + detail['content'] + "</td><td>" + detail['author_name'] + "</td></tr>";
+        $('#table_comment > tbody:last-child').append(markup); 
+      }
     };
 
 
@@ -93,21 +78,22 @@
 
     function tdclick(i){
         var detail =datalist[i];
-        
-        $("#word_id").val(detail['id']);
-        $("#word_text").text(detail['word']);
-        $("#word_reading").text(detail['reading']);
-        $("#word_meaning").text(detail['meaning']);
-        $("#word_note").text(detail['note']);
+        setWordDetail(detail);
+        setWordComment(detail);
+    };
+
+    function setWordDetail(singleWord){
+      $("#word_id").val(singleWord['id']);
+        $("#word_text").text(singleWord['word']);
+        $("#word_reading").text(singleWord['reading']);
+        $("#word_meaning").text(singleWord['meaning']);
+        $("#word_note").text(singleWord['note']);
     };
 
     function setWordList(url){
     $.getJSON(url, function(dataFromServer){
       datalist = dataFromServer.data;
       var detail ;
-      var row ;
-      var cell1;
-      var cell2;
       var markup;
       for (let i = 0; i < datalist.length; i++) {
         detail = datalist[i];
@@ -155,13 +141,13 @@
   <!-- Links -->
   <ul class="navbar-nav">
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">HOME</a>
+      <a class="nav-link" href="index.html">TÌM KIẾM</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" href="unit.html">BÀI HỌC</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="info.html">LIÊN HỆ</a>
+      <a class="nav-link" href="info.html">GIỚI THIỆU</a>
     </li>
   </ul>
 </nav>
@@ -202,32 +188,29 @@
       <h5 id="word_note"></h5>
       <hr>
 
-      <p>Comment:</p>
+      <!-- <p>Comment:</p>
       <form role="form">
         <div class="form-group">
           <textarea class="form-control" rows="1" required id="input_comment"></textarea>
         </div>
-        <button type="submit" class="btn btn-outline-primary btn-sm" id="btn_comment" onclick="sendComment();">Gửi Comment</button>
-      </form>
+        <button type="submit" class="btn btn-outline-primary btn-sm" id="btn_comment">Gửi Comment</button>
+      </form> -->
       <br><br>
-
-      <div id="comment_list">
-        <div class="row">
-          <div class="col-sm-2 text-center">
-            <img src="image/user.png" height="50" width="50" alt="Avatar">
-          </div>
-          <div class="col-sm-10">
-            <p style="font-size: medium;" id="cmt_content">noi dung nhan xet</p>
-            <p style="font-size: 8px;" id="cmt_author_name">nguoi dung</p>
-            <br>
-          </div>
-        </div>
-
-    </div>
+      
+      <div style="height: 400px; overflow: auto;">
+        <h5 >Comment:</h5>
+        <table id="table_comment" class="table table-striped" >
+          <colgroup>
+            <col span="1" style="width: 80%;">
+            <col span="1" style="width: 20%; font-size: x-small;">
+         </colgroup>
+          <tbody  style="font-size: small;">
+          </tbody>
+        </table>
+      </div>
 
     </div>
   </div>
 </div>
 </body>
 </html>
-

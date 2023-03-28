@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hack Não BK</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+  <style>
+    p.ridge {border-style: ridge;}
+    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
+    .row.content {height: 800px }
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 80%;
+      
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: 150px;
+        padding: 15px;
+      }
+      .row.content {height: auto;} 
+    }
+
+    .avatar{
+      height: 50px; 
+      width:50px ;
+    }
+
+    .unit{
+      margin: 5px; 
+      width: 80px;
+    }
+
+
+  </style>
+
+
+
+<script>
+  var datalist;
+  var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
+  var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
+  var CURRENT_UNIT ="MINA1";
+  var table = document.getElementById("myTable");
+
+
+  $(document).ready(function(){
+    setWordList(DATA_SERVER_GET);
+    setClickEventForUnitButton();
+  });
+
+
+    function setClickEventForUnitButton(){
+      $('.unit').click(function () {;
+      // alert($(this).val());
+      setClearUnit();
+      $(this).removeClass('btn-outline-secondary');
+      $(this).addClass('btn-primary');
+      CURRENT_UNIT=$(this).val();
+      searchWord();
+    });
+    };
+
+    function setClearUnit(){
+      $('.unit').removeClass('btn-primary');
+      $('.unit').addClass('btn-outline-secondary');
+    };
+
+    function setWordComment(singleWord){
+      var detail;
+      var comment_list=new Object;
+      $("#table_comment > tbody").empty();
+      comment_list=singleWord['comment'];
+      for (let i = 0; i < comment_list.length; i++) {
+        detail= comment_list[i];
+        markup = "<tr><td>" + detail['content'] + "</td><td>" + detail['author_name'] + "</td></tr>";
+        $('#table_comment > tbody:last-child').append(markup); 
+      }
+    };
+
+
+    function trclick(){};
+
+    function tdclick(i){
+        var detail =datalist[i];
+        setWordDetail(detail);
+        setWordComment(detail);
+    };
+
+    function setWordDetail(singleWord){
+      $("#word_id").val(singleWord['id']);
+        $("#word_text").text(singleWord['word']);
+        $("#word_reading").text(singleWord['reading']);
+        $("#word_meaning").text(singleWord['meaning']);
+        $("#word_note").text(singleWord['note']);
+    };
+
+    function setWordList(url){
+    $.getJSON(url, function(dataFromServer){
+      datalist = dataFromServer.data;
+      var detail ;
+      var markup;
+      for (let i = 0; i < datalist.length; i++) {
+        detail = datalist[i];
+        markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
+        $('#myTable > tbody:last-child').append(markup); 
+      }
+    });
+    };
+
+    function searchWord(){
+      var obj=getSearchParam();
+      var url = DATA_SERVER_GET + '?'+ $.param(obj);
+      setWordListClean();
+      setWordList(url);
+    };
+
+    function getSearchParam(){
+      var obj=new Object();
+
+      var keyword =$("#input_keyword").val();
+      var obj=new Object();
+      obj.search = keyword;
+      obj.book = CURRENT_UNIT;
+
+      return obj;
+    };
+
+
+    function setWordListClean(){
+      $("#myTable > tbody").empty();
+    };
+
+    
+   
+
+  </script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);"  >
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">
+    <img src="image/icon.png" alt="Hack Não BK" id ="app_icon"style="width:40px;">
+  </a>
+  
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item ">
+      <a class="nav-link" href="index.html">TÌM KIẾM</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="unit.html">BÀI HỌC</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="info.html">GIỚI THIỆU</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <br>
+      <div class="input-group mb-3 margin:3">
+        <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="searchWord();" 　>
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button> 
+        </div>
+      </div>
+      <div style="height: 85%; overflow: auto;">
+        <table id="myTable" class="table table-hover" >
+          <colgroup>
+            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 70%;">
+         </colgroup>
+          <tbody id="word_table"  style="font-size: small;">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <input type="hidden" id="word_id" value ="1" >
+      <h2 id="word_text"></h2>
+      <h5><span class="label label-success" id="word_reading"></span></h5>
+      <!-- <p id="word_note" id="word_meaning">tôi</p> -->
+      <p id="word_meaning"></p>
+      <h5 id="word_note"></h5>
+      <hr>
+
+      <!-- <p>Comment:</p>
+      <form role="form">
+        <div class="form-group">
+          <textarea class="form-control" rows="1" required id="input_comment"></textarea>
+        </div>
+        <button type="submit" class="btn btn-outline-primary btn-sm" id="btn_comment">Gửi Comment</button>
+      </form> -->
+      <br><br>
+      
+      <div style="height: 400px; overflow: auto;">
+        <h5 >Comment:</h5>
+        <table id="table_comment" class="table table-striped" >
+          <colgroup>
+            <col span="1" style="width: 80%;">
+            <col span="1" style="width: 20%; font-size: x-small;">
+         </colgroup>
+          <tbody  style="font-size: small;">
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="col-sm-3 sidenav" style="height: 600px; overflow: auto;">
+      <br>
+        <button  value="KANJI_HAND" type="button" class="btn btn-outline-secondary btn-sm unit" >Bộ Thủ Hán Tự</button>
+        <button  value="MINA1" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 1</button>
+        <button  value="MINA2" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 2</button>
+        <button  value="MINA3" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 3</button>
+        <button  value="MINA4" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 4</button>
+        <button  value="MINA5" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 5</button>
+        <button  value="MINA6" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 6</button>
+        <button  value="MINA7" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 7</button>
+        <button  value="MINA8" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 8</button>
+        <button  value="MINA9" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 9</button>
+        <button  value="MINA10" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 10</button>
+        <button  value="MINA11" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 11</button>
+        <button  value="MINA12" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 12</button>
+        <button  value="MINA13" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 13</button>
+        <button  value="MINA14" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 14</button>
+        <button  value="MINA15" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 15</button>
+        <button  value="MINA16" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 16</button>
+        <button  value="MINA17" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 17</button>
+        <button  value="MINA18" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 18</button>
+        <button  value="MINA19" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 19</button>
+        <button  value="MINA20" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 20</button>
+        <button  value="MINA21" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 21</button>
+        <button  value="MINA22" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 22</button>
+        <button  value="MINA23" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 23</button>
+        <button  value="MINA24" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 24</button>
+        <button  value="MINA25" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 25</button>
+        <button  value="MINA26" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 26</button>
+        <button  value="MINA27" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 27</button>
+        <button  value="MINA28" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 28</button>
+        <button  value="MINA29" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 29</button>
+        <button  value="MINA30" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 30</button>
+        <button  value="MINA31" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 31</button>
+        <button  value="MINA32" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 32</button>
+        <button  value="MINA33" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 33</button>
+        <button  value="MINA34" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 34</button>
+        <button  value="MINA35" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 35</button>
+        <button  value="MINA36" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 36</button>
+        <button  value="MINA37" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 37</button>
+        <button  value="MINA38" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 38</button>
+        <button  value="MINA39" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 39</button>
+        <button  value="MINA40" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 40</button>
+        <button  value="MINA41" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 41</button>
+        <button  value="MINA42" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 42</button>
+        <button  value="MINA43" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 43</button>
+        <button  value="MINA44" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 44</button>
+        <button  value="MINA45" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 45</button>
+        <button  value="MINA46" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 46</button>
+        <button  value="MINA47" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 47</button>
+        <button  value="MINA48" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 48</button>
+        <button  value="MINA49" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 49</button>
+        <button  value="MINA50" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 50</button>
+        
+        
+        <button  value="N3_1" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 1</button>
+        <button  value="N3_2" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 2</button>
+        <button  value="N3_3" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 3</button>
+        <button  value="N3_4" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 4</button>
+        <button  value="N3_5" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 5</button>
+        <button  value="N3_6" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 6</button>
+        <button  value="N3_7" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 7</button>
+        <button  value="N3_8" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 8</button>
+        <button  value="N3_9" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 9</button>
+        <button  value="N3_10" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 10</button>
+        <button  value="N3_11" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 11</button>
+        <button  value="N3_12" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 12</button>
+        
+        <button  value="N2_1" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 1</button>
+        <button  value="N2_2" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 2</button>
+        <button  value="N2_3" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 3</button>
+        <button  value="N2_4" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 4</button>
+        <button  value="N2_5" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 5</button>
+        <button  value="N2_6" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 6</button>
+        <button  value="N2_7" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 7</button>
+        <button  value="N2_8" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 8</button>
+        <button  value="N2_9" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 9</button>
+        <button  value="N2_10" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 10</button>
+        <button  value="N2_11" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 11</button>
+        <button  value="N2_12" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 12</button>
+        <button  value="N2_13" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 13</button>
+        
+        <button  value="N1_1" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 1</button>
+        <button  value="N1_2" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 2</button>
+        <button  value="N1_3" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 3</button>
+        <button  value="N1_4" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 4</button>
+        <button  value="N1_5" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 5</button>
+        <button  value="N1_6" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 6</button>
+        <button  value="N1_7" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 7</button>
+        <button  value="N1_8" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 8</button>
+        <button  value="N1_9" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 9</button>
+        <button  value="N1_10" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 10</button>
+        <button  value="N1_11" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 11</button>
+        <button  value="N1_12" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 12</button>
+        <button  value="N1_13" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 13</button>
+        <button  value="N1_14" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 14</button>
+        <br>
+  </div>
+</div>
+</body>
+</html>
