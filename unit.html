@@ -70,14 +70,27 @@
   });
 
     function setMoreDataWhenScroll(){
-        $('#scroll_word').scroll(function() {   
-          // alert(1);
-          if($('#scroll_word').scrollTop() + $('#scroll_word').height() >= ($(document).height())) {
-              // alert($('#scroll_word').height());
-              CURRENT_PAGE=CURRENT_PAGE+1;
-              searchWord();
-          }
-        });
+        // $('#scroll_word').scroll(function() {   
+        //   // alert(1);
+        //   if($('#scroll_word').scrollTop() + $('#scroll_word').height() >= ($(document).height())) {
+        //       // alert($('#scroll_word').height());
+        //       CURRENT_PAGE=CURRENT_PAGE+1;
+        //       searchWord();
+        //   }
+        // });
+
+
+        $('#scroll_word').on('scroll', function() {
+                if ($(this).scrollTop() +
+                    $(this).innerHeight() >= 
+                    $(this)[0].scrollHeight) {
+                    
+                    alert('End of DIV is reached!');
+                }
+            });
+
+
+
     };
 
     function setClickEventForUnitButton(){
