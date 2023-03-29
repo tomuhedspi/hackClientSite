@@ -10,7 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-
+  <script src="common.js"></script>
   <style>
     p.ridge {border-style: ridge;}
     /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
@@ -33,10 +33,10 @@
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
-        height: 150px;
-        padding: 15px;
+        height: 250px;
       }
       .row.content {height: auto;} 
+      #div_comment{display: none;}
     }
 
     .avatar{
@@ -49,85 +49,6 @@
   </style>
 
 
-
-<script>
-  var datalist;
-  var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
-  var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
-  var table = document.getElementById("myTable");
-
-
-  $(document).ready(function(){
-    setWordList(DATA_SERVER_GET);
-  });
-
-    function setWordComment(singleWord){
-      var detail;
-      var comment_list=new Object;
-      $("#table_comment > tbody").empty();
-      comment_list=singleWord['comment'];
-      for (let i = 0; i < comment_list.length; i++) {
-        detail= comment_list[i];
-        markup = "<tr><td>" + detail['content'] + "</td><td>" + detail['author_name'] + "</td></tr>";
-        $('#table_comment > tbody:last-child').append(markup); 
-      }
-    };
-
-
-    function trclick(){};
-
-    function tdclick(i){
-        var detail =datalist[i];
-        setWordDetail(detail);
-        setWordComment(detail);
-    };
-
-    function setWordDetail(singleWord){
-      $("#word_id").val(singleWord['id']);
-        $("#word_text").text(singleWord['word']);
-        $("#word_reading").text(singleWord['reading']);
-        $("#word_meaning").text(singleWord['meaning']);
-        $("#word_note").text(singleWord['note']);
-    };
-
-    function setWordList(url){
-    $.getJSON(url, function(dataFromServer){
-      datalist = dataFromServer.data;
-      var detail ;
-      var markup;
-      for (let i = 0; i < datalist.length; i++) {
-        detail = datalist[i];
-        markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
-        $('#myTable > tbody:last-child').append(markup); 
-      }
-    });
-    };
-
-    function searchWord(){
-      var obj=getSearchParam();
-      var url = DATA_SERVER_GET + '?'+ $.param(obj);
-      setWordListClean();
-      setWordList(url);
-    };
-
-    function getSearchParam(){
-      var obj=new Object();
-
-      var keyword =$("#input_keyword").val();
-      var type =$('#combo :selected').val();
-      var obj=new Object();
-      obj.search = keyword;
-      obj.type = type;
-
-      return obj;
-    };
-
-
-    function setWordListClean(){
-      $("#myTable > tbody").empty();
-    }
-
-  </script>
 
 </head>
 <body>
