@@ -59,18 +59,31 @@
   var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
   var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
   var CURRENT_UNIT ="MINA1";
-  var CURRENT_PAGE = 1;
+  var CURRENT_PAGE = 0;
   var table = document.getElementById("myTable");
 
 
   $(document).ready(function(){
-    setWordList(DATA_SERVER_GET);
+    loadMoreword(CURRENT_PAGE);
     setClickEventForUnitButton();
     setIndicator();
-    loadAllWord();
-
-    
+    setScrollEvent();
   });
+
+    function setScrollEvent(){
+      var currentScrollHeight =0;
+      var documentHeight =$(document).height();
+      $('#scroll_word').scroll(function() {
+        currentScrollHeight=$('#scroll_word').scrollTop() + $('#scroll_word').height();
+        if((currentScrollHeight%documentHeight)<20)
+         {
+            console.log("scroll= "+$('#scroll_word').height());
+            console.log("document= "+$(document).height());
+            loadMoreword(CURRENT_PAGE);
+        }
+    });
+    };
+
     function setIndicator(){
       $(document).ajaxStart(function(){
         $("#wait").css("display", "block");
@@ -78,15 +91,6 @@
         $(document).ajaxComplete(function(){
         $("#wait").css("display", "none");
         });
-    };
-
-    function loadAllWord(){
-        CURRENT_PAGE = 0;
-        setWordListClean();
-        for (let i = 0; i < 20; i++) {
-          loadMoreword(i+1);
-        }
-
     };
 
     function setClickEventForUnitButton(){
@@ -103,6 +107,7 @@
     function setClearUnit(){
       $('.unit').removeClass('btn-primary');
       $('.unit').addClass('btn-outline-secondary');
+      CURRENT_PAGE=0;
     };
 
     function setWordComment(singleWord){
@@ -148,8 +153,9 @@
     });
     };
 
-    function loadMoreword(pagenum){
-      var obj=getSearchParam(pagenum);
+    function loadMoreword(){
+      CURRENT_PAGE+=1;
+      var obj=getSearchParam(CURRENT_PAGE);
       var url = DATA_SERVER_GET + '?'+ $.param(obj);
       setWordList(url);
     };
