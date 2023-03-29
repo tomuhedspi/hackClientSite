@@ -33,10 +33,11 @@
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
-        height: 150px;
+        height: 250px;
         padding: 15px;
       }
       .row.content {height: auto;} 
+      #div_comment{display: none;}
     }
 
     .avatar{
@@ -242,26 +243,17 @@
       <p id="word_meaning"></p>
       <h5 id="word_note"></h5>
       <hr>
-
-      <!-- <p>Comment:</p>
-      <form role="form">
-        <div class="form-group">
-          <textarea class="form-control" rows="1" required id="input_comment"></textarea>
-        </div>
-        <button type="submit" class="btn btn-outline-primary btn-sm" id="btn_comment">Gửi Comment</button>
-      </form> -->
-      <br><br>
-      <!-- <div id="wait" class="indicator" ><img src='image/loading.gif' /></div> -->
-        <div style="height: 400px; overflow: auto;">
-        <h5 >Comment:</h5>
-        <table id="table_comment" class="table table-striped" >
-          <colgroup>
-            <col span="1" style="width: 80%;">
-            <col span="1" style="width: 20%; font-size: x-small;">
-         </colgroup>
-          <tbody  style="font-size: small;">
-          </tbody>
-        </table>
+      <br>
+        <div id ="div_comment" style="height: 400px; overflow: auto;">
+          <h5 >Comment:</h5>
+          <table id="table_comment" class="table table-striped" >
+            <colgroup>
+              <col span="1" style="width: 80%;">
+              <col span="1" style="width: 20%; font-size: x-small;">
+          </colgroup>
+            <tbody  style="font-size: small;">
+            </tbody>
+          </table>
       </div>
 
     </div>
