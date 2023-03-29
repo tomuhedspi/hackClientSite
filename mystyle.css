@@ -33,3 +33,14 @@ footer {
     margin: 5px; 
     width: 80px;
   }
+
+  .combobutton{
+    background-color: #59a1ee; 
+    border: none;
+    width: 40%; 
+    border-radius: 3px; 
+    color: #FFFFFF; 
+    margin: 4px; 
+    padding: 8px; 
+    font-size: 12px;
+  }
