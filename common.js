@@ -1,10 +1,43 @@
 var datalist;
 var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
 var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
+var CURRENT_UNIT ="MINA1";
+var CURRENT_PAGE = 0;
+var IS_THERE_MORE_DATA = true;
 var table = document.getElementById("myTable");
 
 
 
+function setScrollEvent(){
+    var currentScrollHeight =0;
+    var documentHeight =$(document).height();
+    $("#scroll_word").scroll(function() {
+          
+        if($(this).scrollTop() + $(this).innerHeight()+1 >= $(this)[0].scrollHeight) {
+          loadMoreword(); 
+        } 
+    });
+  };
+  function setIndicator(){
+    $(document).ajaxStart(function(){
+      $("#wait").css("display", "block");
+      });
+      $(document).ajaxComplete(function(){
+      $("#wait").css("display", "none");
+      });
+  };
+  function setClickEventForUnitButton(){
+    $('.unit').click(function () {;
+    //make other button gray and highlight selected button
+    $('.unit').removeClass('btn-primary');
+    $('.unit').addClass('btn-outline-secondary');
+    $(this).removeClass('btn-outline-secondary');
+    $(this).addClass('btn-primary');
+    CURRENT_UNIT=$(this).val();
+    setClearWordList();
+    loadMoreword();
+  });
+  };
 
   function setWordComment(singleWord){
     var detail;
@@ -27,7 +60,15 @@ var table = document.getElementById("myTable");
       setWordDetail(detail);
       setWordComment(detail);
   };
-
+  function tdclickDBindex(wordID){
+    var url = DATA_SERVER_GET + '/'+ wordID;
+    $.getJSON(url, function(dataFromServer){
+      word=dataFromServer.data
+      setWordDetail(word);
+      setWordComment(word);
+    });
+     
+  };
   function setWordDetail(singleWord){
     $("#word_id").val(singleWord['id']);
       $("#word_text").text(singleWord['word']);
@@ -52,7 +93,7 @@ var table = document.getElementById("myTable");
   function searchWord(){
     var obj=getSearchParam();
     var url = DATA_SERVER_GET + '?'+ $.param(obj);
-    setWordListClean();
+    setClearWordList();
     setWordList(url);
   };
 
@@ -69,6 +110,42 @@ var table = document.getElementById("myTable");
   };
 
 
-  function setWordListClean(){
+  function setWordListWithDBindex(url){
+    if(!IS_THERE_MORE_DATA){
+      return;
+    }
+  $.getJSON(url, function(dataFromServer){
+    var detail ;
+    var markup;
+    if(jQuery.isEmptyObject(dataFromServer.data)){
+      IS_THERE_MORE_DATA=false;
+      return;
+    }
+    datalist = dataFromServer.data;
+    for (let i = 0; i < datalist.length; i++) {
+      detail = datalist[i];
+      markup = "<tr onclick='tdclickDBindex("+detail['id']+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
+      $('#myTable > tbody:last-child').append(markup); 
+    }
+  });
+  };
+  function loadMoreword(){
+    CURRENT_PAGE+=1;
+    var obj=getSearchParamWithPage(CURRENT_PAGE);
+    var url = DATA_SERVER_GET + '?'+ $.param(obj);
+    setWordListWithDBindex(url);
+  };
+  function getSearchParamWithPage(pagenum){
+    var obj=new Object();
+    var keyword =$("#input_keyword").val();
+    var obj=new Object();
+    obj.search = keyword;
+    obj.book = CURRENT_UNIT;
+    obj.page = pagenum;
+    return obj;
+  };
+  function setClearWordList(){
     $("#myTable > tbody").empty();
-  }
+    CURRENT_PAGE=0;
+    IS_THERE_MORE_DATA = true;
+  };
