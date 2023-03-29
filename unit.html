@@ -60,6 +60,7 @@
   var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
   var CURRENT_UNIT ="MINA1";
   var CURRENT_PAGE = 0;
+  var IS_THERE_MORE_DATA = true;
   var table = document.getElementById("myTable");
 
 
@@ -140,11 +141,19 @@
     };
 
     function setWordList(url){
+      if(!IS_THERE_MORE_DATA){
+        return;
+      }
+      
     $.getJSON(url, function(dataFromServer){
-      datalist = dataFromServer.data;
       var detail ;
       var markup;
-      console.log(url);
+      if(jQuery.isEmptyObject(dataFromServer.data)){
+        IS_THERE_MORE_DATA=false;
+        return;
+      }
+
+      datalist = dataFromServer.data;
       for (let i = 0; i < datalist.length; i++) {
         detail = datalist[i];
         markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
