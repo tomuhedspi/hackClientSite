@@ -74,15 +74,12 @@
     function setScrollEvent(){
       var currentScrollHeight =0;
       var documentHeight =$(document).height();
-      $('#scroll_word').scroll(function() {
-        currentScrollHeight=$('#scroll_word').scrollTop() + $('#scroll_word').height();
-        if((currentScrollHeight%documentHeight)<20)
-         {
-            console.log("scroll= "+$('#scroll_word').height());
-            console.log("document= "+$(document).height());
-            loadMoreword();
-        }
-    });
+
+      $("#scroll_word").scroll(function() {
+          if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
+              loadMoreword(); 
+          } 
+      });
     };
 
     function setIndicator(){
@@ -96,19 +93,15 @@
 
     function setClickEventForUnitButton(){
       $('.unit').click(function () {;
-      // alert($(this).val());
-      setClearUnit();
+      //make other button gray and highlight selected button
+      $('.unit').removeClass('btn-primary');
+      $('.unit').addClass('btn-outline-secondary');
       $(this).removeClass('btn-outline-secondary');
       $(this).addClass('btn-primary');
       CURRENT_UNIT=$(this).val();
-      loadAllWord();
+      setClearWordList();
+      loadMoreword();
     });
-    };
-
-    function setClearUnit(){
-      $('.unit').removeClass('btn-primary');
-      $('.unit').addClass('btn-outline-secondary');
-      CURRENT_PAGE=0;
     };
 
     function setWordComment(singleWord){
@@ -173,7 +166,7 @@
       CURRENT_PAGE=1;
       var obj=getSearchParam();
       var url = DATA_SERVER_GET + '?'+ $.param(obj);
-      setWordListClean();
+      setClearWordList();
       setWordList(url);
     };
 
@@ -190,8 +183,10 @@
     };
 
 
-    function setWordListClean(){
+    function setClearWordList(){
       $("#myTable > tbody").empty();
+      CURRENT_PAGE=0;
+      IS_THERE_MORE_DATA = true;
     };
 
     
