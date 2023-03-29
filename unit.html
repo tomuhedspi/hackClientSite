@@ -49,16 +49,6 @@
       width: 80px;
     }
 
-    .indicator{
-      /* display: none; */
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      width: 40%;
-      justify-content: center;
-      
-    }
-
 
   </style>
 
@@ -227,6 +217,7 @@
           <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button> 
         </div>
       </div>
+      <div id="wait" ><img src='image/loading.gif' style="width: 30%;display: block; margin-left: auto; margin-right: auto;"/></div>
       <div id = "scroll_word" style="height: 85%; overflow: auto;">
         <table id="myTable" class="table table-hover" >
           <colgroup>
@@ -240,7 +231,7 @@
     </div>
 
     <div class="col-sm-6">
-      <div id="wait" class="indicator"><img src='image/loading.gif' /></div>
+      
       
       <input type="hidden" id="word_id" value ="1" >
       <h2 id="word_text"></h2>
