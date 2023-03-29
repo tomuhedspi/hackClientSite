@@ -65,7 +65,7 @@
 
 
   $(document).ready(function(){
-    loadMoreword(CURRENT_PAGE);
+    loadMoreword();
     setClickEventForUnitButton();
     setIndicator();
     setScrollEvent();
@@ -80,7 +80,7 @@
          {
             console.log("scroll= "+$('#scroll_word').height());
             console.log("document= "+$(document).height());
-            loadMoreword(CURRENT_PAGE);
+            loadMoreword();
         }
     });
     };
@@ -144,7 +144,7 @@
       if(!IS_THERE_MORE_DATA){
         return;
       }
-      
+
     $.getJSON(url, function(dataFromServer){
       var detail ;
       var markup;
