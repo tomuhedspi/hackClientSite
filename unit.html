@@ -76,8 +76,9 @@
       var documentHeight =$(document).height();
 
       $("#scroll_word").scroll(function() {
-          if($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-              loadMoreword(); 
+            
+          if($(this).scrollTop() + $(this).innerHeight()+1 >= $(this)[0].scrollHeight) {
+            loadMoreword(); 
           } 
       });
     };
