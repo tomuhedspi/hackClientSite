@@ -120,10 +120,15 @@
 
     function trclick(){};
 
-    function tdclick(i){
-        var detail =datalist[i];
-        setWordDetail(detail);
-        setWordComment(detail);
+    function tdclick(wordID){
+      var url = DATA_SERVER_GET + '/'+ wordID;
+
+      $.getJSON(url, function(dataFromServer){
+        word=dataFromServer.data
+        setWordDetail(word);
+        setWordComment(word);
+      });
+       
     };
 
     function setWordDetail(singleWord){
@@ -150,7 +155,7 @@
       datalist = dataFromServer.data;
       for (let i = 0; i < datalist.length; i++) {
         detail = datalist[i];
-        markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
+        markup = "<tr onclick='tdclick("+detail['id']+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
         $('#myTable > tbody:last-child').append(markup); 
       }
     });
