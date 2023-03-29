@@ -122,7 +122,7 @@
 
     function trclick(){};
 
-    function tdclick(wordID){
+    function tdclickDBindex(wordID){
       var url = DATA_SERVER_GET + '/'+ wordID;
 
       $.getJSON(url, function(dataFromServer){
@@ -141,7 +141,7 @@
         $("#word_note").text(singleWord['note']);
     };
 
-    function setWordList(url){
+    function setWordListWithDBindex(url){
       if(!IS_THERE_MORE_DATA){
         return;
       }
@@ -157,7 +157,7 @@
       datalist = dataFromServer.data;
       for (let i = 0; i < datalist.length; i++) {
         detail = datalist[i];
-        markup = "<tr onclick='tdclick("+detail['id']+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
+        markup = "<tr onclick='tdclickDBindex("+detail['id']+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
         $('#myTable > tbody:last-child').append(markup); 
       }
     });
@@ -165,12 +165,12 @@
 
     function loadMoreword(){
       CURRENT_PAGE+=1;
-      var obj=getSearchParam(CURRENT_PAGE);
+      var obj=getSearchParamWithPage(CURRENT_PAGE);
       var url = DATA_SERVER_GET + '?'+ $.param(obj);
-      setWordList(url);
+      setWordListWithDBindex(url);
     };
 
-    function getSearchParam(pagenum){
+    function getSearchParamWithPage(pagenum){
       var obj=new Object();
 
       var keyword =$("#input_keyword").val();

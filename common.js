@@ -4,14 +4,12 @@ var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/
 var table = document.getElementById("myTable");
 
 
-$(document).ready(function(){
-  setWordList(DATA_SERVER_GET);
-  setIndicator();
-});
+
 
   function setWordComment(singleWord){
     var detail;
     var comment_list=new Object;
+    $("#comment_title").show();
     $("#table_comment > tbody").empty();
     comment_list=singleWord['comment'];
     for (let i = 0; i < comment_list.length; i++) {
