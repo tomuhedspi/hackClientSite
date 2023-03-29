@@ -109,6 +109,8 @@
     function setWordComment(singleWord){
       var detail;
       var comment_list=new Object;
+      
+      $("#comment_title").show();
       $("#table_comment > tbody").empty();
       comment_list=singleWord['comment'];
       for (let i = 0; i < comment_list.length; i++) {
@@ -245,7 +247,7 @@
       <hr>
       <br>
         <div id ="div_comment" style="height: 400px; overflow: auto;">
-          <h5 >Comment:</h5>
+          <h5 id="comment_title" style="display: none;">Comment:</h5>
           <table id="table_comment" class="table table-striped" >
             <colgroup>
               <col span="1" style="width: 80%;">
