@@ -49,6 +49,16 @@
       width: 80px;
     }
 
+    .indicator{
+      /* display: none; */
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 40%;
+      justify-content: center;
+      
+    }
+
 
   </style>
 
@@ -66,30 +76,26 @@
   $(document).ready(function(){
     setWordList(DATA_SERVER_GET);
     setClickEventForUnitButton();
-    setMoreDataWhenScroll();
+    // setIndicator();
+    loadAllWord();
+
+    
   });
-
-    function setMoreDataWhenScroll(){
-        // $('#scroll_word').scroll(function() {   
-        //   // alert(1);
-        //   if($('#scroll_word').scrollTop() + $('#scroll_word').height() >= ($(document).height())) {
-        //       // alert($('#scroll_word').height());
-        //       CURRENT_PAGE=CURRENT_PAGE+1;
-        //       searchWord();
-        //   }
-        // });
-
-          $('#scroll_word').scroll(function() {   
-          // alert(1);
-          if($('#scroll_word').scrollTop()%500 <=  2) {
-              console.log($('#scroll_word').scrollTop()%500);
-              loadMoreword();
-              
-          }
+    function setIndicator(){
+      $(document).ajaxStart(function(){
+        $("#wait").css("display", "block");
         });
-      
+        $(document).ajaxComplete(function(){
+        $("#wait").css("display", "none");
+        });
+    };
 
-
+    function loadAllWord(){
+        CURRENT_PAGE = 0;
+        setWordListClean();
+        for (let i = 0; i < 20; i++) {
+          loadMoreword(i+1);
+        }
 
     };
 
@@ -100,7 +106,7 @@
       $(this).removeClass('btn-outline-secondary');
       $(this).addClass('btn-primary');
       CURRENT_UNIT=$(this).val();
-      searchWord();
+      loadAllWord();
     });
     };
 
@@ -143,6 +149,7 @@
       datalist = dataFromServer.data;
       var detail ;
       var markup;
+      console.log(url);
       for (let i = 0; i < datalist.length; i++) {
         detail = datalist[i];
         markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
@@ -151,9 +158,8 @@
     });
     };
 
-    function loadMoreword(){
-      CURRENT_PAGE=CURRENT_PAGE+1;
-      var obj=getSearchParam();
+    function loadMoreword(pagenum){
+      var obj=getSearchParam(pagenum);
       var url = DATA_SERVER_GET + '?'+ $.param(obj);
       setWordList(url);
     };
@@ -166,14 +172,14 @@
       setWordList(url);
     };
 
-    function getSearchParam(){
+    function getSearchParam(pagenum){
       var obj=new Object();
 
       var keyword =$("#input_keyword").val();
       var obj=new Object();
       obj.search = keyword;
       obj.book = CURRENT_UNIT;
-      obj.page = CURRENT_PAGE;
+      obj.page = pagenum;
 
       return obj;
     };
@@ -234,6 +240,8 @@
     </div>
 
     <div class="col-sm-6">
+      <div id="wait" class="indicator"><img src='image/loading.gif' /></div>
+      
       <input type="hidden" id="word_id" value ="1" >
       <h2 id="word_text"></h2>
       <h5><span class="label label-success" id="word_reading"></span></h5>
@@ -250,8 +258,8 @@
         <button type="submit" class="btn btn-outline-primary btn-sm" id="btn_comment">Gửi Comment</button>
       </form> -->
       <br><br>
-      
-      <div style="height: 400px; overflow: auto;">
+      <!-- <div id="wait" class="indicator" ><img src='image/loading.gif' /></div> -->
+        <div style="height: 400px; overflow: auto;">
         <h5 >Comment:</h5>
         <table id="table_comment" class="table table-striped" >
           <colgroup>
