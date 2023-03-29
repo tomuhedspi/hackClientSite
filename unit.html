@@ -163,14 +163,6 @@
       setWordList(url);
     };
 
-    function searchWord(){
-      CURRENT_PAGE=1;
-      var obj=getSearchParam();
-      var url = DATA_SERVER_GET + '?'+ $.param(obj);
-      setClearWordList();
-      setWordList(url);
-    };
-
     function getSearchParam(pagenum){
       var obj=new Object();
 
@@ -222,12 +214,6 @@
   <div class="row content">
     <div class="col-sm-3 sidenav">
       <br>
-      <div class="input-group mb-3 margin:3">
-        <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="searchWord();" 　>
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button> 
-        </div>
-      </div>
       <div id="wait" ><img src='image/loading.gif' style="position:absolute;width: 30%;display: block;top:0%;left:30%;"/></div>
       <div id = "scroll_word" style="height: 85%; overflow: auto;">
         <table id="myTable" class="table table-hover" >
