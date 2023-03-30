@@ -21,7 +21,9 @@ footer {
   .sidenav {
     height: 250px;
   }
-
+  .nav-link{
+    font-size: small;
+  }
   .sidenavhigh{
     height: 350px;
   }
