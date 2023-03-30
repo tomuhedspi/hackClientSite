@@ -71,6 +71,7 @@
     </div>
 
     <div class="col-sm-9">
+      <div id="wait" ><img src='image/loading.gif' style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
       <input type="hidden" id="word_id" value ="1" >
       <h2 id="word_text"></h2>
       <h5><span class="label label-success" id="word_reading"></span></h5>
@@ -88,8 +89,8 @@
       </form> -->
       <br><br>
       
-      <div style="height: 400px; overflow: auto;">
-        <h5 >Comment:</h5>
+      <div id ="div_comment" style="height: 400px; overflow: auto;">
+        <h5 id="comment_title" style="display: none;">Comment:</h5>
         <table id="table_comment" class="table table-striped" >
           <colgroup>
             <col span="1" style="width: 80%;">
