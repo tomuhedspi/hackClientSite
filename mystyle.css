@@ -21,6 +21,10 @@ footer {
   .sidenav {
     height: 250px;
   }
+
+  .sidenavhigh{
+    height: 350px;
+  }
   .row.content {height: auto;} 
   #div_comment{display: none;}
 }
