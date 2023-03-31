@@ -103,9 +103,9 @@ function setScrollEvent(){
     var obj=new Object();
 
     var keyword =$("#input_keyword").val();
-    var type =$('#combo :selected').val();
+    var type =parseInt($('#combo :selected').val());
     var obj=new Object();
-    if(type==TYPE_KANJI){
+    if(type == TYPE_KANJI){
       obj.search_kanji = keyword;
     }else{
       obj.search = keyword;
