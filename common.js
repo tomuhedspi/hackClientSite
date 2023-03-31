@@ -5,6 +5,8 @@ var CURRENT_UNIT ="MINA1";
 var CURRENT_PAGE = 0;
 var IS_THERE_MORE_DATA = true;
 var table = document.getElementById("myTable");
+const TYPE_KANJI =1;
+const TYPE_NEWWORD =0;
 
 
 
@@ -103,7 +105,12 @@ function setScrollEvent(){
     var keyword =$("#input_keyword").val();
     var type =$('#combo :selected').val();
     var obj=new Object();
-    obj.search = keyword;
+    if(type==TYPE_KANJI){
+      obj.search_kanji = keyword;
+    }else{
+      obj.search = keyword;
+    }
+    
     obj.type = type;
 
     return obj;
