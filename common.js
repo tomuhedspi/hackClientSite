@@ -86,7 +86,7 @@ function setScrollEvent(){
     var markup;
     for (let i = 0; i < datalist.length; i++) {
       detail = datalist[i];
-      markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
+      markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['note'] + "</td></tr>";
       $('#myTable > tbody:last-child').append(markup); 
     }
   });
@@ -131,7 +131,7 @@ function setScrollEvent(){
     datalist = dataFromServer.data;
     for (let i = 0; i < datalist.length; i++) {
       detail = datalist[i];
-      markup = "<tr onclick='tdclickDBindex("+detail['id']+");'><td>" + detail['word'] + "</td><td>" + detail['meaning'] + "</td></tr>";
+      markup = "<tr onclick='tdclickDBindex("+detail['id']+");'><td>" + detail['word'] + "</td><td>" + detail['note'] + "</td></tr>";
       $('#myTable > tbody:last-child').append(markup); 
     }
   });
