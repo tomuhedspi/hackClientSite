@@ -78,7 +78,12 @@ function setScrollEvent(){
     $("#word_reading").text(singleWord['reading']);
     $("#word_meaning").text(singleWord['meaning']);
     $("#word_note").text(singleWord['note']);
-    $('#word_image').attr("src", DATA_SERVER_IMAGE + singleWord['image'] );
+
+    if(singleWord['image'] !=null){
+      $('#word_image').attr("src", DATA_SERVER_IMAGE + singleWord['image'] );
+    }else{
+      $('#word_image').attr("src", "image/default.jpg" );
+    }
       
   };
 
