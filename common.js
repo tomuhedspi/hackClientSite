@@ -1,5 +1,6 @@
 var datalist;
 var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
+var DATA_SERVER_IMAGE = "http://nguyenthithom.name.vn/wordImage/";
 var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
 var CURRENT_UNIT ="MINA1";
 var CURRENT_PAGE = 0;
@@ -73,10 +74,12 @@ function setScrollEvent(){
   };
   function setWordDetail(singleWord){
     $("#word_id").val(singleWord['id']);
-      $("#word_text").text(singleWord['word']);
-      $("#word_reading").text(singleWord['reading']);
-      $("#word_meaning").text(singleWord['meaning']);
-      $("#word_note").text(singleWord['note']);
+    $("#word_text").text(singleWord['word']);
+    $("#word_reading").text(singleWord['reading']);
+    $("#word_meaning").text(singleWord['meaning']);
+    $("#word_note").text(singleWord['note']);
+    $('#word_image').attr("src", DATA_SERVER_IMAGE + singleWord['image'] );
+      
   };
 
   function setWordList(url){
