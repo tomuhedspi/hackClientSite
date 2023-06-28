@@ -8,6 +8,15 @@ p.ridge {border-style: ridge;}
   height: 80%;
   
 }
+h1 {
+  font-size: 1.5em;
+}
+#pageheaderpc {
+  color: #555;
+}
+#pageheadersp {
+  display: none;
+}
 
 /* Set black background color, white text and some padding */
 footer {
@@ -27,6 +36,16 @@ footer {
   .sidenavhigh{
     height: 350px;
   }
+  #pageheaderpc {
+    color: #555;
+    display: none;
+  }
+
+  #pageheadersp {
+    color: #555;
+    display:contents;
+  }
+
   .row.content {height: auto;} 
   #div_comment{display: none;}
 }

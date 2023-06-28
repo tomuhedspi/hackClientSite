@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Hack Não BK</title>
+  <title>Từ Theo Giáo Trình Hack Não BK</title>
   <meta charset="utf-8">
+  <meta name="description" content="Cung cấp các từ vựng từ bài 1 đến bài 50 được lấy từ giáo trình Minna no Nihongo và bao gồm cả các cấp độ N1, N2 và N3 của Mimikara oboeru trong Tiếng Nhật.">
+  <meta name="keywords" content="phương pháp học hiệu quả, tiếng nhật, hack não, kanji, hán tự, từ vựng qua hình ảnh, học nhanh, nhớ lâu">
+  <meta name="author" content="Hack Nao BK">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
@@ -40,7 +44,10 @@
   <!-- Links -->
   <ul class="navbar-nav">
     <li class="nav-item ">
-      <a class="nav-link" href="index.html">TÌM KIẾM</a>
+      <a class="nav-link" href="index.html">TỪ VỰNG</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="kanji.html">HÁN TỰ</a>
     </li>
     <li class="nav-item active">
       <a class="nav-link" href="unit.html">GIÁO TRÌNH</a>
@@ -57,7 +64,7 @@
   <div class="row content">
     <div class="col-sm-3 sidenav">
       <br>
-      
+      <h1 id ="pageheadersp">Từ vựng, Kanji, chữ Hán theo unit</h1>
       <div id = "scroll_word" style="height: 85%; overflow: auto;">
         <table id="myTable" class="table table-hover" >
           <colgroup>
@@ -72,14 +79,15 @@
 
     <div class="col-sm-6">
       
-      <div id="wait" ><img src='image/loading.gif' style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
+      <div id="wait" ><img src='image/loading.gif' alt="loading Hack Não BK"  style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
+      <h1 id="pageheaderpc">Từ vựng, Kanji, chữ Hán theo unit</h1>
+      <hr>
       <input type="hidden" id="word_id" value ="1" >
       <h2 id="word_text"></h2>
       <h5><span class="label label-success" id="word_reading"></span></h5>
       <!-- <p id="word_note" id="word_meaning">tôi</p> -->
       <p id="word_meaning"></p>
       <h5 id="word_note"></h5>
-      <hr>
       <br>
         <div id ="div_comment" style="height: 400px; overflow: auto;">
           <h5 id="comment_title" style="display: none;">Comment:</h5>
@@ -97,6 +105,8 @@
 
     <div class="col-sm-3 sidenav" style=" overflow: auto;">
       <br>
+      <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#demo">Danh sách bài học</button>
+      <div id="demo" class="collapse">
         <button  value="KANJI_HAND" type="button" class="btn btn-outline-secondary btn-sm unit" >Bộ Thủ Hán Tự</button>
         <button  value="MINA1" type="button" class="btn btn-primary btn-sm unit " >Bài 1</button>
         <button  value="MINA2" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 2</button>
@@ -192,6 +202,7 @@
         <button  value="N1_13" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 13</button>
         <button  value="N1_14" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 14</button>
         <br>
+      </div>
   </div>
 </div>
 </body>
