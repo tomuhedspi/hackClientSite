@@ -18,6 +18,19 @@ h1 {
   display: none;
 }
 
+.word_textstl{
+  font-size:2.5em;
+}
+.word_readingstl{
+  font-size:0.8em;
+}
+.word_meaningstl{
+  font-size:0.8em;
+}
+.word_notestl{
+  font-size:1.2em;
+}
+
 /* Set black background color, white text and some padding */
 footer {
   background-color: #555;
