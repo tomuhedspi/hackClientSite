@@ -11,6 +11,10 @@ p.ridge {border-style: ridge;}
 h1 {
   font-size: 1.5em;
 }
+
+h2 {
+  font-size: 1.2em;
+}
 #pageheaderpc {
   color: #555;
 }
