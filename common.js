@@ -78,6 +78,8 @@ function setScrollEvent(){
     $("#word_reading").text(singleWord['reading']);
     $("#word_meaning").text(singleWord['meaning']);
     $("#word_note").text(singleWord['note']);
+    $("#word_kun").text(singleWord['kun']);
+    $("#word_on").text(singleWord['on']);
 
     if(singleWord['image'] !=null){
       $('#word_image').attr("src", DATA_SERVER_IMAGE + singleWord['image'] );
