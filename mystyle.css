@@ -56,6 +56,23 @@ footer {
   .sidenavhigh{
     height: 350px;
   }
+
+  .sp-center{
+    text-align: center!important;
+    width: 100%;
+  }
+  #word_reading{
+    float: right; width:100%; text-align:  right;
+  }
+  #word_text{
+    float: left;  width:100%; text-align:  left;
+  }
+  #word_meaning{
+    float: left;  width:100%; text-align:  left;
+  }
+  #word_note{
+    float: left;  width:100%; text-align:  left;
+  }
   #pageheaderpc {
     color: #555;
     display: none;
