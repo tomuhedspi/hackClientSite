@@ -88,10 +88,12 @@
       <h1 id="pageheaderpc">Từ vựng, Kanji, chữ Hán theo unit</h1>
       <hr>
       <input type="hidden" id="word_id" value ="1" >
-      <p id="word_text" class="word_textstl"></p>
-      <p id="word_reading" class="word_readingstl"></p>
-      <p id="word_meaning" class="word_meaningstl"></p>
-      <p id="word_note" class="word_notestl"></p>
+      <div style="width: 100%;display: block;">
+        <div id="word_reading" class="word_readingstl" style="float: right; width:100%; text-align:  right;"></div>
+        <div id="word_text" class="word_textstl" style="float: left;  width:100%; text-align:  left;"></div>
+        <div id="word_meaning" class="word_meaningstl"style="float: left;  width:100%; text-align:  left;"></div>
+        <div id="word_note" class="word_notestl"style="float: left;  width:100%; text-align:  left;"></div>
+      </div>
       <img id="word_image" src="image/default.jpg" alt="new word"  style="max-height: 400px;max-width: 100%; height: auto;">
       <br>
         <div id ="div_comment" style="height: 400px; overflow: auto;">
