@@ -99,6 +99,10 @@ function setScrollEvent(){
       markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['note'] + "</td></tr>";
       $('#myTable > tbody:last-child').append(markup); 
     }
+    if(datalist.length>0){
+      $("#result_list").show();
+    }
+    
   });
   };
 

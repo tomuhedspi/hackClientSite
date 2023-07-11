@@ -46,11 +46,14 @@ footer {
 .page_title{
   width: 100%; border-style: none none groove none;
 }
+#result_list{
+  height: 80%;
+}
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
   .sidenav {
-    height:fit-content;
+    height: fit-content;
   }
   .nav-link{
     font-size: small;
@@ -66,6 +69,7 @@ footer {
   }
   #result_list{
     display: none;
+    height:350px;
   }
   #word_reading{
     float: right; width:100%; text-align:  right;
