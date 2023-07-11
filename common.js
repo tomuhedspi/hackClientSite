@@ -62,18 +62,25 @@ function setScrollEvent(){
       var detail =datalist[i];
       setWordDetail(detail);
       setWordComment(detail);
+      //in sp, hide the result list
+      if($(window).width() <= 570){
+        $("#result_list").hide();
+      }
   };
   function tdclickDBindex(wordID){
+    getWordFromDB(wordID);
+  };
+
+  function getWordFromDB(wordID){
     var url = DATA_SERVER_GET + '/'+ wordID;
     $.getJSON(url, function(dataFromServer){
       word=dataFromServer.data
       setWordDetail(word);
       setWordComment(word);
     });
-     
-  };
+  }
   function setWordDetail(singleWord){
-    $("#word_id").val(singleWord['id']);
+    $("#word_id").text(singleWord['id']);
     $("#word_text").text(singleWord['word']);
     $("#word_reading").text(singleWord['reading']);
     $("#word_meaning").text(singleWord['meaning']);
@@ -170,3 +177,18 @@ function setScrollEvent(){
     CURRENT_PAGE=0;
     IS_THERE_MORE_DATA = true;
   };
+
+  function getNextWord(){
+    var idText=$("#word_id").text();
+    var nextID=parseInt( idText )+1;
+    getWordFromDB(nextID);
+  }
+
+  function getPreviousWord(){
+    var idText=$("#word_id").text();
+    var nextID=parseInt( idText )-1;
+    if(nextID>0){
+      getWordFromDB(nextID);
+    }
+    
+  }

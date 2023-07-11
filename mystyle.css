@@ -49,6 +49,25 @@ footer {
 #result_list{
   height: 80%;
 }
+.leftImage {
+  top: 100px; /* your required value */
+  align-self: flex-start;
+  position: fixed;
+  display: flex;
+  height: 400px;
+  align-items: center;
+  justify-content: center;
+}
+
+.rightImage {
+  top: 100px; /* your required value */
+  right: 0;
+  position: fixed;
+  display: flex;
+  height: 400px;
+  align-items: center;
+  justify-content: center;
+}
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
@@ -62,7 +81,9 @@ footer {
     width: 100%; 
     border: none;
   }
-
+  .leftImage {
+    left: 0;
+  }
   .sp-center{
     text-align: center!important;
     width: 100%;

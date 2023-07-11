@@ -92,12 +92,20 @@
       </div>
     </div>
 
-    <div class="col-sm-9">
+    <div onclick="getPreviousWord()" class="col-sm-9">
+      <div class="leftImage">
+        <img src="prev.png"/>
+      </div>
+      <div onclick="getNextWord()" class="rightImage">
+        <img src="next.png" >
+      </div>
+      
       <div id="wait" ><img src='image/loading.gif' alt="Hack Não BK loading" style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
       <div class="page_title">
         <h1 id="pageheaderpc">Tìm kiếm từ vựng tiếng Nhật</h1>
       </div>
-      <input type="hidden" id="word_id" value ="1" >
+      
+      <div style="display:none" id="word_id"></div>
       <div style="width: 100%;display: block;">
         <div id="word_reading" class="word_readingstl" ></div>
         <div id="word_text" class="word_textstl" ></div>
