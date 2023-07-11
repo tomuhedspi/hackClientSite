@@ -39,6 +39,9 @@ function setScrollEvent(){
     CURRENT_UNIT=$(this).val();
     setClearWordList();
     loadMoreword();
+    if($(window).width() <= 570){
+      $("#scroll_word").show();
+    }
   });
   };
 
@@ -69,6 +72,9 @@ function setScrollEvent(){
   };
   function tdclickDBindex(wordID){
     getWordFromDB(wordID);
+    if($(window).width() <= 570){
+      $("#scroll_word").hide();
+    }
   };
 
   function getWordFromDB(wordID){
@@ -108,6 +114,7 @@ function setScrollEvent(){
     }
     if(datalist.length>0){
       $("#result_list").show();
+      $("#scroll_word").show();
     }
     
   });

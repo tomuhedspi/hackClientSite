@@ -49,6 +49,9 @@ footer {
 #result_list{
   height: 80%;
 }
+#scroll_word{
+  height: 80%;
+}
 .leftImage {
   top: 100px; /* your required value */
   align-self: flex-start;
@@ -90,6 +93,9 @@ footer {
   }
   #result_list{
     display: none;
+    height:350px;
+  }
+  #scroll_word{
     height:350px;
   }
   #word_reading{
