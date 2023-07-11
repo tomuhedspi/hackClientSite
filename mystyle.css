@@ -4,7 +4,6 @@ p.ridge {border-style: ridge;}
 
 /* Set gray background color and 100% height */
 .sidenav {
-  background-color: #f1f1f1;
   height: 80%;
   
 }
@@ -44,22 +43,29 @@ footer {
   color: white;
   padding: 15px;
 }
+.page_title{
+  width: 100%; border-style: none none groove none;
+}
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
   .sidenav {
-    height: 250px;
+    height:fit-content;
   }
   .nav-link{
     font-size: small;
   }
-  .sidenavhigh{
-    height: 350px;
+  .page_title{
+    width: 100%; 
+    border: none;
   }
 
   .sp-center{
     text-align: center!important;
     width: 100%;
+  }
+  #result_list{
+    display: none;
   }
   #word_reading{
     float: right; width:100%; text-align:  right;
