@@ -217,7 +217,7 @@ function setScrollEvent(){
     var markup;
     for (let i = 0; i < units.length; i++) {
       detail = units[i];
-      markup = "<button  value='HIRA' type='button' class='btn btn-outline-secondary btn-sm unit' >Hiragana</button>"
+      markup = "<button  value='"+detail['code']+"' type='button' class='btn btn-outline-secondary btn-sm unit' >"+detail['namevn']+"</button>"
         $("#demo").append(markup);
     }
   }

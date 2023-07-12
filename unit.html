@@ -26,11 +26,10 @@
 
 <script>
  $(document).ready(function(){
-    loadMoreword();
-    setClickEventForUnitButton();
     setIndicator();
-    setScrollEvent();
     setUnit();
+    loadMoreword();
+    setScrollEvent();
 });
 
   </script>
@@ -118,105 +117,8 @@
 
     <div class="col-sm-3 sidenav" style=" overflow: auto;">
       <br>
-      <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#demo">Danh sách bài học</button>
+      <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#demo" onclick="setClickEventForUnitButton();" >Danh sách bài học</button>
       <div id="demo" class="collapse">
-        <button  value="HIRA" type="button" class="btn btn-outline-secondary btn-sm unit" >Hiragana</button>
-        <button  value="KATA" type="button" class="btn btn-outline-secondary btn-sm unit" >Katakana</button>
-        <button  value="KANJI_HAND" type="button" class="btn btn-outline-secondary btn-sm unit" >Bộ Thủ Hán Tự</button>
-        <button  value="MINA1" type="button" class="btn btn-primary btn-sm unit " >Bài 1</button>
-        <button  value="MINA2" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 2</button>
-        <button  value="MINA3" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 3</button>
-        <button  value="MINA4" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 4</button>
-        <button  value="MINA5" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 5</button>
-        <button  value="MINA6" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 6</button>
-        <button  value="MINA7" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 7</button>
-        <button  value="MINA8" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 8</button>
-        <button  value="MINA9" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 9</button>
-        <button  value="MINA10" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 10</button>
-        <button  value="MINA11" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 11</button>
-        <button  value="MINA12" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 12</button>
-        <button  value="MINA13" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 13</button>
-        <button  value="MINA14" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 14</button>
-        <button  value="MINA15" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 15</button>
-        <button  value="MINA16" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 16</button>
-        <button  value="MINA17" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 17</button>
-        <button  value="MINA18" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 18</button>
-        <button  value="MINA19" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 19</button>
-        <button  value="MINA20" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 20</button>
-        <button  value="MINA21" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 21</button>
-        <button  value="MINA22" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 22</button>
-        <button  value="MINA23" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 23</button>
-        <button  value="MINA24" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 24</button>
-        <button  value="MINA25" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 25</button>
-        <button  value="MINA26" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 26</button>
-        <button  value="MINA27" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 27</button>
-        <button  value="MINA28" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 28</button>
-        <button  value="MINA29" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 29</button>
-        <button  value="MINA30" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 30</button>
-        <button  value="MINA31" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 31</button>
-        <button  value="MINA32" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 32</button>
-        <button  value="MINA33" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 33</button>
-        <button  value="MINA34" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 34</button>
-        <button  value="MINA35" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 35</button>
-        <button  value="MINA36" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 36</button>
-        <button  value="MINA37" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 37</button>
-        <button  value="MINA38" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 38</button>
-        <button  value="MINA39" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 39</button>
-        <button  value="MINA40" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 40</button>
-        <button  value="MINA41" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 41</button>
-        <button  value="MINA42" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 42</button>
-        <button  value="MINA43" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 43</button>
-        <button  value="MINA44" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 44</button>
-        <button  value="MINA45" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 45</button>
-        <button  value="MINA46" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 46</button>
-        <button  value="MINA47" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 47</button>
-        <button  value="MINA48" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 48</button>
-        <button  value="MINA49" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 49</button>
-        <button  value="MINA50" type="button" class="btn btn-outline-secondary btn-sm unit" >Bài 50</button>
-        
-        
-        <button  value="N3_1" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 1</button>
-        <button  value="N3_2" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 2</button>
-        <button  value="N3_3" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 3</button>
-        <button  value="N3_4" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 4</button>
-        <button  value="N3_5" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 5</button>
-        <button  value="N3_6" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 6</button>
-        <button  value="N3_7" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 7</button>
-        <button  value="N3_8" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 8</button>
-        <button  value="N3_9" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 9</button>
-        <button  value="N3_10" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 10</button>
-        <button  value="N3_11" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 11</button>
-        <button  value="N3_12" type="button" class="btn btn-outline-secondary btn-sm unit" >N3 Bài 12</button>
-        
-        <button  value="N2_1" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 1</button>
-        <button  value="N2_2" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 2</button>
-        <button  value="N2_3" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 3</button>
-        <button  value="N2_4" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 4</button>
-        <button  value="N2_5" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 5</button>
-        <button  value="N2_6" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 6</button>
-        <button  value="N2_7" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 7</button>
-        <button  value="N2_8" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 8</button>
-        <button  value="N2_9" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 9</button>
-        <button  value="N2_10" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 10</button>
-        <button  value="N2_11" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 11</button>
-        <button  value="N2_12" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 12</button>
-        <button  value="N2_13" type="button" class="btn btn-outline-secondary btn-sm unit" >N2 Bài 13</button>
-        
-        <button  value="N1_1" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 1</button>
-        <button  value="N1_2" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 2</button>
-        <button  value="N1_3" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 3</button>
-        <button  value="N1_4" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 4</button>
-        <button  value="N1_5" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 5</button>
-        <button  value="N1_6" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 6</button>
-        <button  value="N1_7" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 7</button>
-        <button  value="N1_8" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 8</button>
-        <button  value="N1_9" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 9</button>
-        <button  value="N1_10" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 10</button>
-        <button  value="N1_11" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 11</button>
-        <button  value="N1_12" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 12</button>
-        <button  value="N1_13" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 13</button>
-        <button  value="N1_14" type="button" class="btn btn-outline-secondary btn-sm unit" >N1 Bài 14</button>
-        <br>
     </div>
   </div>
 </div>
