@@ -1,4 +1,3 @@
-var datalist;
 var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
 var DATA_SERVER_GET_UNITS = "https://nguyenthithom.name.vn/api/units";
 var DATA_SERVER_IMAGE = "http://nguyenthithom.name.vn/wordImage/";
@@ -59,22 +58,11 @@ function setScrollEvent(){
     }
   };
 
-
-  function trclick(){};
-
-  function tdclick(i){
-      var detail =datalist[i];
-      setWordDetail(detail);
-      setWordComment(detail);
-      //in sp, hide the result list
-      if($(window).width() <= 570){
-        $("#result_list").hide();
-      }
-  };
   function tdclickDBindex(wordID){
     getWordFromDB(wordID);
     if($(window).width() <= 570){
       $("#scroll_word").hide();
+      $("#result_list").hide();
     }
   };
 
@@ -82,11 +70,13 @@ function setScrollEvent(){
     var url = DATA_SERVER_GET + '/'+ wordID;
     $.getJSON(url, function(dataFromServer){
       word=dataFromServer.data
-      setWordDetail(word);
+      var nextID =dataFromServer.next;
+      var prevID =dataFromServer.prev;
+      setWordDetail(word,nextID,prevID);
       setWordComment(word);
     });
   }
-  function setWordDetail(singleWord){
+  function setWordDetail(singleWord,nextID,prevID){
     $("#word_id").text(singleWord['id']);
     $("#word_text").text(singleWord['word']);
     $("#word_reading").text(singleWord['reading']);
@@ -94,6 +84,8 @@ function setScrollEvent(){
     $("#word_note").text(singleWord['note']);
     $("#word_kun").text(singleWord['kun']);
     $("#word_on").text(singleWord['on']);
+    $("#word_next").text(nextID);
+    $("#word_prev").text(prevID);
 
     if(singleWord['image'] !=null){
       $('#word_image').attr("src", DATA_SERVER_IMAGE + singleWord['image'] );
@@ -105,12 +97,12 @@ function setScrollEvent(){
 
   function setWordList(url){
   $.getJSON(url, function(dataFromServer){
-    datalist = dataFromServer.data;
+    var datalist = dataFromServer.data;
     var detail ;
     var markup;
     for (let i = 0; i < datalist.length; i++) {
       detail = datalist[i];
-      markup = "<tr onclick='tdclick("+i+");'><td>" + detail['word'] + "</td><td>" + detail['note'] + "</td></tr>";
+      markup = "<tr onclick='tdclickDBindex("+detail['id']+");'><td>" + detail['word'] + "</td><td>" + detail['note'] + "</td></tr>";
       $('#myTable > tbody:last-child').append(markup); 
     }
     if(datalist.length>0){
@@ -157,7 +149,7 @@ function setScrollEvent(){
       IS_THERE_MORE_DATA=false;
       return;
     }
-    datalist = dataFromServer.data;
+    var datalist = dataFromServer.data;
     for (let i = 0; i < datalist.length; i++) {
       detail = datalist[i];
       markup = "<tr onclick='tdclickDBindex("+detail['id']+");'><td>" + detail['word'] + "</td><td>" + detail['note'] + "</td></tr>";
@@ -187,14 +179,14 @@ function setScrollEvent(){
   };
 
   function getNextWord(){
-    var idText=$("#word_id").text();
-    var nextID=parseInt( idText )+1;
+    var idText=$("#word_next").text();
+    var nextID=parseInt( idText );
     getWordFromDB(nextID);
   }
 
   function getPreviousWord(){
-    var idText=$("#word_id").text();
-    var nextID=parseInt( idText )-1;
+    var idText=$("#word_prev").text();
+    var nextID=parseInt( idText );
     if(nextID>0){
       getWordFromDB(nextID);
     }
