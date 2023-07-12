@@ -1,5 +1,6 @@
 var datalist;
 var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
+var DATA_SERVER_GET_UNITS = "https://nguyenthithom.name.vn/api/units";
 var DATA_SERVER_IMAGE = "http://nguyenthithom.name.vn/wordImage/";
 var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
 var CURRENT_UNIT ="MINA1";
@@ -198,4 +199,25 @@ function setScrollEvent(){
       getWordFromDB(nextID);
     }
     
+  }
+
+  function setUnit(){
+    var url = DATA_SERVER_GET_UNITS;
+    $.getJSON(url, function(dataFromServer){
+      units=dataFromServer.data
+      addUnitButtons(units);
+    });
+
+
+    
+  }
+
+  function addUnitButtons(units){
+    var detail ;
+    var markup;
+    for (let i = 0; i < units.length; i++) {
+      detail = units[i];
+      markup = "<button  value='HIRA' type='button' class='btn btn-outline-secondary btn-sm unit' >Hiragana</button>"
+        $("#demo").append(markup);
+    }
   }
