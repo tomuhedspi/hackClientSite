@@ -1,6 +1,6 @@
 var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
 var DATA_SERVER_GET_UNITS = "https://nguyenthithom.name.vn/api/units";
-var DATA_SERVER_IMAGE = "http://nguyenthithom.name.vn/wordImage/";
+var DATA_SERVER_IMAGE = "https://nguyenthithom.name.vn/wordImage/";
 var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
 var CURRENT_UNIT ="MINA1";
 var CURRENT_PAGE = 0;
