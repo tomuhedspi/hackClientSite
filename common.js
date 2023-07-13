@@ -213,3 +213,6 @@ function setScrollEvent(){
         $("#demo").append(markup);
     }
   }
+  function showWordList(){
+    $("#scroll_word").show();
+  }
