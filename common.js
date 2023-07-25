@@ -1,7 +1,8 @@
 var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
 var DATA_SERVER_GET_UNITS = "https://nguyenthithom.name.vn/api/units";
 var DATA_SERVER_IMAGE = "https://nguyenthithom.name.vn/wordImage/";
-var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/word_id/comment";
+var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/";
+var DATA_SERVER_POST_COMMENT_SUFFIX = "/comment";
 var CURRENT_UNIT ="MINA1";
 var CURRENT_PAGE = 0;
 var IS_THERE_MORE_DATA = true;
@@ -65,6 +66,26 @@ function setScrollEvent(){
       $("#result_list").hide();
     }
   };
+
+  function submitComment(){
+   
+      var currentWordID;
+      var commentContent;
+      var commentUrl;
+      var DEFAULT_AUTHOR ="メンバー"
+      currentWordID= $("#word_id").text();
+      commentContent= $("#mycomment").val();
+      commentUrl= DATA_SERVER_POST_COMMENT + currentWordID +DATA_SERVER_POST_COMMENT_SUFFIX;
+      $.post( commentUrl, { author_name: DEFAULT_AUTHOR, content:commentContent})
+      .done(function( data ) {
+        $("#mycomment").val("");
+
+        markup = "<tr><td>" + commentContent + "</td><td>" + DEFAULT_AUTHOR + "</td></tr>";
+        $('#table_comment > tbody:last-child').append(markup); 
+      });
+
+   
+  }
 
   function getWordFromDB(wordID){
     var url = DATA_SERVER_GET + '/'+ wordID;
