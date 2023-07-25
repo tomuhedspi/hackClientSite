@@ -128,7 +128,9 @@
      
       <img id="word_image" src="image/default.jpg" alt="new word"  style="max-height: 400px;max-width: 100%; height: auto;">
       <div id ="div_comment" style="height: 400px; overflow: auto;">
-        <p id="comment_title" style="display: none;">Comment:</p>
+        <p id="comment_title" >Comment:</p>
+        <input type="text" name="mycomment" id = "mycomment" class="form-control" placeholder="Góp ý của bạn"><br>
+        <button class="btn btn-primary" type="submit" onclick="submitComment();" ><i class="fa fa-paper-plane"></i></button> 
         <table id="table_comment" class="w3-table w3-bordered" >
           <colgroup>
             <col span="1" style="width: 80%;">
