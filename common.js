@@ -234,6 +234,11 @@ function setScrollEvent(){
         $("#demo").append(markup);
     }
   }
+  
   function showWordList(){
     $("#scroll_word").show();
+  }
+
+  function loadAudio(audioName){
+    document.getElementById("my-audio").setAttribute('src', audioName);
   }

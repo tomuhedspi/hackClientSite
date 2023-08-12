@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Từ Theo Giáo Trình Hack Não BK</title>
+  <meta charset="utf-8">
+  <meta name= “robots” content=noindex, nofollow”>
+  <meta name="description" content="Audio lặp lại các câu trong giáo trình">
+  <meta name="keywords" content="phương pháp học hiệu quả, tiếng nhật, hack não, kanji, hán tự, từ vựng qua hình ảnh, học nhanh, nhớ lâu">
+  <meta name="application-name" content="Hack Não BK Tiếng Nhật">
+  <meta name="author" content="Hack Nao BK">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta property="og:title" content="Nghe câu trong giáo trình">
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="Audio lặp lại các câu trong giáo trình">
+  <meta property="og:image" content="https://hacknaobk.icu/image/icon.png">
+  <meta property="og:url" content="https://hacknaobk.icu/audio.html">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <script src="common.js"></script>
+  <link rel="stylesheet" href="mystyle.css">
+
+
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);"  >
+  <!-- Brand/logo -->
+  <a class="navbar-brand" href="#">
+    <img src="image/icon.png" alt="Hack Não BK" id ="app_icon"style="width:40px;">
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <!-- Links -->
+  <ul class="navbar-nav">
+    <li class="nav-item ">
+      <a class="nav-link" href="index.html">TỪ VỰNG</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="kanji.html">HÁN TỰ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="unit.html">GIÁO TRÌNH</a>
+    </li>
+    <li class="nav-item active">
+      <a class="nav-link" href="audio.html">NGHE</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="info.html">GIỚI THIỆU</a>
+    </li>
+  </ul>
+  </div>
+
+</nav>
+
+<div class="container-fluid">
+  <div class="row content">
+    <div class="col-sm-3 sidenav">
+      <div  class="page_title">
+        <h2 id ="pageheadersp">NGHE</h2>
+      </div>
+      <div id = "scroll_word" style="overflow: auto;">
+        <table id="myTable" class="table table-hover" >
+          <colgroup>
+            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 70%;">
+         </colgroup>
+          <tbody id="word_table"  style="font-size: small;">
+            <tr onclick='loadAudio("sound/11bunkei.mp3")'>
+              <td>Bài 11</td>
+              <td>Bunkei</td>
+            </tr>
+            <tr onclick='loadAudio("sound/11kaiwa.mp3")'>
+              <td>Bài 11</td>
+              <td>Kaiwa</td>
+            </tr>
+            <tr onclick='loadAudio("sound/11reibun.mp3")'>
+              <td>Bài 11</td>
+              <td>Reibun</td>
+            </tr>
+            <tr onclick='loadAudio("sound/12-reibun.mp3")'>
+              <td>Bài 12</td>
+              <td>Reibun</td>
+            </tr>
+            <tr onclick='loadAudio("sound/12bunkei.mp3")'>
+              <td>Bài 12</td>
+              <td>bunkei</td>
+            </tr>
+            <tr onclick='loadAudio("sound/12kaiwa.mp3")'>
+              <td>Bài 12</td>
+              <td>kaiwa</td>
+            </tr>
+            <tr onclick='loadAudio("sound/13-bunkei.mp3")'>
+              <td>Bài 13</td>
+              <td>bunkei</td>
+            </tr>
+            <tr onclick='loadAudio("sound/13-kaiwa.mp3")'>
+              <td>Bài 13</td>
+              <td>kaiwa</td>
+            </tr>
+            <tr onclick='loadAudio("sound/13-reibun.mp3")'>
+              <td>Bài 13</td>
+              <td>Reibun</td>
+            </tr>
+
+            <tr onclick='loadAudio("sound/14 bunkei.mp3")'>
+              <td>Bài 14</td>
+              <td>Bunkei</td>
+            </tr>
+            <tr onclick='loadAudio("sound/14-reibun.mp3")'>
+              <td>Bài 14</td>
+              <td>Reibun</td>
+            </tr>
+            <tr onclick='loadAudio("sound/14kaiwa.mp3")'>
+              <td>Bài 14</td>
+              <td>kaiwa</td>
+            </tr>
+            <tr onclick='loadAudio("sound/15bunkei.mp3")'>
+              <td>Bài 15</td>
+              <td>Bunkei</td>
+            </tr>
+            <tr onclick='loadAudio("sound/15kaiwa.mp3")'>
+              <td>Bài 15</td>
+              <td>Kaiwa</td>
+            </tr>
+            <tr onclick='loadAudio("sound/15nguphap.mp3")'>
+              <td>Bài 15</td>
+              <td>Ngữ pháp</td>
+            </tr>
+            <tr onclick='loadAudio("sound/15reibun.mp3")'>
+              <td>Bài 15</td>
+              <td>Reibun</td>
+            </tr>
+            <tr onclick='loadAudio("sound/16-bunkei.mp3")'>
+              <td>Bài 16</td>
+              <td>Bunkei</td>
+            </tr>
+            <tr onclick='loadAudio("sound/16-kaiwa.mp3")'>
+              <td>Bài 16</td>
+              <td>Kaiwa</td>
+            </tr>
+            <tr onclick='loadAudio("sound/16ngu-phap.mp3")'>
+              <td>Bài 16</td>
+              <td>Ngữ Pháp</td>
+            </tr>
+            <tr onclick='loadAudio("sound/16reibun.mp3")'>
+              <td>Bài 16</td>
+              <td>Reibun</td>
+            </tr>
+            <tr onclick='loadAudio("sound/17-kaiwa.mp3")'>
+              <td>Bài 17</td>
+              <td>Kaiwa</td>
+            </tr>
+            <tr onclick='loadAudio("sound/17-ngu-phap.mp3")'>
+              <td>Bài 17</td>
+              <td>Ngữ Pháp</td>
+            </tr>
+            <tr onclick='loadAudio("sound/17bunkei.mp3")'>
+              <td>Bài 17</td>
+              <td>Bunkei</td>
+            </tr>
+            <tr onclick='loadAudio("sound/17reibun.mp3")'>
+              <td>Bài 17</td>
+              <td>Reibun</td>
+            </tr>
+            <tr onclick='loadAudio("sound/18-bunkei.mp3")'>
+              <td>Bài 18</td>
+              <td>Bunkei</td>
+            </tr>
+            <tr onclick='loadAudio("sound/18-kaiwa.mp3")'>
+              <td>Bài 18</td>
+              <td>Kaiwa</td>
+            </tr>
+            <tr onclick='loadAudio("sound/18-ngu-phap.mp3")'>
+              <td>Bài 18</td>
+              <td>Ngữ Pháp</td>
+            </tr>
+            <tr onclick='loadAudio("sound/18-reibun.mp3")'>
+              <td>Bài 18</td>
+              <td>Reibun</td>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <h1 id="pageheaderpc">NGHE</h1>
+      <hr>
+      <div style="width: 100%;display: block;">
+        
+        <audio id="my-audio" controls autoplay>
+          <source src="sound/18-ngu-phap.mp3" type="audio/mp3">
+            Trình duyệt của bạn không nghe được rùi. Buồn ghê!
+        </audio>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
