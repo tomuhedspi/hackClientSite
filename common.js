@@ -241,4 +241,6 @@ function setScrollEvent(){
 
   function loadAudio(audioName){
     document.getElementById("my-audio").setAttribute('src', audioName);
+    var myAudio = document.getElementById("my-audio");
+    myAudio.play();
   }
