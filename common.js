@@ -233,6 +233,7 @@ function setScrollEvent(){
   }
 
   function showUnits(){
+    $("#scroll_word").show();
     $("#myTable").hide();
     $("#unitsList").show();
   }
