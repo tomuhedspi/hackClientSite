@@ -239,13 +239,14 @@ function setScrollEvent(){
 
 
   function selectUnit(obj){
-    console.log(obj);
     CURRENT_UNIT=obj.value;
     setClearWordList();
     loadMoreword();
     if($(window).width() <= 570){
       $("#scroll_word").show();
     }
+
+    $("#unitLabel").text(obj.innerHTML);
     $("#unitsList").hide();
     $("#myTable").show();
   }
