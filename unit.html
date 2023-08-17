@@ -74,7 +74,8 @@
       <div  class="page_title">
         <h2 id ="pageheadersp">Từ vựng, Kanji, chữ Hán theo unit</h2>
       </div>
-      <button type="button" class="btn btn-primary btn-sm" style="background-color: rgba(9, 110, 235, 0.754);" onclick="showWordList();" >Danh sách từ</button>
+      <button type="button" class="btn btn-primary btn-sm" onclick="showWordList();" >Danh sách từ</button>
+      <button type="button" class="btn btn-primary btn-sm" onclick="showUnits();" >Bài học</button>
       <div id = "scroll_word" style="overflow: auto;">
         <table id="myTable" class="table table-hover" >
           <colgroup>
@@ -84,6 +85,7 @@
           <tbody id="word_table"  style="font-size: small;">
           </tbody>
         </table>
+        <div id="unitsList" class="collapse"></div>
       </div>
     </div>
 
@@ -125,8 +127,8 @@
 
     <div class="col-sm-3 sidenav" style=" overflow: auto;">
       <br>
-      <button type="button" class="btn btn-secondary btn-sm" data-toggle="collapse" data-target="#demo" onclick="setClickEventForUnitButton();" >Danh sách bài học</button>
-      <div id="demo" class="collapse">
+      
+      
     </div>
   </div>
 </div>

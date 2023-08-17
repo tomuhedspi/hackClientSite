@@ -30,21 +30,6 @@ function setScrollEvent(){
       $("#wait").css("display", "none");
       });
   };
-  function setClickEventForUnitButton(){
-    $('.unit').click(function () {;
-    //make other button gray and highlight selected button
-    $('.unit').removeClass('btn-primary');
-    $('.unit').addClass('btn-outline-secondary');
-    $(this).removeClass('btn-outline-secondary');
-    $(this).addClass('btn-primary');
-    CURRENT_UNIT=$(this).val();
-    setClearWordList();
-    loadMoreword();
-    if($(window).width() <= 570){
-      $("#scroll_word").show();
-    }
-  });
-  };
 
   function setWordComment(singleWord){
     var detail;
@@ -230,17 +215,37 @@ function setScrollEvent(){
     var markup;
     for (let i = 0; i < units.length; i++) {
       detail = units[i];
-      markup = "<button  value='"+detail['code']+"' type='button' class='btn btn-outline-secondary btn-sm unit' >"+detail['namevn']+"</button>"
-        $("#demo").append(markup);
+      markup = "<button  value='"+detail['code']+"'  class='btn btn-outline-secondary btn-sm unit' onclick='selectUnit(this);' >"+detail['namevn']+"</button>"
+        $("#unitsList").append(markup);
     }
   }
   
   function showWordList(){
     $("#scroll_word").show();
+    $("#unitsList").hide();
+    $("#myTable").show();
   }
 
   function loadAudio(audioName){
     document.getElementById("my-audio").setAttribute('src', audioName);
     var myAudio = document.getElementById("my-audio");
     myAudio.play();
+  }
+
+  function showUnits(){
+    $("#myTable").hide();
+    $("#unitsList").show();
+  }
+
+
+  function selectUnit(obj){
+    console.log(obj);
+    CURRENT_UNIT=obj.value;
+    setClearWordList();
+    loadMoreword();
+    if($(window).width() <= 570){
+      $("#scroll_word").show();
+    }
+    $("#unitsList").hide();
+    $("#myTable").show();
   }
