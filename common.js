@@ -119,6 +119,20 @@ function setScrollEvent(){
   });
   };
 
+  function inputKeywordListener(){
+    //Delaying the function execute
+    if (this.timer) {
+      window.clearTimeout(this.timer);
+    }
+    this.timer = window.setTimeout(function() {
+
+      searchWord();
+
+    }, 500);
+    
+  };
+
+
   function searchWord(){
     var obj=getSearchParam();
     var url = DATA_SERVER_GET + '?'+ $.param(obj);
