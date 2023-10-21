@@ -4,14 +4,14 @@
   <title>Từ Vựng Hack Não BK </title>
   <link rel="icon" type="image/x-icon" href="https://hacknaobk.icu/favicon.ico">
   <meta charset="utf-8">
-  <meta name="description" content="Giúp bạn nhớ từ vựng tiếng Nhật nhanh chóng và lâu dài. Tìm hiểu cách học và ghi nhớ từ mới hiệu quả.">
+  <meta name="description" content="Đóng góp vào kho từ vựng. Ghi lại những từ vựng tiếng Nhật với cách nhớ nhanh chóng và lâu dài.">
   <meta name="keywords" content="phương pháp học hiệu quả, tiếng nhật, hack não, kanji, hán tự, từ vựng qua hình ảnh, học nhanh, nhớ lâu">
   <meta name="application-name" content="Hack Não BK Tiếng Nhật">
   <meta name="author" content="Hack Nao BK">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta property="og:title" content="Từ Vựng Hack Não BK">
   <meta property="og:type" content="article" />
-  <meta property="og:description" content="Giúp bạn nhớ từ vựng tiếng Nhật nhanh chóng và lâu dài. Tìm hiểu cách học và ghi nhớ từ mới hiệu quả.">
+  <meta property="og:description" content="Đóng góp vào kho từ vựng. Ghi lại những từ vựng tiếng Nhật với cách nhớ nhanh chóng và lâu dài.">
   <meta property="og:image" content="https://hacknaobk.icu/image/icon.png">
   <meta property="og:url" content="https://hacknaobk.icu/index.html">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
@@ -45,7 +45,7 @@
 
   <!-- Links -->
   <ul class="navbar-nav">
-    <li class="nav-item active">
+    <li class="nav-item">
       <a class="nav-link" href="index.html">TỪ VỰNG</a>
     </li>
     <li class="nav-item">
@@ -57,7 +57,7 @@
     <li class="nav-item">
       <a class="nav-link" href="audio.html">NGHE</a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item active">
       <a class="nav-link" href="addword.html">ĐÓNG GÓP TỪ</a>
     </li>
     <li class="nav-item">
@@ -77,67 +77,53 @@
       <input type="hidden" id="combo" name="combo" value="0">
       
       <div  class="page_title">
-        <h2 id ="pageheadersp">Tìm kiếm từ vựng tiếng Nhật</h2>
+        <h2 id ="pageheadersp">Đóng góp từ vựng tiếng Nhật</h2>
       </div>
     
       <div class="input-group mb-3 " style="margin-top: 10px;">
-        <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="inputKeywordListener();" 　>
-        <div class="input-group-append">
-          <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button> 
-        </div>
+
+          <select class="form-control" id="mytype" onchange="setwordtype(this);">
+            <option value ="0">Từ Vựng</option>
+            <option value ="1">Hán tự</option>
+          </select>
       </div>
       
-      <div id="result_list" style="overflow: auto;">
-        <table id="myTable" class="table table-hover" >
-          <colgroup>
-            <col span="1" style="width: 30%;">
-            <col span="1" style="width: 70%;">
-         </colgroup>
-          <tbody id="word_table"  style="font-size: small;">
-          </tbody>
-        </table>
-      </div>
     </div>
 
     <div class="col-sm-9">
-      <div onmouseup="getPreviousWord()" class="leftImage">
-        <img src="image/prev.png"/>
-      </div>
-      <div onmouseup="getNextWord()" class="rightImage">
-        <img src="image/next.png" >
-      </div>
-      
       <div id="wait" ><img src='image/loading.gif' alt="Hack Não BK loading" style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
       <div class="page_title">
-        <h1 id="pageheaderpc">Tìm kiếm từ vựng tiếng Nhật</h1>
+        <h1 id="pageheaderpc">Đóng góp từ vựng tiếng Nhật</h1>
       </div>
-      
-      <div style="display:none" id="word_id"></div>
-      <div style="display:none" id="word_next"></div>
-      <div style="display:none" id="word_prev"></div>
-      <div style="width: 100%;display: block;">
-        <div id="word_reading" class="word_readingstl" ></div>
-        <div id="word_text" class="word_textstl" ></div>
-        <div id="word_meaning" class="word_meaningstl"></div>
-        <div id="word_note" class="word_notestl"></div>
-      </div>
-     
-      <img id="word_image" src="image/default.jpg" alt="new word"  style="max-height: 400px;max-width: 100%; height: auto;">
-      <div id ="div_comment" style="height: 400px; overflow: auto;">
-        <p id="comment_title" >Comment:</p>
-        <input type="text" name="mycomment" id = "mycomment" class="form-control" placeholder="Góp ý của bạn"><br>
-        <button class="btn btn-primary" type="submit" onclick="submitComment();" ><i class="fa fa-paper-plane"></i></button> 
+      <br>
+      <form>
+        <div class="form-group">
+          <label for="myword" id="mywordlabel">Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)</label>
+          <input type="text" class="form-control" id="myword" placeholder="漢字で入力" maxlength="255" required>
+        </div>
+        <div class="form-group">
+          <label for="myreading" id="myreadinglabel">Cách đọc( Viết bằng Hiragana)</label>
+          <input type="text" class="form-control" id="myreading" placeholder="ひらがなでにゅうりょく" maxlength="255" required>
+        </div>
+        <div class="form-group">
+          <label for="mymeaning">Nghĩa tiếng Việt</label>
+          <input type="text" class="form-control" id="mymeaning" placeholder="Nghĩa của từ" maxlength="255" required>
+        </div>
+        <div class="form-group">
+          <label for="mynote">Cách nhớ gợi ý</label>
+          <textarea class="form-control" id="mynote" rows="3"placeholder="Ngồi CẦU THANG đánh CÂY ĐÀN cho crush nghe" maxlength="1000"></textarea>
+        </div>
+        <div class="form-group" id ="kun" style="display: none;">
+          <label for="mykun">Âm kun</label>
+          <input type="text" class="form-control" id="mykun" placeholder="RYOKU, RIKI" maxlength="255">
+        </div>
+        <div class="form-group" id ="on" style="display: none;">
+          <label for="myon">Âm on</label>
+          <input type="text" class="form-control" id="myon" placeholder="chikara" maxlength="255">
+        </div>
+        <button class="btn btn-primary" type="submit" onclick="submitWord();" ><i class="fa fa-paper-plane"></i></button> 
        
-        <table id="table_comment" class="w3-table w3-bordered" >
-          <colgroup>
-            <col span="1" style="width: 80%;">
-            <col span="1" style="width: 20%; font-size: x-small;">
-         </colgroup>
-          <tbody  style="font-size: small;">
-          </tbody>
-        </table>
-      </div>
-
+      </form>
     </div>
   </div>
 </div>

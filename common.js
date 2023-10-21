@@ -2,6 +2,7 @@ var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
 var DATA_SERVER_GET_UNITS = "https://nguyenthithom.name.vn/api/units";
 var DATA_SERVER_IMAGE = "https://nguyenthithom.name.vn/wordImage/";
 var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/";
+var DATA_SERVER_POST_WORD = "https://nguyenthithom.name.vn/api/chars";
 var DATA_SERVER_POST_COMMENT_SUFFIX = "/comment";
 var CURRENT_UNIT ="MINA1";
 var CURRENT_PAGE = 0;
@@ -265,3 +266,55 @@ function setScrollEvent(){
     $("#unitsList").hide();
     $("#myTable").show();
   }
+
+
+  function submitWord(){
+    var wordContent;
+    var readingContent;
+    var noteContent;
+    var meaningContent;
+    var typeContent;
+    var kunContent;
+    var onContent;
+    wordContent= $("#myword").val();
+    readingContent= $("#myreading").val();
+    meaningContent= $("#mymeaning").val();
+    noteContent= $("#mynote").val();
+    typeContent= $("#mytype").val();
+    kunContent=$("#mykun").val();
+    onContent=  $("#myon").val();
+    
+    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on:onContent})
+    .done(function( data ) {
+      $("#mycomment").val("");
+      $("#myreading").val("");
+      $("#mymeaning").val("");
+      $("#mynote").val("");
+      $("#mykun").val("");
+      $("#myon").val("");
+    });
+
+}
+
+function setwordtype(selectedtype)
+{
+  var type;
+  type = selectedtype.value;
+
+  if(type==TYPE_KANJI){
+    $("#mywordlabel").text("Hán tự 漢字");
+    $("#myreadinglabel").text("Phiên âm Hán Việt");
+    $("#myword").attr("placeholder", "日");
+    $("#myreading").attr("placeholder", "NHẬT");
+    $("#kun").show();
+    $("#on").show();
+  }else{
+    $("#mywordlabel").text("Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)");
+    $("#myreadinglabel").text("Cách đọc( Viết bằng Hiragana)");
+    $("#myword").attr("placeholder", "漢字で入力");
+    $("#myreading").attr("placeholder", "ひらがなでにゅうりょく");
+    $("#kun").hide();
+    $("#on").hide();
+  }
+  
+}
