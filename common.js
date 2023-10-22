@@ -292,12 +292,12 @@ function setScrollEvent(){
       $("#mynote").val("");
       $("#mykun").val("");
       $("#myon").val("");
+      
     });
-
+    alert("Bạn ơi! Cám ơn bạn vì đã đóng góp nhé!");
 }
 
-function setwordtype(selectedtype)
-{
+function setwordtype(selectedtype){
   var type;
   type = selectedtype.value;
 
@@ -316,5 +316,12 @@ function setwordtype(selectedtype)
     $("#kun").hide();
     $("#on").hide();
   }
-  
+}
+
+function setButtonDisable(){
+  if($("#myword").val().length >= 1 && $("#myreading").val().length >= 1 && $("#mymeaning").val().length >= 1  ){
+    $('#submitButton').prop('disabled', false);
+  }else{
+    $('#submitButton').prop('disabled', true);
+  }
 }

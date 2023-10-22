@@ -99,15 +99,15 @@
       <form>
         <div class="form-group">
           <label for="myword" id="mywordlabel">Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)</label>
-          <input type="text" class="form-control" id="myword" placeholder="漢字で入力" maxlength="255" required>
+          <input type="text" class="form-control" id="myword" placeholder="漢字で入力" maxlength="255" required onchange="setButtonDisable();">
         </div>
         <div class="form-group">
           <label for="myreading" id="myreadinglabel">Cách đọc( Viết bằng Hiragana)</label>
-          <input type="text" class="form-control" id="myreading" placeholder="ひらがなでにゅうりょく" maxlength="255" required>
+          <input type="text" class="form-control" id="myreading" placeholder="ひらがなでにゅうりょく" maxlength="255" required onchange="setButtonDisable();">
         </div>
         <div class="form-group">
           <label for="mymeaning">Nghĩa tiếng Việt</label>
-          <input type="text" class="form-control" id="mymeaning" placeholder="Nghĩa của từ" maxlength="255" required>
+          <input type="text" class="form-control" id="mymeaning" placeholder="Nghĩa của từ" maxlength="255" required onchange="setButtonDisable();">
         </div>
         <div class="form-group">
           <label for="mynote">Cách nhớ gợi ý</label>
@@ -121,7 +121,7 @@
           <label for="myon">Âm on</label>
           <input type="text" class="form-control" id="myon" placeholder="chikara" maxlength="255">
         </div>
-        <button class="btn btn-primary" type="submit" onclick="submitWord();" ><i class="fa fa-paper-plane"></i></button> 
+        <button id ="submitButton" class="btn btn-primary" type="submit" onclick="submitWord();" disabled><i class="fa fa-paper-plane"></i></button> 
        
       </form>
     </div>
