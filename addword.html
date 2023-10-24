@@ -25,8 +25,7 @@
 
 <script>
  $(document).ready(function(){
-  searchWord();
-  setIndicator();
+  ignoreEnter();
 });
   </script>
 
@@ -91,12 +90,11 @@
     </div>
 
     <div class="col-sm-9">
-      <div id="wait" ><img src='image/loading.gif' alt="Hack Não BK loading" style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
       <div class="page_title">
         <h1 id="pageheaderpc">Đóng góp từ vựng tiếng Nhật</h1>
       </div>
       <br>
-      <form>
+      <form id="myForm" >
         <div class="form-group">
           <label for="myword" id="mywordlabel">Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)</label>
           <input type="text" class="form-control" id="myword" placeholder="漢字で入力" maxlength="255" required onchange="setButtonDisable();">

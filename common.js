@@ -325,3 +325,12 @@ function setButtonDisable(){
     $('#submitButton').prop('disabled', true);
   }
 }
+
+function ignoreEnter(){
+  document.getElementById("myForm").onkeypress = function(e) {
+    var key = e.charCode || e.keyCode || 0;     
+    if (key == 13) {
+      e.preventDefault();
+    }
+  }
+}
