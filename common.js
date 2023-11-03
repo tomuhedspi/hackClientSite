@@ -299,7 +299,11 @@ function setScrollEvent(){
 
 function setwordtype(selectedtype){
   var type;
-  type = selectedtype.value;
+  if(selectedtype){
+    type = selectedtype.value;
+  }else{
+    type = 0;
+  }
 
   if(type==TYPE_KANJI){
     $("#mywordlabel").text("Hán tự 漢字");
@@ -311,8 +315,8 @@ function setwordtype(selectedtype){
   }else{
     $("#mywordlabel").text("Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)");
     $("#myreadinglabel").text("Cách đọc( Viết bằng Hiragana)");
-    $("#myword").attr("placeholder", "漢字で入力");
-    $("#myreading").attr("placeholder", "ひらがなでにゅうりょく");
+    $("#myword").attr("placeholder", "勉強");
+    $("#myreading").attr("placeholder", "べんきょう");
     $("#kun").hide();
     $("#on").hide();
   }
