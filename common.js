@@ -338,3 +338,13 @@ function ignoreEnter(){
     }
   }
 }
+
+function updateAudio(audioName){
+  //change text
+  $("#listeningfile").text(audioName);
+
+  //set audio
+  document.getElementById("my-audio").setAttribute('src', audioName);
+  var myAudio = document.getElementById("my-audio");
+  myAudio.play();
+}
