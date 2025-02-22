@@ -150,8 +150,8 @@ footer {
   }
 
   #added_by {
-    width: 25%; /* Set width to one-fourth of the current width */
-    float: right; /* Align to the right */
-    border: none; /* Add a border */
-    text-align: right; 
+    width: 25%;
+    float: right;
+    border: none;
+    text-align: right;  
   }

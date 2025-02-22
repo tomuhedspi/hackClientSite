@@ -7,7 +7,7 @@
         "name": "Launch Chrome",
         "url": "http://127.0.0.1:5500/hint.html",
         "webRoot": "${workspaceFolder}",
-        "sourceMap": false, // Thêm dòng này
+        "sourceMaps": false, // Thêm dòng này
         "skipFiles": [
           "chrome-extension://**",
           "chrome-error://**", // Bỏ qua các URL lỗi

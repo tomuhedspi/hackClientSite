@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <script src="commonen.js"></script>
   <link rel="stylesheet" href="mystyle.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
 
   <script>
     $(document).ready(function(){
@@ -97,7 +98,7 @@
           <button class="btn btn-primary" type="submit" style="background-color: rgb(5, 144, 230);">Thêm từ</button>
           <button class="btn btn-secondary" type="button" style="background-color: rgb(5, 144, 230);" onclick="getHintForWord();">Xem Gợi Ý Cách Nhớ</button>
         </div>
-      </div>
+        <div id="hint_text" style="margin-top: 10px;">
     </div>
   </div>
 </body>
