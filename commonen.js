@@ -24,28 +24,6 @@ function setScrollEvent() {
   });
 }
 
-function setIndicator() {
-  $(document).ajaxStart(function () {
-    $("#wait").css("display", "block");
-  });
-  $(document).ajaxComplete(function () {
-    $("#wait").css("display", "none");
-  });
-}
-
-function setWordComment(singleWord) {
-  var detail;
-  var comment_list = new Object();
-  $("#comment_title").show();
-  $("#table_comment > tbody").empty();
-  comment_list = singleWord['comment'];
-  for (let i = 0; i < comment_list.length; i++) {
-    detail = comment_list[i];
-    var markup = "<tr><td>" + detail['content'] + "</td><td>" + detail['author_name'] + "</td></tr>";
-    $('#table_comment > tbody:last-child').append(markup);
-  }
-}
-
 function tdclickDBindex(i) {
   var phonetic = extractPhonetic(globalDataFromServer, i);
   var definition = extractDefinition(globalDataFromServer, i);
@@ -356,4 +334,19 @@ function getKeyword(obj, i) {
 
 function getHintForWord() {
   var phonetic = $("#word_reading").val();
+}
+
+function setAuthorName() {
+  // Load the saved value from local storage
+  const savedAddedBy = localStorage.getItem('added_by');
+  if (savedAddedBy) {
+    $('#added_by').val(savedAddedBy);
+  } else {
+    $('#added_by').val('member');
+  }
+}
+
+function saveAuthorName() {
+  // Save the value to local storage
+  localStorage.setItem('added_by', $('#added_by').val());
 }

@@ -26,6 +26,7 @@
   <script>
     $(document).ready(function(){
       searchWord();
+      setAuthorName();
     });
   </script>
 </head>
@@ -72,7 +73,6 @@
       </div>
 
       <div class="col-sm-9">
-        <div id="wait"><img src='image/loading.gif' alt="Hack Não BK loading" style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
         <div class="form-group">
           <div class="form-group">
             <label for="word_text">Từ Vựng</label>
@@ -86,8 +86,12 @@
           <input type="text" id="word_meaning" class="form-control" placeholder="Xin chào bạn yêu dấu!">
         </div>
         <div class="form-group">
-          <label for="word_note">Note</label>
+          <label for="word_note">Gợi ý cách nhớ</label>
           <textarea id="word_note" class="form-control" placeholder="CHÀO cậu! Cậu để tớ chờ HƠI LÂU rồi nha"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="added_by"></label>
+          <input type="text" id="added_by" class="form-control" placeholder="member" onkeyup="saveAuthorName();">
         </div>
         <div class="d-flex justify-content-between">
           <button class="btn btn-primary" type="submit" style="background-color: rgb(5, 144, 230);">Thêm từ</button>
