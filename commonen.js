@@ -358,12 +358,28 @@ function getHintForWord() {
 }
 
 function showHint(hintArray) {
-  var hintContent = '';
-  $('#hint_text').html(hintContent);
-  hintArray.forEach(hint => {
-    hintContent += `<strong>${hint}</strong><br>`;
+  const flattenedArray = hintArray.flat();
+  const columns = splitIntoFourColumns(flattenedArray);
+
+  columns.forEach((column, index) => {
+    const div = document.getElementById(`hint_text_${index + 1}`);
+    if (div) {
+      div.innerHTML = column.join("<br>");
+    }
   });
-  $('#hint_text').html(hintContent);
+}
+
+function splitIntoFourColumns(arr) {
+  const totalItems = arr.length;
+  const columnSize = Math.ceil(totalItems / 4); // Kích thước mỗi cột
+  const result = [[], [], [], []]; // 4 cột
+
+  for (let i = 0; i < totalItems; i++) {
+    const colIndex = Math.floor(i / columnSize);
+    result[colIndex].push(arr[i]);
+  }
+
+  return result;
 }
 
 function getVietNameseSentences(sentencesArray) {
