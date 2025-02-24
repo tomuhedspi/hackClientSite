@@ -56,7 +56,7 @@
           <h2 id="pageheadersp">Tìm kiếm từ vựng tiếng Nhật</h2>
         </div>
         <div class="input-group mb-3" style="margin-top: 10px;">
-          <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="inputKeywordListener();">
+          <input type="text" class="form-control" required placeholder="VD:hello" id="input_keyword" onkeyup="inputKeywordListener();">
           <div class="input-group-append">
             <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button>
           </div>
@@ -84,7 +84,7 @@
         </div>
         <div class="form-group">
           <label for="word_meaning">Nghĩa</label>
-          <input type="text" id="word_meaning" class="form-control" placeholder="Xin chào bạn yêu dấu!">
+          <input type="text" id="word_meaning" class="form-control" placeholder="Xin chào bạn yêu dấu! Cám ơn bạn đã đến để đóng góp">
         </div>
         <div class="form-group">
           <label for="word_note">Gợi ý cách nhớ</label>
@@ -95,7 +95,7 @@
           <input type="text" id="added_by" class="form-control" placeholder="member" onkeyup="saveAuthorName();">
         </div>
         <div class="d-flex justify-content-between">
-          <button class="btn btn-primary" type="submit" style="background-color: rgb(5, 144, 230);">Thêm từ</button>
+          <button id="submit_word" class="btn btn-primary" type="submit" style="background-color: rgb(5, 144, 230);">Thêm từ</button>
           <button class="btn btn-secondary" type="button" style="background-color: rgb(5, 144, 230);" onclick="getHintForWord();">Xem Gợi Ý Cách Nhớ</button>
         </div>
         <div id="hint_text" class="row">
