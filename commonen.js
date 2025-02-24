@@ -1,9 +1,9 @@
 var DATA_SERVER_GET = "https://dict.laban.vn/ajax/autocomplete?type=1&site=dictionary&query=";
 var DICT_FINAL_CONSONANT = new Map();
 var DICT_INITIAL_CONSONANT = new Map();
-var DICT_SAME_SOUND = new Map();
 var DICT_SINGLE_CONSONANT = new Map();
 var DICT_VOWEL = new Map();
+var DICT_STOP_SOUND = new Map();
 var DICT_VIETNAMESE = new Map();
 const SEPARATE_CHARACTER = " ";
 
@@ -172,37 +172,6 @@ function loadVowelData() {
   });
 }
 
-function loadSameSoundData() {
-  if (DICT_SAME_SOUND.size > 0) {
-    return Promise.resolve(true);
-  }
-
-  return new Promise((resolve, reject) => {
-    Papa.parse("hintsource/SAME_SOUND.csv", {
-      download: true,
-      header: false,
-      complete: function(results) {
-        results.data.forEach(row => {
-          const key = row[0];
-          const value = row.slice(1);
-
-          if (DICT_SAME_SOUND.has(key)) {
-            DICT_SAME_SOUND.get(key).push(...value);
-          } else {
-            DICT_SAME_SOUND.set(key, value);
-          }
-        });
-        DICT_SAME_SOUND = sortMapByKeyLength(DICT_SAME_SOUND);
-        resolve(true);
-      },
-      error: function(error) {
-        console.error("Error loading same sound data:", error);
-        reject(error);
-      }
-    });
-  });
-}
-
 function loadInitialConsonantData() {
   if (DICT_INITIAL_CONSONANT.size > 0) {
     return Promise.resolve(true);
@@ -327,6 +296,38 @@ function loadFinalConsonantData() {
   });
 }
 
+
+function loadFinalStopSoundData() {
+  if (DICT_STOP_SOUND.size > 0) {
+    return Promise.resolve(true);
+  }
+
+  return new Promise((resolve, reject) => {
+    Papa.parse("hintsource/STOP_SOUND.csv", {
+      download: true,
+      header: false,
+      complete: function(results) {
+        results.data.forEach(row => {
+          const key = row[0];
+          const value = row.slice(1);
+
+          if (DICT_STOP_SOUND.has(key)) {
+            DICT_STOP_SOUND.get(key).push(...value);
+          } else {
+            DICT_STOP_SOUND.set(key, value);
+          }
+        });
+        DICT_STOP_SOUND = sortMapByKeyLength(DICT_STOP_SOUND);
+        resolve(true);
+      },
+      error: function(error) {
+        console.error("Error loading STOP_SOUND data:", error);
+        reject(error);
+      }
+    });
+  });
+}
+
 function loadGlobalData() {
   return Promise.all([
     loadVowelData(),
@@ -334,7 +335,7 @@ function loadGlobalData() {
     loadInitialConsonantData(),
     loadSingleConsonantData(),
     loadVietnameseDictionaryData(),
-    loadSameSoundData()
+    loadFinalStopSoundData(),
   ]);
 }
 
@@ -378,8 +379,9 @@ function getVietNameseSentences(sentencesArray) {
 function convertEnglishSentenceToVietnamese(englishSentence) {
   var vietnameseHint = new Array();
   var result = new Array();
-  var splited = englishSentence.split(SEPARATE_CHARACTER);
 
+  const temp = convertStopSoundToSplitCharacter(englishSentence);
+  var splited = temp.split(SEPARATE_CHARACTER);
 
   for (let i = 0; i < splited.length; i++) {
     const currentWord = splited[i];
@@ -395,6 +397,24 @@ function convertEnglishSentenceToVietnamese(englishSentence) {
   result=combineStrings(vietnameseHint,SEPARATE_CHARACTER);
   return result;
 
+}
+
+function convertStopSoundToSplitCharacter(phonetic) {
+  var result = phonetic;
+  stopSoundCharacter=getFirstStopSoundValue();
+  if (stopSoundCharacter) { 
+    result = result.replace(new RegExp(stopSoundCharacter, 'g'), SEPARATE_CHARACTER);
+  }
+
+  return result;
+}
+
+function getFirstStopSoundValue() {
+  if (DICT_STOP_SOUND.size === 0) {
+    return null;
+  }
+  const firstKey = DICT_STOP_SOUND.keys().next().value;
+  return DICT_STOP_SOUND.get(firstKey);
 }
 
 function getSentences(phonetic) {
@@ -432,22 +452,27 @@ function getVietNamesePart(phonetic) {
   for (let i = 0; i < splited.length; i++) {
     const currentChar = splited[i];
     const nextChar = splited[i + 1] || '';
+    const prevChar = splited[i - 1] || '';
     if (!currentChar || currentChar.length === 0) {
       continue;
     }
     if (isVowel(currentChar)) {
       vietnameseHint = DICT_VOWEL.get(currentChar);
     } 
-    if(!isVowel(currentChar) && isVowel(nextChar)){
+    if(isInitialConsonant(currentChar) && isVowel(nextChar)){
       vietnameseHint = DICT_INITIAL_CONSONANT.get(currentChar);
     }
-    if(!isVowel(currentChar) && !isVowel(nextChar)){
+    if(isFinalConsonant(currentChar) && isVowel(prevChar) && !isVowel(nextChar)){
       vietnameseHint = DICT_FINAL_CONSONANT.get(currentChar);
     }
-    if(!isVowel(currentChar) && i == splited.length-1){
-      if (DICT_SINGLE_CONSONANT.has(currentChar)) {
-        vietnameseHint = DICT_SINGLE_CONSONANT.get(currentChar);
-      }
+    if(isSingleConsonant(currentChar) && i == splited.length-1){
+      vietnameseHint = DICT_SINGLE_CONSONANT.get(currentChar);
+    }
+    if(isConsonant(currentChar) && isStopSound(prevChar) && isStopSound(nextChar)){// dung cho truong hop nhu national
+      vietnameseHint = DICT_SINGLE_CONSONANT.get(currentChar);
+    }
+    if(isStopSound(currentChar)){
+      vietnameseHint = DICT_STOP_SOUND.get(currentChar);
     }
 
     hintCharacters.push(vietnameseHint);
@@ -459,6 +484,7 @@ function getVietNamesePart(phonetic) {
 function setSpaceAddBetweenSound(phonetic) {
   var spaceAdded = "";
   spaceAdded=replaceUnusedCharacter(phonetic);
+  spaceAdded=addSeparateCharacterToStopSound(spaceAdded);
   spaceAdded=addSeparateCharacterToDiphthongs(spaceAdded);
   spaceAdded=addSeparateCharacterToShortVowel(spaceAdded);
   spaceAdded=addSeparateCharacterBetweenConsonant(spaceAdded);
@@ -477,20 +503,61 @@ function isVowel(myCharacters) {
   return DICT_VOWEL.has(myCharacters);
 }
 
+function isStopSound(myCharacters) {
+  if (!myCharacters || myCharacters.length === 0) {
+    return false;
+  }
+  return DICT_STOP_SOUND.has(myCharacters);
+}
+
+function isFinalConsonant(myCharacters) {
+  if (!myCharacters || myCharacters.length === 0) {
+    return false;
+  }
+  return DICT_FINAL_CONSONANT.has(myCharacters);
+}
+function isInitialConsonant(myCharacters) {
+  if (!myCharacters || myCharacters.length === 0) {
+    return false;
+  }
+  return DICT_INITIAL_CONSONANT.has(myCharacters);
+}
+
+function isSingleConsonant(myCharacters) {
+  if (!myCharacters || myCharacters.length === 0) {
+    return false;
+  }
+  return DICT_SINGLE_CONSONANT.has(myCharacters);
+}
+
+function isConsonant(myCharacters) {
+  return isInitialConsonant(myCharacters) || isFinalConsonant(myCharacters) || isSingleConsonant(myCharacters);
+}
+
 function replaceUnusedCharacter(phonetic) {
   return phonetic.replace(/\/ˈ/g, '')
                  .replace(/\//g, '')
                  .replace(/ˈ/g, ' ')
-                 .replace(/'/g, ' ')
-                 .replace(/\[.*?\]/g, ''); // Remove characters inside square brackets
+                 .replace(/\[.*?\]/g, '') // Remove characters inside square brackets
+                 .replace(/,/g, ' '); // Remove commas
 }
 
+//thêm dấu chia cách vào trước và sau các dấu ngắt
+function addSeparateCharacterToStopSound(phonetic) {
+  var spaceAdded = phonetic;
+  for (let key of DICT_STOP_SOUND.keys()) {
+    const value= DICT_STOP_SOUND.get(key);
+    spaceAdded = spaceAdded.replace(new RegExp(key, 'g'), SEPARATE_CHARACTER + value + SEPARATE_CHARACTER);
+  }
+  return spaceAdded;
+}
 //thêm dấu chia cách vào trước và sau các nguyên âm kép
 function addSeparateCharacterToDiphthongs(phonetic) {
   var spaceAdded = phonetic;
   for (let key of DICT_VOWEL.keys()) {
     if (key.length >= 2) {
-      spaceAdded = spaceAdded.replace(new RegExp(key, 'g'), SEPARATE_CHARACTER + key + SEPARATE_CHARACTER);
+      const value= DICT_VOWEL.get(key);
+      spaceAdded = spaceAdded.replace(new RegExp(key, 'g'), SEPARATE_CHARACTER + value + SEPARATE_CHARACTER);
     }
   }
   return spaceAdded;
@@ -504,6 +571,11 @@ function addSeparateCharacterToShortVowel(phonetic) {
     const part = splited[i];
     //nếu phần hiện tại là 1 dipthong thì bỏ qua
     if(part.length>=2&&DICT_VOWEL.has(part)){
+      spaceAdded = spaceAdded + SEPARATE_CHARACTER + DICT_VOWEL.get(part) + SEPARATE_CHARACTER;
+      continue;
+    }
+    //nếu phần hiện tại là stop sound thì bỏ qua
+    if(isStopSound(part)){
       spaceAdded = spaceAdded + SEPARATE_CHARACTER + part + SEPARATE_CHARACTER;
       continue;
     }
@@ -531,11 +603,17 @@ function addSeparateCharacterBetweenConsonant(phonetic) {
     const currentChar = splited[i];
     const prevChar = splited[i - 1] || '';
     const nextChar = splited[i + 1] || '';
+    if(currentChar.length==0){
+      continue;
+    }
     // chia cắt các sonsonant đứng cạnh nhau
-    if (!isVowel(currentChar) && isVowel(prevChar) && isVowel(nextChar)) {
+    if (isConsonant(currentChar) && isVowel(prevChar) && isVowel(nextChar)) {
       const spaceAddedConsonant = separateTwoConsonant(currentChar);
       spaceAdded = spaceAdded  + SEPARATE_CHARACTER + spaceAddedConsonant;
-    }else{
+    }else if(isSingleConsonant(currentChar) && isStopSound(prevChar) && isStopSound(nextChar)){// dung cho truong hop nhu national
+      spaceAdded = spaceAdded + SEPARATE_CHARACTER + currentChar + SEPARATE_CHARACTER;
+    }
+    else{
       spaceAdded =spaceAdded + SEPARATE_CHARACTER + currentChar;
     }
   }
