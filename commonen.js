@@ -122,7 +122,6 @@ function getKeyword(obj, i) {
 }
 
 function setAuthorName() {
-  // Load the saved value from local storage
   const savedAddedBy = localStorage.getItem('added_by');
   if (savedAddedBy) {
     $('#added_by').val(savedAddedBy);
@@ -136,20 +135,13 @@ function saveAuthorName() {
   localStorage.setItem('added_by', $('#added_by').val());
 }
 function sortMapByKeyLength(map) {
-  // Convert map to an array of [key, value] pairs
   let mapArray = Array.from(map);
-
-  // Sort the array by the length of the key in descending order
   mapArray.sort((a, b) => b[0].length - a[0].length);
-
-  // Convert the sorted array back to a map
   let sortedMap = new Map(mapArray);
-
   return sortedMap;
 }
 
 function loadVowelData() {
-  // Check if the data is already loaded
   if (DICT_VOWEL.size > 0) {
     return Promise.resolve(true);
   }
@@ -181,7 +173,6 @@ function loadVowelData() {
 }
 
 function loadSameSoundData() {
-  // Check if the data is already loaded
   if (DICT_SAME_SOUND.size > 0) {
     return Promise.resolve(true);
   }
@@ -213,7 +204,6 @@ function loadSameSoundData() {
 }
 
 function loadInitialConsonantData() {
-  // Check if the data is already loaded
   if (DICT_INITIAL_CONSONANT.size > 0) {
     return Promise.resolve(true);
   }
@@ -245,7 +235,6 @@ function loadInitialConsonantData() {
 }
 
 function loadSingleConsonantData() {
-  // Check if the data is already loaded
   if (DICT_SINGLE_CONSONANT.size > 0) {
     return Promise.resolve(true);
   }
@@ -277,7 +266,6 @@ function loadSingleConsonantData() {
 }
 
 function loadVietnameseDictionaryData() {
-  // Check if the data is already loaded
   if (DICT_VIETNAMESE.size > 0) {
     return Promise.resolve(true);
   }
@@ -309,7 +297,6 @@ function loadVietnameseDictionaryData() {
 }
 
 function loadFinalConsonantData() {
-  // Check if the data is already loaded
   if (DICT_FINAL_CONSONANT.size > 0) {
     return Promise.resolve(true);
   }
@@ -339,54 +326,6 @@ function loadFinalConsonantData() {
     });
   });
 }
-
-// function displayDictVowel() {
-//   let content = '';
-//   DICT_VOWEL.forEach((value, key) => {
-//     content += `<strong>${key}:</strong> ${value.join(', ')}<br>`;
-//   });
-//   $('#hint_text_content').html(content);
-// }
-
-// function displayDictSameSound() {
-//   let content = '';
-//   DICT_SAME_SOUND.forEach((value, key) => {
-//     content += `<strong>${key}:</strong> ${value.join(', ')}<br>`;
-//   });
-//   $('#hint_text_content').html(content);
-// }
-
-// function displayDictFinalConsonant() {
-//   let content = '';
-//   DICT_FINAL_CONSONANT.forEach((value, key) => {
-//     content += `<strong>${key}:</strong> ${value.join(', ')}<br>`;
-//   });
-//   $('#hint_text_content').html(content);
-// }
-
-// function displayDictInitialConsonant() {
-//   let content = '';
-//   DICT_INITIAL_CONSONANT.forEach((value, key) => {
-//     content += `<strong>${key}:</strong> ${value.join(', ')}<br>`;
-//   });
-//   $('#hint_text_content').html(content);
-// }
-
-// function displayDictSingleConsonant() {
-//   let content = '';
-//   DICT_SINGLE_CONSONANT.forEach((value, key) => {
-//     content += `<strong>${key}:</strong> ${value.join(', ')}<br>`;
-//   });
-//   $('#hint_text_content').html(content);
-// }
-
-// function displayDictVietnamese() {
-//   let content = '';
-//   DICT_VIETNAMESE.forEach((value, key) => {
-//     content += `<strong>${key}:</strong> ${value.join(', ')}<br>`;
-//   });
-//   $('#hint_text_content').html(content);
-// }
 
 function loadGlobalData() {
   return Promise.all([
@@ -419,6 +358,7 @@ function getHintForWord() {
 
 function showHint(hintArray) {
   var hintContent = '';
+  $('#hint_text').html(hintContent);
   hintArray.forEach(hint => {
     hintContent += `<strong>${hint}</strong><br>`;
   });
@@ -484,10 +424,6 @@ function combineStrings(parentArray,separateCharacter='') {
   return cartesianProduct(parentArray);
 }
 
-
-
-
-
 //trả vể một mảng các phụ âm, nguyên âm tiếng Việt tương ứng với các ký tự trong phonetic
 function getVietNamesePart(phonetic) {
   var hintCharacters = new Array();
@@ -526,10 +462,13 @@ function setSpaceAddBetweenSound(phonetic) {
   spaceAdded=addSeparateCharacterToDiphthongs(spaceAdded);
   spaceAdded=addSeparateCharacterToShortVowel(spaceAdded);
   spaceAdded=addSeparateCharacterBetweenConsonant(spaceAdded);
+  spaceAdded = normalizeSpaces(spaceAdded);
   return spaceAdded;
 }
 
-
+function normalizeSpaces(input) {
+    return input.replace(/\s+/g, ' ').trim();
+}
 
 function isVowel(myCharacters) {
   if (!myCharacters || myCharacters.length === 0) {
@@ -539,8 +478,13 @@ function isVowel(myCharacters) {
 }
 
 function replaceUnusedCharacter(phonetic) {
-  return phonetic.replace(/\/ˈ/g, '').replace(/\//g, '').replace(/ˈ/g, ' ').replace(/'/g, ' ');
+  return phonetic.replace(/\/ˈ/g, '')
+                 .replace(/\//g, '')
+                 .replace(/ˈ/g, ' ')
+                 .replace(/'/g, ' ')
+                 .replace(/\[.*?\]/g, ''); // Remove characters inside square brackets
 }
+
 //thêm dấu chia cách vào trước và sau các nguyên âm kép
 function addSeparateCharacterToDiphthongs(phonetic) {
   var spaceAdded = phonetic;
@@ -554,10 +498,20 @@ function addSeparateCharacterToDiphthongs(phonetic) {
 //thêm dấu chia cách vào trước va sau nguyên âm đơn
 function addSeparateCharacterToShortVowel(phonetic) {
   var spaceAdded = "";
-  for (let i = 0; i < phonetic.length; i++) {
-    const currentChar = phonetic[i];
-    const prevChar = phonetic[i - 1] || '';
-    const nextChar = phonetic[i + 1] || '';
+
+  var splited = phonetic.split(SEPARATE_CHARACTER);
+  for (let i = 0; i < splited.length; i++) {
+    const part = splited[i];
+    //nếu phần hiện tại là 1 dipthong thì bỏ qua
+    if(part.length>=2&&DICT_VOWEL.has(part)){
+      spaceAdded = spaceAdded + SEPARATE_CHARACTER + part + SEPARATE_CHARACTER;
+      continue;
+    }
+   // nếu phần hiện tại là nguyên âm đơn thì thêm dấu cách vào trước và sau
+   for (let i = 0; i < part.length; i++) {
+    const currentChar = part[i];
+    const prevChar = part[i - 1] || '';
+    const nextChar = part[i + 1] || '';
 
     if (isVowel(currentChar) && !isVowel(prevChar) && !isVowel(nextChar)) {
       spaceAdded = spaceAdded + SEPARATE_CHARACTER + currentChar + SEPARATE_CHARACTER;
@@ -565,6 +519,8 @@ function addSeparateCharacterToShortVowel(phonetic) {
       spaceAdded =spaceAdded + currentChar;
     }
   }
+  }
+  
   return spaceAdded;
 }
 // them space vao truoc va sau toan bo cac phu am trong tu
