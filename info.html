@@ -18,18 +18,13 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <script src="common.js"></script>
   <link rel="stylesheet" href="mystyle.css">
   <style>
-  body {
-    font: 20px Montserrat, sans-serif;
-    line-height: 1.8;
-    color: #f5f6f7;
-  }
   p {font-size: 16px;}
-  .margin {margin-bottom: 45px;}
+  .margin {margin-bottom: 20px;} /* Reduced margin */
   .bg-1 { 
     background-color: #1abc9c; /* Green */
     color: #ffffff;
@@ -47,8 +42,8 @@
     color: #fff;
   }
   .container-fluid {
-    padding-top: 70px;
-    padding-bottom: 70px;
+    padding-top: 50px; /* Reduced padding */
+    padding-bottom: 20px; /* Reduced padding */
   }
   .description {
     font-size: 16px;
@@ -58,80 +53,90 @@
     font-size: 20px;
     font-weight: bold;
   }
+  .icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px; /* Reduced gap */
+    margin-top: 10px; /* Reduced margin */
+  }
+  .icon-container img {
+    width: 100px; /* Same as the width of a primary button in Bootstrap */
+  }
+  .icon-container p {
+    text-align: center;
+    margin-top: 5px; /* Reduced margin */
+  }
   </style>
+  <script>
+    $(document).ready(function(){
+      $("#navbar").load("navbar.html", function() {
+        $("#navbar .nav-item a[href='info.html']").parent().addClass("active");
+      });
+      updateBrandLogo();
+    });
+  </script>
 </head>
 <body>
   <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);"  >
     <!-- Brand/logo -->
     <a class="navbar-brand" href="#">
-      <img src="image/icon.png" alt="Hack Não BK" id ="app_icon"style="width:40px;">
+      <img src="image/icon.png" alt="Hack Não BK" id="app_icon" style="width:40px;">
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <!-- Links -->
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">TỪ VỰNG</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="kanji.html">HÁN TỰ</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="unit.html">GIÁO TRÌNH</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="audio.html">NGHE</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="addword.html">ĐÓNG GÓP TỪ</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="downloadfile.html">DOWNLOAD</a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="info.html">GIỚI THIỆU</a>
-      </li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbar">
     </div>
   </nav>
 
-
 <!-- First Container -->
-<div class="container-fluid  text-center">
-  <img src="image/icon.png" alt="icon Hack Não BK"  class="img-responsive img-circle margin" style="display:inline" width="350" height="350">
-  <p style="color: #2f2f2f;" class="word_notestl">Hack Não BK Tiếng Nhật</p>
+<div class="container-fluid text-center">
+  <img src="image/icon.png" alt="icon Hack Não BK" class="img-responsive rounded-circle margin" style="display:inline" width="350" height="350">
+  <p style="color: #2f2f2f;" class="word_notestl">Hack Não BK</p>
+</div>
+
+<!-- New Div with Icons -->
+<div class="container-fluid text-center">
+  <div class="icon-container">
+    <div>
+      <img src="image/icon_english.png" alt="Tiếng Anh">
+      <p>Tiếng Anh</p>
+    </div>
+    <div>
+      <img src="image/icon_japanese.png" alt="Tiếng Nhật">
+      <p>Tiếng Nhật</p>
+    </div>
+  </div>
 </div>
 
 <!-- Second Container -->
-<div class="container-fluid bg-2 text-align:left">
-  <div class="col-sm-3"></div>
-      <div class="col-sm-6">
-        <p class="heading">
-          Bạn yêu dấu ơi!
-        </p>
-        <p>
-          Trước tiên, mình xin gửi lời tri ân sâu sắc nhất từ đáy lòng vì bạn đã tin tưởng lựa chọn ứng dụng Hacknaobk làm người bạn đồng hành trên hành trình học tập đầy thử thách. Sự ủng hộ của bạn không chỉ là động lực mà còn là niềm tự hào lớn lao, thôi thúc mình không ngừng cải tiến để mang đến trải nghiệm giáo dục tốt nhất.
-        </p>
-        <p>
-          Giữa vô vàn lựa chọn công nghệ hiện nay, việc bạn gửi gắm niềm tin vào sản phẩm là một vinh dự đặc biệt. Mình hiểu rằng, học tập chưa bao giờ là con đường dễ dàng, và việc kiên trì theo đuổi mục tiêu đòi hỏi rất nhiều nỗ lực. Vì vậy, mỗi ngày, đội ngũ của mình luôn nỗ lực để ứng dụng không chỉ là công cụ, mà còn là nguồn cảm hứng, giúp bạn chinh phục kiến thức một cách chủ động và sáng tạo.
-        </p>
-        <p>
-          Những phản hồi, góp ý chân thành từ bạn là "kim chỉ nam" để mình hoàn thiện hơn. Thành công của bạn chính là thành công của mình, và mỗi bước tiến của bạn chính là lý do để mình không ngừng cố gắng.
-        </p>
-        <p>
-          Tương lai, mình mong tiếp tục được đồng hành cùng bạn, không chỉ trong học tập mà còn trên hành trình phát triển bản thân. Một lần nữa, trân trọng cảm ơn vì bạn đã trao cho mình cơ hội này!
-        </p>
-        <p>
-          Thay mặt đội ngũ phát triển,
-        </p>
-        <p >
-          Hacknaobk
-        </p>
-        <p>Fanpage: <a href="https://www.facebook.com/hacknaotiengnhatn12345">https://www.facebook.com/hacknaotiengnhatn12345</a></p>
-      </div>
-  <div class="col-sm-3"></div>
+<div class="container-fluid bg-2 text-center">
+  <div class="row justify-content-center">
+    <div class="col-sm-8">
+      <p class="heading">
+        Bạn yêu dấu ơi!
+      </p>
+      <p>
+        Trước tiên, mình xin gửi lời tri ân sâu sắc nhất từ đáy lòng vì bạn đã tin tưởng lựa chọn ứng dụng Hacknaobk làm người bạn đồng hành trên hành trình học tập đầy thử thách. Sự ủng hộ của bạn không chỉ là động lực mà còn là niềm tự hào lớn lao, thôi thúc mình không ngừng cải tiến để mang đến trải nghiệm giáo dục tốt nhất.
+      </p>
+      <p>
+        Giữa vô vàn lựa chọn công nghệ hiện nay, việc bạn gửi gắm niềm tin vào sản phẩm là một vinh dự đặc biệt. Mình hiểu rằng, học tập chưa bao giờ là con đường dễ dàng, và việc kiên trì theo đuổi mục tiêu đòi hỏi rất nhiều nỗ lực. Vì vậy, mỗi ngày, đội ngũ của mình luôn nỗ lực để ứng dụng không chỉ là công cụ, mà còn là nguồn cảm hứng, giúp bạn chinh phục kiến thức một cách chủ động và sáng tạo.
+      </p>
+      <p>
+        Những phản hồi, góp ý chân thành từ bạn là "kim chỉ nam" để mình hoàn thiện hơn. Thành công của bạn chính là thành công của mình, và mỗi bước tiến của bạn chính là lý do để mình không ngừng cố gắng.
+      </p>
+      <p>
+        Tương lai, mình mong tiếp tục được đồng hành cùng bạn, không chỉ trong học tập mà còn trên hành trình phát triển bản thân. Một lần nữa, trân trọng cảm ơn vì bạn đã trao cho mình cơ hội này!
+      </p>
+      <p>
+        Thay mặt đội ngũ phát triển,
+      </p>
+      <p>
+        Hacknaobk
+      </p>
+    </div>
+  </div>
 </div>
 
 <!-- Third Container (Grid) -->
@@ -140,7 +145,7 @@
   <div class="row">
     <div class="col-sm-3">
       <a href="https://play.google.com/store/apps/details?id=com.hackbktiengnhatapp">Google Play
-        <img src="image/googleplay.png"  class="img-responsive margin" style="width:100%" alt="Google Play">
+        <img src="image/googleplay.png" class="img-responsive margin" style="width:100%" alt="Google Play">
       </a>
     </div>
     <div class="col-sm-3"> 
@@ -155,7 +160,7 @@
     </div>
     <div class="col-sm-3"> 
       <a href="https://www.facebook.com/hacknaotiengnhatn12345">Facebook
-        <img src="image/facebook.png" class="img-responsive margin" style="width:100%" alt="Facebook" >
+        <img src="image/facebook.png" class="img-responsive margin" style="width:100%" alt="Facebook">
       </a>
     </div>
   </div>

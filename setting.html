@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Cài Đặt Hack Não BK</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Cài đặt ứng dụng Hack Não BK.">
+  <meta name="keywords" content="cài đặt, hack não, tiếng nhật, tiếng anh">
+  <meta name="application-name" content="Hack Não BK Tiếng Nhật">
+  <meta name="author" content="Hack Nao BK">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Cài Đặt Hack Não BK">
+  <meta property="og:type" content="article" />
+  <meta property="og:description" content="Cài đặt ứng dụng Hack Não BK.">
+  <meta property="og:image" content="https://hacknaobk.icu/image/icon.png">
+  <meta property="og:url" content="https://hacknaobk.icu/setting.html">
+  <meta name= “robots” content=noindex, nofollow”>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  <script src="common.js"></script>
+  <link rel="stylesheet" href="mystyle.css">
+  <style>
+    h1 {
+      margin-top: 10px; /* Increase space below h1 */
+      margin-bottom: 30px; /* Increase space below h1 */
+    }
+    .form-control {
+      width: auto; /* Set width to auto */
+      display: inline-block; /* Display inline-block */
+    }
+    .icon-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .icon-container img {
+      width: 50px; /* Default width for smaller icon */
+      transition: width 0.3s; /* Smooth transition for width change */
+      cursor: pointer; /* Change cursor to pointer */
+    }
+    .icon-container img.large {
+      width: 200px; /* Larger width for selected icon */
+    }
+  </style>
+  <script>
+    $(document).ready(function(){
+      $("#navbar").load("navbar.html", function() {
+        $("#navbar .nav-item a[href='setting.html']").parent().addClass("active");
+      });
+
+      // Load the selected language from local storage
+      const selectedLanguage = localStorage.getItem('selected_language') || 'Japanese';
+      $('#languageDropdown').val(selectedLanguage);
+      updateIcons(selectedLanguage);
+      updateBrandLogo(selectedLanguage);
+      updateNavbar(selectedLanguage);
+
+      // Save the selected language to local storage and update the icons, brand logo, and navbar
+      $('#languageDropdown').change(function() {
+        const selectedLanguage = $(this).val();
+        localStorage.setItem('selected_language', selectedLanguage);
+        updateIcons(selectedLanguage);
+        updateBrandLogo(selectedLanguage);
+        updateNavbar(selectedLanguage);
+      });
+
+      // Save the selected language to local storage and update the icons, brand logo, and navbar when clicking on the icon
+      $('#iconEnglish').click(function() {
+        const selectedLanguage = 'English';
+        localStorage.setItem('selected_language', selectedLanguage);
+        $('#languageDropdown').val(selectedLanguage);
+        updateIcons(selectedLanguage);
+        updateBrandLogo(selectedLanguage);
+        updateNavbar(selectedLanguage);
+      });
+
+      $('#iconJapanese').click(function() {
+        const selectedLanguage = 'Japanese';
+        localStorage.setItem('selected_language', selectedLanguage);
+        $('#languageDropdown').val(selectedLanguage);
+        updateIcons(selectedLanguage);
+        updateBrandLogo(selectedLanguage);
+        updateNavbar(selectedLanguage);
+      });
+
+      function updateIcons(language) {
+        if (language === 'Japanese') {
+          $('#iconJapanese').addClass('large');
+          $('#iconEnglish').removeClass('large');
+        } else if (language === 'English') {
+          $('#iconEnglish').addClass('large');
+          $('#iconJapanese').removeClass('large');
+        }
+      }
+
+      function updateBrandLogo(language) {
+        let logoSrc = '';
+        if (language === 'Japanese') {
+          logoSrc = 'image/icon_japanese.png';
+        } else if (language === 'English') {
+          logoSrc = 'image/icon_english.png';
+        }
+        $('#app_icon').attr('src', logoSrc);
+      }
+
+      function updateNavbar(language) {
+        if (language === 'English') {
+          $('.nav-item a[href="kanji.html"]').parent().hide();
+          $('.nav-item a[href="unit.html"]').parent().hide();
+          $('.nav-item a[href="audio.html"]').parent().hide();
+          $('.nav-item a[href="downloadfile.html"]').parent().hide();
+        } else if (language === 'Japanese') {
+          $('.nav-item a[href="kanji.html"]').parent().show();
+          $('.nav-item a[href="unit.html"]').parent().show();
+          $('.nav-item a[href="audio.html"]').parent().show();
+          $('.nav-item a[href="downloadfile.html"]').parent().show();
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);"  >
+    <!-- Brand/logo -->
+    <a class="navbar-brand" href="#">
+      <img src="image/icon.png" alt="Hack Não BK" id ="app_icon" style="width:40px;">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbar">
+    </div>
+  </nav>
+
+<!-- Settings Container -->
+<div class="container-fluid text-center">
+  <h1>Cài Đặt Ngôn Ngữ Bạn Học</h1>
+  <div class="form-group">
+    <label for="languageDropdown">Hãy lựa chọn ngôn ngữ bạn cần tìm cách nhớ:</label>
+    <select class="form-control" id="languageDropdown">
+      <option value="English">English</option>
+      <option value="Japanese">Japanese</option>
+    </select>
+  </div>
+  <div class="icon-container">
+    <img id="iconEnglish" src="image/icon_english.png" alt="Tiếng Anh">
+    <img id="iconJapanese" src="image/icon_japanese.png" alt="Tiếng Nhật">
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="container-fluid bg-4 text-center">
+  <p>CHÚC CÁC BẠN HỌC TỐT</p> 
+  <a style="font-size: xx-small;" href="policy.html">Privacy Policy </a>
+</footer>
+
+</body>
+</html>
