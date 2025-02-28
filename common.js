@@ -1,5 +1,7 @@
 var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
 var DATA_SERVER_GET_UNITS = "https://nguyenthithom.name.vn/api/units";
+var DATA_SERVER_GET_HINT_ENGLISH = "https://nguyenthithom.name.vn/api/hints/english?reading=";
+var DATA_SERVER_GET_HINT_JAPANESE = "https://nguyenthithom.name.vn/api/hints/japanese?reading=";
 var DATA_SERVER_IMAGE = "https://nguyenthithom.name.vn/wordImage/";
 var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/";
 var DATA_SERVER_POST_WORD = "https://nguyenthithom.name.vn/api/chars";
@@ -348,3 +350,70 @@ function updateAudio(audioName){
   var myAudio = document.getElementById("my-audio");
   myAudio.play();
 }
+
+function saveAuthorName() {
+  // Save the value to local storage
+  localStorage.setItem('added_by', $('#added_by').val());
+}
+
+function setAuthorName() {
+  const savedAddedBy = localStorage.getItem('added_by');
+  if (savedAddedBy) {
+    $('#added_by').val(savedAddedBy);
+  } else {
+    $('#added_by').val('member');
+  }
+}
+
+function getHintForWord() {
+  var phonetic = $("#myreading").val();
+  if (!phonetic) {
+    return;
+  }
+
+  var url = DATA_SERVER_GET_HINT_JAPANESE + phonetic;
+
+  $.getJSON(url, function(dataFromServer) {
+    var hintArray = dataFromServer.data;
+    showHint(hintArray);
+  }).fail(function() {
+    console.error("Error fetching hint data from API");
+  });
+}
+
+function showHint(hintArray) {
+  const flattenedArray = hintArray.flat();
+  const columns = splitIntoFourColumns(flattenedArray);
+
+  columns.forEach((column, index) => {
+    const div = document.getElementById(`hint_text_${index + 1}`);
+    if (div) {
+      div.innerHTML = column.join("<br>");
+    }
+  });
+}
+
+function splitIntoFourColumns(arr) {
+  const totalItems = arr.length;
+  const columnSize = Math.ceil(totalItems / 4); // Kích thước mỗi cột
+  const result = [[], [], [], []]; // 4 cột
+
+  for (let i = 0; i < totalItems; i++) {
+    const colIndex = Math.floor(i / columnSize);
+    result[colIndex].push(arr[i]);
+  }
+
+  return result;
+}
+
+function updateBrandLogo() {
+  // Load the selected language from local storage
+  const language = localStorage.getItem('selected_language') || 'Japanese';
+    let logoSrc = '';
+    if (language === 'Japanese') {
+      logoSrc = 'image/icon_japanese.png';
+    } else if (language === 'English') {
+      logoSrc = 'image/icon_english.png';
+    }
+    $('#app_icon').attr('src', logoSrc);
+  }

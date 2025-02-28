@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function(){
+      // Load the selected language from local storage
+      const selectedLanguage = localStorage.getItem('selected_language') || 'Japanese';
+      updateNavbar(selectedLanguage);
+
+      function updateNavbar(language) {
+        if (language === 'English') {
+          $('.nav-item a[href="kanji.html"]').parent().hide();
+          $('.nav-item a[href="unit.html"]').parent().hide();
+          $('.nav-item a[href="audio.html"]').parent().hide();
+          $('.nav-item a[href="downloadfile.html"]').parent().hide();
+        } else if (language === 'Japanese') {
+          $('.nav-item a[href="kanji.html"]').parent().show();
+          $('.nav-item a[href="unit.html"]').parent().show();
+          $('.nav-item a[href="audio.html"]').parent().show();
+          $('.nav-item a[href="downloadfile.html"]').parent().show();
+        }
+      }
+
+      // Update navbar when language changes
+      $('#languageDropdown').change(function() {
+        const selectedLanguage = $(this).val();
+        updateNavbar(selectedLanguage);
+      });
+    });
+  </script>
+</head>
+<body>
+  <ul class="navbar-nav">
+    <li class="nav-item">
+      <a class="nav-link" href="index.html">TỪ VỰNG</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="kanji.html">HÁN TỰ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="unit.html">GIÁO TRÌNH</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="audio.html">NGHE</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="addword.html">ĐÓNG GÓP TỪ</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="downloadfile.html">DOWNLOAD</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="info.html">GIỚI THIỆU</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="setting.html">CÀI ĐẶT</a>
+    </li>
+  </ul>
+</body>
+</html>
