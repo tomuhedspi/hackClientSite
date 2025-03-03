@@ -27,8 +27,8 @@
  $(document).ready(function(){
   updateBrandLogo();
   ignoreEnter();
-  setwordtype();
   setAuthorName();
+  changeUIBasedOnSelectedLanguage();
   $("#navbar").load("navbar.html", function() {
     $("#navbar .nav-item a[href='addword.html']").parent().addClass("active");
   });
@@ -40,7 +40,7 @@
 
 <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);"  >
   <!-- Brand/logo -->
-  <a class="navbar-brand" href="#">
+  <a class="navbar-brand" href="index.html">
     <img src="image/icon.png" alt="icon Hack Não BK" id ="app_icon"style="width:40px;">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,19 +55,28 @@
   <div class="row content">
     
     <div class="col-sm-3 sidenav ">
-      
       <input type="hidden" id="combo" name="combo" value="0">
-      
-      <div  class="page_title">
-        <h2 id ="pageheadersp">Đóng góp từ vựng tiếng Nhật</h2>
-      </div>
-    
-      <div class="input-group mb-3 " style="margin-top: 10px;">
-
+      <div class="input-group mb-3 " style="margin-top: 10px;" id="mytypegroup">
           <select class="form-control" id="mytype" onchange="setwordtype(this);">
             <option value ="0">Từ Vựng</option>
             <option value ="1">Hán tự</option>
           </select>
+      </div>
+      <div class="input-group mb-3" style="margin-top: 10px;" id="wordInfomationGroup">
+        <input type="text" class="form-control" required placeholder="VD:hello" id="input_new_word" onkeyup="GetWordInformationListener();">
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+      <div id="result_list" style="overflow: auto;">
+        <table id="myTable" class="table table-hover">
+          <colgroup>
+            <col span="1" style="width: 30%;">
+            <col span="1" style="width: 70%;">
+          </colgroup>
+          <tbody id="word_table" style="font-size: small;">
+          </tbody>
+        </table>
       </div>
       
     </div>
@@ -92,7 +101,7 @@
         </div>
         <div class="form-group">
           <label for="mynote">Cách nhớ gợi ý</label>
-          <textarea class="form-control" id="mynote" rows="3"placeholder="Ngồi CẦU THANG đánh CÂY ĐÀN cho crush nghe" maxlength="1000"></textarea>
+          <textarea class="form-control" id="mynote" rows="3"placeholder="Ngồi CẦU THANG đánh CÂY ĐÀN cho crush nghe" maxlength="1000"  onchange="setButtonDisable();"></textarea>
         </div>
         <div class="form-group" id ="kun" style="display: none;">
           <label for="mykun">Âm kun</label>

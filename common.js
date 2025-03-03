@@ -5,36 +5,55 @@ var DATA_SERVER_GET_HINT_JAPANESE = "https://nguyenthithom.name.vn/api/hints/jap
 var DATA_SERVER_IMAGE = "https://nguyenthithom.name.vn/wordImage/";
 var DATA_SERVER_POST_COMMENT = "https://nguyenthithom.name.vn/api/chars/";
 var DATA_SERVER_POST_WORD = "https://nguyenthithom.name.vn/api/chars";
+var DATA_SERVER_WORD_INFORMATION = "https://dict.laban.vn/ajax/autocomplete?type=1&site=dictionary&query=";
 var DATA_SERVER_POST_COMMENT_SUFFIX = "/comment";
 var CURRENT_UNIT ="MINA1";
 var CURRENT_PAGE = 0;
 var IS_THERE_MORE_DATA = true;
 var table = document.getElementById("myTable");
 const TYPE_KANJI =1;
-const TYPE_NEWWORD =0;
+const TYPE_JAPANESE =0;
+const TYPE_ENGLISH =2;
+var globalDataFromServer;
 
+function clickWordInformationIndex(i) {
+  var phonetic = extractPhonetic(globalDataFromServer, i);
+  var definition = extractDefinition(globalDataFromServer, i);
+  var keyword = getKeyword(globalDataFromServer, i);
+  setWordInformation(keyword, phonetic, definition);
+  if ($(window).width() <= 570) {
+    $("#scroll_word").hide();
+    $("#result_list").hide();
+  }
+}
+function setWordInformation(keyword, phonetic, meaning) {
+  $("#myword").val(keyword);
+  $("#myreading").val(phonetic);
+  $("#mymeaning").val(meaning);
+  $("#mynote").val("");
+}
 
 
 function setScrollEvent(){
     var currentScrollHeight =0;
     var documentHeight =$(document).height();
     $("#scroll_word").scroll(function() {
-          
         if($(this).scrollTop() + $(this).innerHeight()+1 >= $(this)[0].scrollHeight) {
           loadMoreword(); 
         } 
     });
-  };
-  function setIndicator(){
+};
+
+function setIndicator(){
     $(document).ajaxStart(function(){
       $("#wait").css("display", "block");
-      });
-      $(document).ajaxComplete(function(){
+    });
+    $(document).ajaxComplete(function(){
       $("#wait").css("display", "none");
-      });
-  };
+    });
+};
 
-  function setWordComment(singleWord){
+function setWordComment(singleWord){
     var detail;
     var comment_list=new Object;
     $("#comment_title").show();
@@ -45,37 +64,33 @@ function setScrollEvent(){
       markup = "<tr><td>" + detail['content'] + "</td><td>" + detail['author_name'] + "</td></tr>";
       $('#table_comment > tbody:last-child').append(markup); 
     }
-  };
+};
 
-  function tdclickDBindex(wordID){
+function tdclickDBindex(wordID){
     getWordFromDB(wordID);
     if($(window).width() <= 570){
       $("#scroll_word").hide();
       $("#result_list").hide();
     }
-  };
+};
 
-  function submitComment(){
-   
-      var currentWordID;
-      var commentContent;
-      var commentUrl;
-      var DEFAULT_AUTHOR ="メンバー"
-      currentWordID= $("#word_id").text();
-      commentContent= $("#mycomment").val();
-      commentUrl= DATA_SERVER_POST_COMMENT + currentWordID +DATA_SERVER_POST_COMMENT_SUFFIX;
-      $.post( commentUrl, { author_name: DEFAULT_AUTHOR, content:commentContent})
-      .done(function( data ) {
+function submitComment(){
+    var currentWordID;
+    var commentContent;
+    var commentUrl;
+    var DEFAULT_AUTHOR ="メンバー"
+    currentWordID= $("#word_id").text();
+    commentContent= $("#mycomment").val();
+    commentUrl= DATA_SERVER_POST_COMMENT + currentWordID +DATA_SERVER_POST_COMMENT_SUFFIX;
+    $.post( commentUrl, { author_name: DEFAULT_AUTHOR, content:commentContent})
+    .done(function( data ) {
         $("#mycomment").val("");
-
         markup = "<tr><td>" + commentContent + "</td><td>" + DEFAULT_AUTHOR + "</td></tr>";
         $('#table_comment > tbody:last-child').append(markup); 
-      });
+    });
+}
 
-   
-  }
-
-  function getWordFromDB(wordID){
+function getWordFromDB(wordID){
     var url = DATA_SERVER_GET + '/'+ wordID;
     $.getJSON(url, function(dataFromServer){
       word=dataFromServer.data
@@ -84,8 +99,9 @@ function setScrollEvent(){
       setWordDetail(word,nextID,prevID);
       setWordComment(word);
     });
-  }
-  function setWordDetail(singleWord,nextID,prevID){
+}
+
+function setWordDetail(singleWord,nextID,prevID){
     $("#word_id").text(singleWord['id']);
     $("#word_text").text(singleWord['word']);
     $("#word_reading").text(singleWord['reading']);
@@ -101,10 +117,9 @@ function setScrollEvent(){
     }else{
       $('#word_image').attr("src", "image/default.jpg" );
     }
-      
-  };
+}
 
-  function setWordList(url){
+function setWordList(url){
   $.getJSON(url, function(dataFromServer){
     var datalist = dataFromServer.data;
     var detail ;
@@ -118,50 +133,128 @@ function setScrollEvent(){
       $("#result_list").show();
       $("#scroll_word").show();
     }
-    
   });
-  };
+}
 
-  function inputKeywordListener(){
+function inputKeywordListener(){
     //Delaying the function execute
     if (this.timer) {
       window.clearTimeout(this.timer);
     }
     this.timer = window.setTimeout(function() {
-
       searchWord();
-
     }, 500);
+}
+
+function GetWordInformationListener(){
+    //Delaying the function execute
+    if (this.timer) {
+      window.clearTimeout(this.timer);
+    }
+    this.timer = window.setTimeout(function() {
+      getWordInformation(); 
+    }, 700);
+}
+
+function getWordInformation() {
+  var keyword = $("#input_new_word").val();
+  if (keyword.length == 0) {
+    return;
+  }
+  var url = DATA_SERVER_WORD_INFORMATION + keyword;
+  setClearWordList();
+  setInformationWordList(url);
+}
+
+
+function setInformationWordList(url) {
+  $.getJSON(url, function (dataFromServer) {
+    // Store the data in the global variable
+    globalDataFromServer = dataFromServer;
+    var datalistLen = dataFromServer.suggestions.length;
+    var phonetic, definition, keyword;
+    var markup;
     
-  };
+    for (let i = 0; i < datalistLen; i++) {
+      phonetic = extractPhonetic(dataFromServer, i);
+      definition = extractDefinition(dataFromServer, i);
+      keyword = getKeyword(dataFromServer, i);
+      markup = "<tr onclick='clickWordInformationIndex(\"" + i + "\");'><td>" + keyword + "</td><td>" + definition + "</td></tr>";
+      $('#myTable > tbody:last-child').append(markup);
+    }
+    if (datalistLen > 0) {
+      $("#result_list").show();
+      $("#scroll_word").show();
+    }
+  });
+}
 
+function extractPhonetic(obj, i) {
+  // Kiểm tra cấu trúc object hợp lệ
+  if (!obj?.suggestions?.[i]?.data) return null;
 
-  function searchWord(){
+  // Sử dụng Regular Expression để trích xuất giá trị
+  const regex = /<span class="fr hl" >(.*?)<img/;
+  const match = obj.suggestions[i].data.match(regex);
+
+  return match ? match[1] : null;
+}
+
+function extractDefinition(obj, i) {
+  // Kiểm tra cấu trúc object hợp lệ
+  if (!obj?.suggestions?.[i]?.data) return null;
+
+  // Bóc tách nội dung trong thẻ <p>
+  const pTagRegex = /<p>(.*?)<\/p>/;
+  const pTagMatch = obj.suggestions[i].data.match(pTagRegex);
+
+  if (!pTagMatch) return null;
+
+  // Lọc phần nội dung trước dấu '…' và loại bỏ khoảng trắng thừa
+  const definition = pTagMatch[1]
+    .split(/…/)[0]         // Cắt tại ký tự ellipsis (U+2026)
+    .replace(/\s+$/, '');  // Xóa khoảng trắng cuối chuỗi
+
+  return definition || null;
+}
+
+function getKeyword(obj, i) {
+  // Cách 2: Lấy từ trường select trong suggestion đầu tiên (nếu query không tồn tại)
+  return obj?.suggestions?.[i]?.select ?? null;
+}
+
+function searchWord(){
     var obj=getSearchParam();
     var url = DATA_SERVER_GET + '?'+ $.param(obj);
     setClearWordList();
     setWordList(url);
-  };
+}
 
-  function getSearchParam(){
+function getSearchParam(){
     var obj=new Object();
-
     var keyword =$("#input_keyword").val();
-    var type =$("#combo").val();
+    var type =getWordType();
     var obj=new Object();
     if(type == TYPE_KANJI){
       obj.search_kanji = keyword;
     }else{
       obj.search = keyword;
     }
-    
     obj.type = type;
-
     return obj;
-  };
+}
 
+function getWordType(){
+    var type;
+    if(getWordTypeBaseOnSelectedLanguage()==TYPE_JAPANESE){
+      type =$("#word_type").val();//get parameter that if it is kanji or not
+    }else{
+      type = TYPE_ENGLISH;
+    } 
+    return type;
+}
 
-  function setWordListWithDBindex(url){
+function setWordListWithDBindex(url){
     if(!IS_THERE_MORE_DATA){
       return;
     }
@@ -179,14 +272,16 @@ function setScrollEvent(){
       $('#myTable > tbody:last-child').append(markup); 
     }
   });
-  };
-  function loadMoreword(){
+}
+
+function loadMoreword(){
     CURRENT_PAGE+=1;
     var obj=getSearchParamWithPage(CURRENT_PAGE);
     var url = DATA_SERVER_GET + '?'+ $.param(obj);
     setWordListWithDBindex(url);
-  };
-  function getSearchParamWithPage(pagenum){
+}
+
+function getSearchParamWithPage(pagenum){
     var obj=new Object();
     var keyword =$("#input_keyword").val();
     var obj=new Object();
@@ -194,40 +289,37 @@ function setScrollEvent(){
     obj.book = CURRENT_UNIT;
     obj.page = pagenum;
     return obj;
-  };
-  function setClearWordList(){
+}
+
+function setClearWordList(){
     $("#myTable > tbody").empty();
     CURRENT_PAGE=0;
     IS_THERE_MORE_DATA = true;
-  };
+}
 
-  function getNextWord(){
+function getNextWord(){
     var idText=$("#word_next").text();
     var nextID=parseInt( idText );
     getWordFromDB(nextID);
-  }
+}
 
-  function getPreviousWord(){
+function getPreviousWord(){
     var idText=$("#word_prev").text();
     var nextID=parseInt( idText );
     if(nextID>0){
       getWordFromDB(nextID);
     }
-    
-  }
+}
 
-  function setUnit(){
+function setUnit(){
     var url = DATA_SERVER_GET_UNITS;
     $.getJSON(url, function(dataFromServer){
       units=dataFromServer.data
       addUnitButtons(units);
     });
+}
 
-
-    
-  }
-
-  function addUnitButtons(units){
+function addUnitButtons(units){
     var detail ;
     var markup;
     for (let i = 0; i < units.length; i++) {
@@ -235,42 +327,39 @@ function setScrollEvent(){
       markup = "<button  value='"+detail['code']+"'  class='btn btn-outline-secondary btn-sm unit' onclick='selectUnit(this);' >"+detail['namevn']+"</button>"
         $("#unitsList").append(markup);
     }
-  }
-  
-  function showWordList(){
+}
+
+function showWordList(){
     $("#scroll_word").show();
     $("#unitsList").hide();
     $("#myTable").show();
-  }
+}
 
-  function loadAudio(audioName){
+function loadAudio(audioName){
     document.getElementById("my-audio").setAttribute('src', audioName);
     var myAudio = document.getElementById("my-audio");
     myAudio.play();
-  }
+}
 
-  function showUnits(){
+function showUnits(){
     $("#scroll_word").show();
     $("#myTable").hide();
     $("#unitsList").show();
-  }
+}
 
-
-  function selectUnit(obj){
+function selectUnit(obj){
     CURRENT_UNIT=obj.value;
     setClearWordList();
     loadMoreword();
     if($(window).width() <= 570){
       $("#scroll_word").show();
     }
-
     $("#unitLabel").text(obj.innerHTML);
     $("#unitsList").hide();
     $("#myTable").show();
-  }
+}
 
-
-  function submitWord(){
+function submitWord(){
     var wordContent;
     var readingContent;
     var noteContent;
@@ -282,11 +371,11 @@ function setScrollEvent(){
     readingContent= $("#myreading").val();
     meaningContent= $("#mymeaning").val();
     noteContent= $("#mynote").val();
-    typeContent= $("#mytype").val();
+    typeContent= getWordType();
     kunContent=$("#mykun").val();
     onContent=  $("#myon").val();
     
-    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on:onContent})
+    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on: onContent})
     .done(function( data ) {
       $("#mycomment").val("");
       $("#myreading").val("");
@@ -294,121 +383,122 @@ function setScrollEvent(){
       $("#mynote").val("");
       $("#mykun").val("");
       $("#myon").val("");
-      
     });
     alert("Bạn ơi! Cám ơn bạn vì đã đóng góp nhé!");
 }
 
 function setwordtype(selectedtype){
-  var type;
-  if(selectedtype){
-    type = selectedtype.value;
-  }else{
-    type = 0;
-  }
+    var type;
+    if(selectedtype){
+      type = selectedtype.value;
+    }else{
+      type = 0;
+    }
 
-  if(type==TYPE_KANJI){
-    $("#mywordlabel").text("Hán tự 漢字");
-    $("#myreadinglabel").text("Phiên âm Hán Việt");
-    $("#myword").attr("placeholder", "日");
-    $("#myreading").attr("placeholder", "NHẬT");
-    $("#kun").show();
-    $("#on").show();
-  }else{
-    $("#mywordlabel").text("Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)");
-    $("#myreadinglabel").text("Cách đọc( Viết bằng Hiragana)");
-    $("#myword").attr("placeholder", "勉強");
-    $("#myreading").attr("placeholder", "べんきょう");
-    $("#kun").hide();
-    $("#on").hide();
-  }
+    if(type==TYPE_KANJI){
+      $("#mywordlabel").text("Hán tự 漢字");
+      $("#myreadinglabel").text("Phiên âm Hán Việt");
+      $("#myword").attr("placeholder", "日");
+      $("#myreading").attr("placeholder", "NHẬT");
+      $("#kun").show();
+      $("#on").show();
+    }else{
+      $("#mywordlabel").text("Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)");
+      $("#myreadinglabel").text("Cách đọc( Viết bằng Hiragana)");
+      $("#myword").attr("placeholder", "勉強");
+      $("#myreading").attr("placeholder", "べんきょう");
+      $("#kun").hide();
+      $("#on").hide();
+    }
 }
 
 function setButtonDisable(){
-  if($("#myword").val().length >= 1 && $("#myreading").val().length >= 1 && $("#mymeaning").val().length >= 1  ){
-    $('#submitButton').prop('disabled', false);
-  }else{
-    $('#submitButton').prop('disabled', true);
-  }
+    if($("#myword").val().length >= 1 && $("#myreading").val().length >= 1 && $("#mymeaning").val().length >= 1  ){
+      $('#submitButton').prop('disabled', false);
+    }else{
+      $('#submitButton').prop('disabled', true);
+    }
 }
 
 function ignoreEnter(){
-  document.getElementById("myForm").onkeypress = function(e) {
-    var key = e.charCode || e.keyCode || 0;     
-    if (key == 13) {
-      e.preventDefault();
+    document.getElementById("myForm").onkeypress = function(e) {
+      var key = e.charCode || e.keyCode || 0;     
+      if (key == 13) {
+        e.preventDefault();
+      }
     }
-  }
 }
 
 function updateAudio(audioName){
-  //change text
-  $("#listeningfile").text(audioName);
-
-  //set audio
-  document.getElementById("my-audio").setAttribute('src', audioName);
-  var myAudio = document.getElementById("my-audio");
-  myAudio.play();
+    //change text
+    $("#listeningfile").text(audioName);
+    //set audio
+    document.getElementById("my-audio").setAttribute('src', audioName);
+    var myAudio = document.getElementById("my-audio");
+    myAudio.play();
 }
 
 function saveAuthorName() {
-  // Save the value to local storage
-  localStorage.setItem('added_by', $('#added_by').val());
+    // Save the value to local storage
+    localStorage.setItem('added_by', $('#added_by').val());
 }
 
 function setAuthorName() {
-  const savedAddedBy = localStorage.getItem('added_by');
-  if (savedAddedBy) {
-    $('#added_by').val(savedAddedBy);
-  } else {
-    $('#added_by').val('member');
-  }
+    const savedAddedBy = localStorage.getItem('added_by');
+    if (savedAddedBy) {
+      $('#added_by').val(savedAddedBy);
+    } else {
+      $('#added_by').val('member');
+    }
 }
 
 function getHintForWord() {
-  var phonetic = $("#myreading").val();
-  if (!phonetic) {
-    return;
-  }
+    var phonetic = $("#myreading").val();
+    if (!phonetic) {
+      return;
+    }
+    var url = getHintURLBaseOnSelectedLanguage() + phonetic;
+    $.getJSON(url, function(dataFromServer) {
+      var hintArray = dataFromServer.data;
+      showHint(hintArray);
+    }).fail(function() {
+      console.error("Error fetching hint data from API");
+    });
+}
 
-  var url = DATA_SERVER_GET_HINT_JAPANESE + phonetic;
-
-  $.getJSON(url, function(dataFromServer) {
-    var hintArray = dataFromServer.data;
-    showHint(hintArray);
-  }).fail(function() {
-    console.error("Error fetching hint data from API");
-  });
+function getHintURLBaseOnSelectedLanguage() {
+    if (getWordTypeBaseOnSelectedLanguage() === TYPE_ENGLISH) {
+      return DATA_SERVER_GET_HINT_ENGLISH;
+    } else {
+      return DATA_SERVER_GET_HINT_JAPANESE;
+    }
 }
 
 function showHint(hintArray) {
-  const flattenedArray = hintArray.flat();
-  const columns = splitIntoFourColumns(flattenedArray);
-
-  columns.forEach((column, index) => {
-    const div = document.getElementById(`hint_text_${index + 1}`);
-    if (div) {
-      div.innerHTML = column.join("<br>");
-    }
-  });
+    const flattenedArray = hintArray.flat();
+    const columns = splitIntoFourColumns(flattenedArray);
+    columns.forEach((column, index) => {
+      const div = document.getElementById(`hint_text_${index + 1}`);
+      if (div) {
+        div.innerHTML = column.join("<br>");
+      }
+    });
 }
 
 function splitIntoFourColumns(arr) {
-  const totalItems = arr.length;
-  const columnSize = Math.ceil(totalItems / 4); // Kích thước mỗi cột
-  const result = [[], [], [], []]; // 4 cột
-
-  for (let i = 0; i < totalItems; i++) {
-    const colIndex = Math.floor(i / columnSize);
-    result[colIndex].push(arr[i]);
-  }
-
-  return result;
+    const totalItems = arr.length;
+    const columnSize = Math.ceil(totalItems / 4); // Kích thước mỗi cột
+    const result = [[], [], [], []]; // 4 cột
+    for (let i = 0; i < totalItems; i++) {
+      const colIndex = Math.floor(i / columnSize);
+      result[colIndex].push(arr[i]);
+    }
+    return result;
 }
 
 function updateBrandLogo() {
-  // Load the selected language from local storage
-  const language = localStorage.getItem('selected_language') || 'Japanese';
+    // Load the selected language from local storage
+    const language = localStorage.getItem('selected_language') || 'Japanese';
     let logoSrc = '';
     if (language === 'Japanese') {
       logoSrc = 'image/icon_japanese.png';
@@ -416,4 +506,29 @@ function updateBrandLogo() {
       logoSrc = 'image/icon_english.png';
     }
     $('#app_icon').attr('src', logoSrc);
-  }
+}
+
+function getWordTypeBaseOnSelectedLanguage() {
+    const language = localStorage.getItem('selected_language') || 'Japanese';
+    if (language === 'English') {
+      return TYPE_ENGLISH;
+    }else{
+      return TYPE_JAPANESE;
+    }
+}
+
+function changeUIBasedOnSelectedLanguage() {
+    const language = localStorage.getItem('selected_language') || 'Japanese';
+    if (language === 'English') {
+      $('#mytypegroup').hide();
+      $("#mywordlabel").text("Từ Vựng");
+      $("#myword").attr("placeholder", "hello");
+      $("#myreadinglabel").text("Phiên Âm");
+      $("#myreading").attr("placeholder", "/hə'ləʊ/ ");
+
+    } else {//Default for japanese
+      setwordtype();
+      $('#mytypegroup').show();
+      $('#wordInfomationGroup').hide();
+    }
+}
