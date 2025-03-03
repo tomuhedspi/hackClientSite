@@ -21,60 +21,41 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <script src="common.js"></script>
+  <script src="navbar.js"></script>
   <link rel="stylesheet" href="mystyle.css">
 
-<script>
- $(document).ready(function(){
-  updateBrandLogo();
-  $("#navbar").load("navbar.html", function() {
-    $("#navbar .nav-item a[href='index.html']").parent().addClass("active");
-  });
-  searchWord();
-  setIndicator();
-});
+  <script>
+    $(document).ready(function(){
+      updateBrandLogo();
+      searchWord();
+      setIndicator();
+    });
   </script>
-
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);"  >
-  <!-- Brand/logo -->
-  <a class="navbar-brand" href="index.html">
-    <img src="image/icon.png" alt="icon Hack Não BK" id ="app_icon"style="width:40px;">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbar">
-  </div>
-</nav>
+<div id="navbar"></div>
 
 <div class="container-fluid">
-  
   <div class="row content">
-    
-    <div class="col-sm-3 sidenav ">
-      
+    <div class="col-sm-3 sidenav">
       <input type="hidden" id="word_type" name="word_type" value="0">
-      
-      <div  class="page_title">
-        <h2 id ="pageheadersp">Tìm kiếm từ vựng</h2>
+      <div class="page_title">
+        <h2 id="pageheadersp">Tìm kiếm từ vựng</h2>
       </div>
-    
-      <div class="input-group mb-3 " style="margin-top: 10px;">
-        <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="inputKeywordListener();" 　>
+      <div class="input-group mb-3" style="margin-top: 10px;">
+        <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="inputKeywordListener();">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button> 
+          <button class="btn btn-primary" type="submit" onclick="searchWord();" id="btn_search"><i class="fas fa-search"></i></button>
         </div>
       </div>
-      
       <div id="result_list" style="overflow: auto;">
-        <table id="myTable" class="table table-hover" >
+        <table id="myTable" class="table table-hover">
           <colgroup>
             <col span="1" style="width: 30%;">
             <col span="1" style="width: 70%;">
-         </colgroup>
-          <tbody id="word_table"  style="font-size: small;">
+          </colgroup>
+          <tbody id="word_table" style="font-size: small;">
           </tbody>
         </table>
       </div>
@@ -85,40 +66,35 @@
         <img src="image/prev.png"/>
       </div>
       <div onmouseup="getNextWord()" class="rightImage">
-        <img src="image/next.png" >
+        <img src="image/next.png">
       </div>
-      
-      <div id="wait" ><img src='image/loading.gif' alt="Hack Não BK loading" style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
+      <div id="wait"><img src='image/loading.gif' alt="Hack Não BK loading" style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
       <div class="page_title">
         <h1 id="pageheaderpc">Tìm kiếm từ vựng</h1>
       </div>
-      
       <div style="display:none" id="word_id"></div>
       <div style="display:none" id="word_next"></div>
       <div style="display:none" id="word_prev"></div>
       <div style="width: 100%;display: block;">
-        <div id="word_reading" class="word_readingstl" ></div>
-        <div id="word_text" class="word_textstl" ></div>
+        <div id="word_reading" class="word_readingstl"></div>
+        <div id="word_text" class="word_textstl"></div>
         <div id="word_meaning" class="word_meaningstl"></div>
         <div id="word_note" class="word_notestl"></div>
       </div>
-     
-      <img id="word_image" src="image/default.jpg" alt="new word"  style="max-height: 400px;max-width: 100%; height: auto;">
-      <div id ="div_comment" style="height: 400px; overflow: auto;">
-        <p id="comment_title" >Comment:</p>
-        <input type="text" name="mycomment" id = "mycomment" class="form-control" placeholder="Góp ý của bạn"><br>
-        <button class="btn btn-primary" type="submit" onclick="submitComment();" ><i class="fa fa-paper-plane"></i></button> 
-       
-        <table id="table_comment" class="w3-table w3-bordered" >
+      <img id="word_image" src="image/default.jpg" alt="new word" style="max-height: 400px;max-width: 100%; height: auto;">
+      <div id="div_comment" style="height: 400px; overflow: auto;">
+        <p id="comment_title">Comment:</p>
+        <input type="text" name="mycomment" id="mycomment" class="form-control" placeholder="Góp ý của bạn"><br>
+        <button class="btn btn-primary" type="submit" onclick="submitComment();"><i class="fa fa-paper-plane"></i></button>
+        <table id="table_comment" class="w3-table w3-bordered">
           <colgroup>
             <col span="1" style="width: 80%;">
             <col span="1" style="width: 20%; font-size: x-small;">
-         </colgroup>
-          <tbody  style="font-size: small;">
+          </colgroup>
+          <tbody style="font-size: small;">
           </tbody>
         </table>
       </div>
-
     </div>
   </div>
 </div>

@@ -3,7 +3,7 @@
 <head>
   <title>Từ Theo Giáo Trình Hack Não BK</title>
   <meta charset="utf-8">
-  <meta name= “robots” content=noindex, nofollow”>
+  <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="Audio lặp lại các câu trong giáo trình">
   <meta name="keywords" content="phương pháp học hiệu quả, tiếng nhật, hack não, kanji, hán tự, từ vựng qua hình ảnh, học nhanh, nhớ lâu">
   <meta name="application-name" content="Hack Não BK Tiếng Nhật">
@@ -21,44 +21,32 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <script src="common.js"></script>
+  <script src="navbar.js"></script>
   <link rel="stylesheet" href="mystyle.css">
 
   <script>
     $(document).ready(function(){
       updateBrandLogo();
-      $("#navbar").load("navbar.html", function() {
-        $("#navbar .nav-item a[href='audio.html']").parent().addClass("active");
-      });
     });
   </script>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);"  >
-  <!-- Brand/logo -->
-  <a class="navbar-brand" href="index.html">
-    <img src="image/icon.png" alt="Hack Não BK" id ="app_icon"style="width:40px;">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbar">
-  </div>
-</nav>
+<div id="navbar"></div>
 
 <div class="container-fluid">
   <div class="row content">
     <div class="col-sm-3 sidenav">
-      <div  class="page_title">
-        <h2 id ="pageheadersp">NGHE</h2>
+      <div class="page_title">
+        <h2 id="pageheadersp">NGHE</h2>
       </div>
-      <div id = "scroll_word" style="overflow: auto;">
-        <table id="myTable" class="table table-hover" >
+      <div id="scroll_word" style="overflow: auto;">
+        <table id="myTable" class="table table-hover">
           <colgroup>
             <col span="1" style="width: 30%;">
             <col span="1" style="width: 70%;">
-         </colgroup>
-          <tbody id="word_table"  style="font-size: small;">
+          </colgroup>
+          <tbody id="word_table" style="font-size: small;">
             <tr onclick='loadAudio("sound/1bunkei.mp3")'>
               <td>Bài 1</td>
               <td>Bunkei</td>
@@ -449,10 +437,15 @@
     </div>
 
     <div class="col-sm-6">
+      <div onmouseup="getPreviousWord()" class="leftImage">
+        <img src="image/prev.png"/>
+      </div>
+      <div onmouseup="getNextWord()" class="rightImage">
+        <img src="image/next.png">
+      </div>
       <h1 id="pageheaderpc">NGHE</h1>
       <hr>
       <div style="width: 100%;display: block;">
-        
         <audio id="my-audio" controls>
           <source src="sound/18-ngu-phap.mp3" type="audio/mp3">
             Trình duyệt của bạn không nghe được rùi. Buồn ghê!

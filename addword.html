@@ -21,42 +21,27 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   <script src="common.js"></script>
+  <script src="navbar.js"></script>
   <link rel="stylesheet" href="mystyle.css">
 
-<script>
- $(document).ready(function(){
-  updateBrandLogo();
-  ignoreEnter();
-  setAuthorName();
-  changeUIBasedOnSelectedLanguage();
-  $("#navbar").load("navbar.html", function() {
-    $("#navbar .nav-item a[href='addword.html']").parent().addClass("active");
-  });
-});
+  <script>
+    $(document).ready(function(){
+      updateBrandLogo();
+      ignoreEnter();
+      setAuthorName();
+      changeUIBasedOnSelectedLanguage();
+    });
   </script>
-
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);"  >
-  <!-- Brand/logo -->
-  <a class="navbar-brand" href="index.html">
-    <img src="image/icon.png" alt="icon Hack Não BK" id ="app_icon"style="width:40px;">
-  </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbar">
-  </div>
-</nav>
+<div id="navbar"></div>
 
 <div class="container-fluid">
-  
   <div class="row content">
-    
-    <div class="col-sm-3 sidenav ">
+    <div class="col-sm-3 sidenav">
       <input type="hidden" id="combo" name="combo" value="0">
-      <div class="input-group mb-3 " style="margin-top: 10px;" id="mytypegroup">
+      <div class="input-group mb-3" style="margin-top: 10px;" id="mytypegroup">
           <select class="form-control" id="mytype" onchange="setwordtype(this);">
             <option value ="0">Từ Vựng</option>
             <option value ="1">Hán tự</option>
@@ -78,7 +63,6 @@
           </tbody>
         </table>
       </div>
-      
     </div>
 
     <div class="col-sm-9">
@@ -86,7 +70,7 @@
         <h1 id="pageheaderpc">Đóng góp từ vựng</h1>
       </div>
       <br>
-      <form id="myForm" >
+      <form id="myForm">
         <div class="form-group">
           <label for="myword" id="mywordlabel">Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)</label>
           <input type="text" class="form-control" id="myword" placeholder="" maxlength="255" required onchange="setButtonDisable();">
@@ -127,6 +111,7 @@
           <div class="col-sm-3" id="hint_text_3">
           </div>
           <div class="col-sm-3" id="hint_text_4">
+          </div>
         </div>
       </form>
     </div>
