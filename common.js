@@ -483,25 +483,27 @@ function getHintURLBaseOnSelectedLanguage() {
 }
 
 function showHint(hintArray) {
-    const flattenedArray = hintArray.flat();
-    const columns = splitIntoFourColumns(flattenedArray);
-    columns.forEach((column, index) => {
-      const div = document.getElementById(`hint_text_${index + 1}`);
-      if (div) {
-        div.innerHTML = column.join("<br>");
-      }
-    });
+  const flattenedArray = hintArray.flat();
+  const columns = splitIntoColumns(flattenedArray);
+  columns.forEach((column, index) => {
+    const div = document.getElementById(`hint_text_${index + 1}`);
+    if (div) {
+      div.innerHTML = column.join("<br>");
+    }
+  });
 }
 
-function splitIntoFourColumns(arr) {
-    const totalItems = arr.length;
-    const columnSize = Math.ceil(totalItems / 4); // Kích thước mỗi cột
-    const result = [[], [], [], []]; // 4 cột
-    for (let i = 0; i < totalItems; i++) {
-      const colIndex = Math.floor(i / columnSize);
-      result[colIndex].push(arr[i]);
-    }
-    return result;
+function splitIntoColumns(arr) {
+  const isMobile = window.innerWidth <= 767;
+  const totalItems = arr.length;
+  const columnCount = isMobile ? 2 : 4;
+  const columnSize = Math.ceil(totalItems / columnCount);
+  const result = Array.from({ length: columnCount }, () => []);
+  for (let i = 0; i < totalItems; i++) {
+    const colIndex = Math.floor(i / columnSize);
+    result[colIndex].push(arr[i]);
+  }
+  return result;
 }
 
 function updateBrandLogo() {
