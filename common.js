@@ -136,13 +136,13 @@ function setWordList(url){
   });
 }
 
-function inputKeywordListener(){
+function inputKeywordListener(default_wordtype){
     //Delaying the function execute
     if (this.timer) {
       window.clearTimeout(this.timer);
     }
     this.timer = window.setTimeout(function() {
-      searchWord();
+      searchWord(default_wordtype);
     }, 500);
 }
 
@@ -223,17 +223,18 @@ function getKeyword(obj, i) {
   return obj?.suggestions?.[i]?.select ?? null;
 }
 
-function searchWord(){
-    var obj=getSearchParam();
+function searchWord(wordtype =0){
+    var obj=getSearchParam(wordtype);
     var url = DATA_SERVER_GET + '?'+ $.param(obj);
     setClearWordList();
     setWordList(url);
 }
 
-function getSearchParam(){
+
+function getSearchParam(default_wordtype){
     var obj=new Object();
     var keyword =$("#input_keyword").val();
-    var type =getWordType();
+    var type = getWordTypeForSearch(default_wordtype);;
     var obj=new Object();
     if(type == TYPE_KANJI){
       obj.search_kanji = keyword;
@@ -243,14 +244,21 @@ function getSearchParam(){
     obj.type = type;
     return obj;
 }
+function getWordTypeForSearch(default_wordtype){
+  var type;
+  if(default_wordtype===TYPE_KANJI){
+    type = TYPE_KANJI;
+  }else{
+    type = getWordTypeBaseOnSelectedLanguage();
+  }
+  return type;
+}
 
-function getWordType(){
-    var type;
-    if(getWordTypeBaseOnSelectedLanguage()==TYPE_JAPANESE){
-      type =$("#word_type").val();//get parameter that if it is kanji or not
-    }else{
-      type = TYPE_ENGLISH;
-    } 
+function getWordTypeForAddWord(){
+    var type = getWordTypeBaseOnSelectedLanguage();
+    if(type===TYPE_JAPANESE){
+      type = $("#word_type_adding").val();
+    }
     return type;
 }
 
@@ -371,7 +379,7 @@ function submitWord(){
     readingContent= $("#myreading").val();
     meaningContent= $("#mymeaning").val();
     noteContent= $("#mynote").val();
-    typeContent= getWordType();
+    typeContent= getWordTypeForAddWord();
     kunContent=$("#mykun").val();
     onContent=  $("#myon").val();
     
@@ -395,7 +403,7 @@ function setwordtype(selectedtype){
       type = 0;
     }
 
-    if(type==TYPE_KANJI){
+    if(type===TYPE_KANJI){
       $("#mywordlabel").text("Hán tự 漢字");
       $("#myreadinglabel").text("Phiên âm Hán Việt");
       $("#myword").attr("placeholder", "日");
