@@ -146,17 +146,17 @@ function inputKeywordListener(default_wordtype){
     }, 500);
 }
 
-function GetWordInformationListener(){
+function GetEnglishWordInformationListener(){
     //Delaying the function execute
     if (this.timer) {
       window.clearTimeout(this.timer);
     }
     this.timer = window.setTimeout(function() {
-      getWordInformation(); 
+      getEnglishWordInformation(); 
     }, 700);
 }
 
-function getWordInformation() {
+function getEnglishWordInformation() {
   var keyword = $("#input_new_word").val();
   if (keyword.length == 0) {
     return;
@@ -305,20 +305,6 @@ function setClearWordList(){
     IS_THERE_MORE_DATA = true;
 }
 
-function getNextWord(){
-    var idText=$("#word_next").text();
-    var nextID=parseInt( idText );
-    getWordFromDB(nextID);
-}
-
-function getPreviousWord(){
-    var idText=$("#word_prev").text();
-    var nextID=parseInt( idText );
-    if(nextID>0){
-      getWordFromDB(nextID);
-    }
-}
-
 function setUnit(){
     var url = DATA_SERVER_GET_UNITS;
     $.getJSON(url, function(dataFromServer){
@@ -400,14 +386,15 @@ function setwordtype(selectedtype){
     if(selectedtype){
       type = selectedtype.value;
     }else{
-      type = 0;
+      type = TYPE_JAPANESE;
     }
 
-    if(type===TYPE_KANJI){
+    if(type==TYPE_KANJI){
       $("#mywordlabel").text("Hán tự 漢字");
       $("#myreadinglabel").text("Phiên âm Hán Việt");
       $("#myword").attr("placeholder", "日");
       $("#myreading").attr("placeholder", "NHẬT");
+      $("#mynote").attr("placeholder", "trời giống Hình Chữ Nhật ロ, bị chia làm đôi 一 : nửa trên là Ngày 日, nửa dưới là đêm.");
       $("#kun").show();
       $("#on").show();
     }else{
@@ -415,6 +402,7 @@ function setwordtype(selectedtype){
       $("#myreadinglabel").text("Cách đọc( Viết bằng Hiragana)");
       $("#myword").attr("placeholder", "勉強");
       $("#myreading").attr("placeholder", "べんきょう");
+      $("#mynote").attr("placeholder", "BÊN CÔ em HỌC hành nghiêm túc hơn hẳn");
       $("#kun").hide();
       $("#on").hide();
     }
@@ -460,12 +448,12 @@ function setAuthorName() {
     }
 }
 
-function getHintForWord() {
+function getHintForWord(wordtype) {
     var phonetic = $("#myreading").val();
     if (!phonetic) {
       return;
     }
-    var url = getHintURLBaseOnSelectedLanguage() + phonetic;
+    var url = getHintURLBaseOnSelectedLanguage(wordtype) + phonetic;
     $.getJSON(url, function(dataFromServer) {
       var hintArray = dataFromServer.data;
       showHint(hintArray);
@@ -474,8 +462,8 @@ function getHintForWord() {
     });
 }
 
-function getHintURLBaseOnSelectedLanguage() {
-    if (getWordTypeBaseOnSelectedLanguage() === TYPE_ENGLISH) {
+function getHintURLBaseOnSelectedLanguage(wordtype) {
+    if (wordtype === TYPE_ENGLISH) {
       return DATA_SERVER_GET_HINT_ENGLISH;
     } else {
       return DATA_SERVER_GET_HINT_JAPANESE;
@@ -527,18 +515,34 @@ function getWordTypeBaseOnSelectedLanguage() {
     }
 }
 
-function changeUIBasedOnSelectedLanguage() {
-    const language = localStorage.getItem('selected_language') || 'Japanese';
-    if (language === 'English') {
-      $('#mytypegroup').hide();
-      $("#mywordlabel").text("Từ Vựng");
-      $("#myword").attr("placeholder", "hello");
-      $("#myreadinglabel").text("Phiên Âm");
-      $("#myreading").attr("placeholder", "/hə'ləʊ/ ");
+function searchWordJapanese(){
+    searchWord(TYPE_JAPANESE);
+}
 
-    } else {//Default for japanese
-      setwordtype();
-      $('#mytypegroup').show();
-      $('#wordInfomationGroup').hide();
-    }
+function searchWordKanji(){
+    searchWord(TYPE_KANJI);
+}
+
+function searchWordEnglish(){
+    searchWord(TYPE_ENGLISH);
+}
+
+function inputKeywordListenerJapanese(){
+    inputKeywordListener(TYPE_JAPANESE);
+}
+
+function inputKeywordListenerKanji(){
+    inputKeywordListener(TYPE_KANJI);
+}
+
+function inputKeywordListenerEnglish(){
+    inputKeywordListener(TYPE_ENGLISH);
+}
+
+function getHintForWordJapanese() {
+    getHintForWord(TYPE_JAPANESE);
+}
+
+function getHintForWordEnglish() {
+    getHintForWord(TYPE_ENGLISH);
 }

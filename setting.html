@@ -3,7 +3,7 @@
 <head>
   <title>Cài Đặt Hack Não BK</title>
   <meta charset="utf-8">
-  <meta name="description" content="Cài đặt ứng dụng Hack Não BK.">
+  <meta name="description" content="Cài đặt ngôn ngữ bạn học cho ứng dụng Hack Não BK.">
   <meta name="keywords" content="cài đặt, hack não, tiếng nhật, tiếng anh">
   <meta name="application-name" content="Hack Não BK Tiếng Nhật">
   <meta name="author" content="Hack Nao BK">
@@ -104,11 +104,15 @@
 
       function updateNavbar(language) {
         if (language === 'English') {
+          $('#nav-item-vocabulary a').attr('href', 'english.html');
+          $('#nav-item-contribute a').attr('href', 'addenglish.html');
           $('.nav-item a[href="kanji.html"]').parent().hide();
           $('.nav-item a[href="unit.html"]').parent().hide();
           $('.nav-item a[href="audio.html"]').parent().hide();
           $('.nav-item a[href="downloadfile.html"]').parent().hide();
         } else if (language === 'Japanese') {
+          $('#nav-item-vocabulary a').attr('href', 'index.html');
+          $('#nav-item-contribute a').attr('href', 'addjapanese.html');
           $('.nav-item a[href="kanji.html"]').parent().show();
           $('.nav-item a[href="unit.html"]').parent().show();
           $('.nav-item a[href="audio.html"]').parent().show();

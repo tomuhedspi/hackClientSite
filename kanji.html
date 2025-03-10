@@ -26,7 +26,7 @@
   <script>
     $(document).ready(function(){
       updateBrandLogo();
-      searchWord(1);
+      searchWordKanji();
       setIndicator();
     });
   </script>
@@ -42,9 +42,9 @@
         <h2 id="pageheadersp">Tìm kiếm Hán tự, Kanji tiếng Nhật</h2>
       </div>
       <div class="input-group mb-3" style="margin-top: 10px;">
-        <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="inputKeywordListener(1);">
+        <input type="text" class="form-control" required placeholder="VD:花 はな hoa" id="input_keyword" onkeyup="inputKeywordListenerKanji();">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="submit" onclick="searchWord(1);" id="btn_search"><i class="fas fa-search"></i></button>
+          <button class="btn btn-primary" type="submit" onclick="searchWordKanji();" id="btn_search"><i class="fas fa-search"></i></button>
         </div>
       </div>
       <div id="result_list" style="overflow: auto;">
@@ -60,12 +60,6 @@
     </div>
 
     <div class="col-sm-9">
-      <div onmouseup="getPreviousWord()" class="leftImage">
-        <img src="image/prev.png"/>
-      </div>
-      <div onmouseup="getNextWord()" class="rightImage">
-        <img src="image/next.png">
-      </div>
       <div id="wait"><img src='image/loading.gif' alt="Hack Não BK loading" style="position:absolute;width: 10%;display: block;top:0%;left:45%;"/></div>
       <div class="page_title">
         <h1 id="pageheaderpc">Tìm kiếm Hán tự, Kanji tiếng Nhật</h1>
