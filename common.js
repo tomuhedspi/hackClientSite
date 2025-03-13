@@ -1,5 +1,6 @@
 var DATA_SERVER_GET = "https://nguyenthithom.name.vn/api/chars";
 var DATA_SERVER_GET_UNITS = "https://nguyenthithom.name.vn/api/units";
+var DATA_SERVER_GET_EXACT_WORD_ENGLISH= "https://nguyenthithom.name.vn/api/exact?type=2&search=";
 var DATA_SERVER_GET_HINT_ENGLISH = "https://nguyenthithom.name.vn/api/hints/english?reading=";
 var DATA_SERVER_GET_HINT_JAPANESE = "https://nguyenthithom.name.vn/api/hints/japanese?reading=";
 var DATA_SERVER_IMAGE = "https://nguyenthithom.name.vn/wordImage/";
@@ -161,20 +162,43 @@ function getEnglishWordInformation() {
   if (keyword.length == 0) {
     return;
   }
-  var url = DATA_SERVER_WORD_INFORMATION + keyword;
+
   setClearWordList();
-  setInformationWordList(url);
+  setEnglishWordWithHint(keyword).then(function(hasData) {
+    if (!hasData) {
+      var url = DATA_SERVER_WORD_INFORMATION + keyword;
+      getNewWordInformation(url);
+    }
+  });
 }
 
+function setEnglishWordWithHint(keyword) {
+  var url = DATA_SERVER_GET_EXACT_WORD_ENGLISH + keyword;
+  return $.getJSON(url).then(function(dataFromServer) {
+    var datalist = dataFromServer.data;
+    var detail;
+    var markup;
+    for (let i = 0; i < datalist.length; i++) {
+      detail = datalist[i];
+      markup = "<tr onclick='tdclickDBindex(" + detail['id'] + ");'><td>" + detail['word'] + "-->" + "</td><td>" + detail['note'] + "</td></tr>";
+      $('#myTable > tbody:last-child').append(markup);
+    }
+    if (datalist.length > 0) {
+      $("#result_list").show();
+      $("#scroll_word").show();
+    }
+    return datalist.length > 0; // Trả về true nếu có dữ liệu, ngược lại trả về false
+  });
+}
 
-function setInformationWordList(url) {
-  $.getJSON(url, function (dataFromServer) {
+function getNewWordInformation(url) {
+  return $.getJSON(url).then(function(dataFromServer) {
     // Store the data in the global variable
     globalDataFromServer = dataFromServer;
     var datalistLen = dataFromServer.suggestions.length;
     var phonetic, definition, keyword;
     var markup;
-    
+
     for (let i = 0; i < datalistLen; i++) {
       phonetic = extractPhonetic(dataFromServer, i);
       definition = extractDefinition(dataFromServer, i);
