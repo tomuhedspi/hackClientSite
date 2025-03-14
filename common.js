@@ -392,8 +392,9 @@ function submitWord(){
     typeContent= getWordTypeForAddWord();
     kunContent=$("#mykun").val();
     onContent=  $("#myon").val();
+    created_byContent = $("#added_by").val();
     
-    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on: onContent})
+    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on: onContent, created_by: created_byContent})
     .done(function( data ) {
       $("#mycomment").val("");
       $("#myreading").val("");
