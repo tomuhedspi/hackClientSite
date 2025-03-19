@@ -25,8 +25,9 @@
   <link rel="stylesheet" href="mystyle.css">
 
   <script>
+    localStorage.setItem('selected_language', 'Japanese');
+
     $(document).ready(function(){
-      localStorage.setItem('selected_language', 'Japanese');
       updateBrandLogo();
       searchWordJapanese();
       setIndicator();
