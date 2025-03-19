@@ -31,7 +31,6 @@ function setWordInformation(keyword, phonetic, meaning) {
   $("#myword").val(keyword);
   $("#myreading").val(phonetic);
   $("#mymeaning").val(meaning);
-  $("#mynote").val("");
 }
 
 
@@ -396,14 +395,13 @@ function submitWord(){
     
     $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on: onContent, created_by: created_byContent})
     .done(function( data ) {
-      $("#mycomment").val("");
-      $("#myreading").val("");
-      $("#mymeaning").val("");
-      $("#mynote").val("");
-      $("#mykun").val("");
-      $("#myon").val("");
+
     });
-    alert("Bạn ơi! Cám ơn bạn vì đã đóng góp nhé!");
+    showThankYouAlert();
+}
+
+function showThankYouAlert() {
+  alert("Bạn ơi! Cám ơn bạn vì đã đóng góp nhé!");
 }
 
 function setwordtype(selectedtype){

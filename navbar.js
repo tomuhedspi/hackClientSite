@@ -64,11 +64,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
   // Highlight the current page in the navbar
   const currentPath = window.location.pathname.split('/').pop();
-  document.querySelector(`.nav-item a[href="${currentPath}"]`).classList.add('active');
+  const currentNavItem = document.querySelector(`.nav-item a[href="${currentPath}"]`);
+  if (currentNavItem) {
+    currentNavItem.classList.add('active');
+  }
 
   // Update navbar when language changes
-  document.getElementById('languageDropdown').addEventListener('change', function() {
-    const selectedLanguage = this.value;
-    updateNavbar(selectedLanguage);
-  });
+  const languageDropdown = document.getElementById('languageDropdown');
+  if (languageDropdown) {
+    languageDropdown.addEventListener('change', function() {
+      const selectedLanguage = this.value;
+      updateNavbar(selectedLanguage);
+    });
+  }
 });

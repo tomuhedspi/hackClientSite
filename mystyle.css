@@ -78,6 +78,34 @@ footer {
   text-align: left; /* Align left */
 }
 
+/* Thêm CSS để định dạng alert box */
+.alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+}
+
+/* Thêm CSS để định dạng nút clear input */
+.input-group .clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: none;
+}
+
+.input-group input:focus + .clear-btn,
+.input-group input:not(:placeholder-shown) + .clear-btn {
+  display: block;
+}
+
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
   .sidenav {

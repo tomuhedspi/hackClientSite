@@ -34,6 +34,30 @@
         width: 25%;
       }
     }
+    .input-group .clear-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      display: none;
+    }
+    .input-group input:focus + .clear-btn,
+    .input-group input:not(:placeholder-shown) + .clear-btn {
+      display: block;
+    }
+    /* CSS để loại bỏ border của input_new_word */
+    #input_new_word {
+      border: none;
+      box-shadow: none;
+    }
+    /* CSS để thêm border cho wordInfomationGroup */
+    #wordInfomationGroup {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 0; /* Đặt padding bằng 0 */
+      margin: 0; /* Đặt margin bằng 0 */
+    }
   </style>
   <script>
     $(document).ready(function(){
@@ -41,6 +65,11 @@
       ignoreEnter();
       setAuthorName();
     });
+
+    function clearInput() {
+      document.getElementById('input_new_word').value = '';
+      document.getElementById('input_new_word').focus();
+    }
   </script>
 </head>
 <body>
@@ -51,10 +80,11 @@
   <div class="row content">
     <div class="col-sm-3 sidenav">
       <input type="hidden" id="combo" name="combo" value="0">
-      <div class="input-group mb-3" style="margin-top: 10px;" id="wordInfomationGroup">
+      <div class="input-group mb-3" style="margin-top: 10px; position: relative;" id="wordInfomationGroup">
         <input type="text" class="form-control" required placeholder="e.g., hello" id="input_new_word" onkeyup="GetEnglishWordInformationListener();">
         <div class="input-group-append">
-          <button class="btn btn-primary" type="submit" onclick="getEnglishWordInformation();" id="btn_search"><i class="fas fa-search"></i></button>
+          <button class="btn btn-xs btn-default" onclick="clearInput();" id="btn_search"><i class="fa fa-times"></i></button>
+          <button class="btn btn-primary" onclick="getEnglishWordInformation();" id="btn_search"><i class="fas fa-search"></i></button>
         </div>
       </div>
       <div id="result_list" style="overflow: auto;">
