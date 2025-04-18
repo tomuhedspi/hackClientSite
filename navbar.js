@@ -1,37 +1,47 @@
 document.addEventListener("DOMContentLoaded", function() {
   const navbarHTML = `
-    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);">
       <a class="navbar-brand" href="#">
         <img src="image/icon.png" alt="Hack Não BK" id="app_icon" style="width:40px;">
       </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbar">
-        <ul class="navbar-nav">
-          <li class="nav-item" id="nav-item-vocabulary">
-            <a class="nav-link" href="index.html">TỪ VỰNG</a>
+        <ul class="navbar-nav mr-auto">
+          <!-- English Tab -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="englishDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Tiếng Anh
+            </a>
+            <div class="dropdown-menu" aria-labelledby="englishDropdown">
+              <a class="dropdown-item" href="english.html">Từ vựng</a>
+              <a class="dropdown-item" href="addenglish.html">Đóng góp từ</a>
+            </div>
           </li>
+          
+          <!-- Japanese Tab -->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="japaneseDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Tiếng Nhật
+            </a>
+            <div class="dropdown-menu" aria-labelledby="japaneseDropdown">
+              <a class="dropdown-item" href="index.html">Từ vựng</a>
+              <a class="dropdown-item" href="addjapanese.html">Đóng góp từ</a>
+              <a class="dropdown-item" href="audio.html">Nghe</a>
+              <a class="dropdown-item" href="kanji.html">Hán tự</a>
+              <a class="dropdown-item" href="unit.html">Giáo trình</a>
+            </div>
+          </li>
+
+          <!-- Info Tab -->
           <li class="nav-item">
-            <a class="nav-link" href="kanji.html">HÁN TỰ</a>
+            <a class="nav-link" href="info.html">Info</a>
           </li>
+
+          <!-- Download Tab -->
           <li class="nav-item">
-            <a class="nav-link" href="unit.html">GIÁO TRÌNH</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="audio.html">NGHE</a>
-          </li>
-          <li class="nav-item" id="nav-item-contribute">
-            <a class="nav-link" href="addjapanese.html">ĐÓNG GÓP TỪ</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="downloadfile.html">DOWNLOAD</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="info.html">GIỚI THIỆU</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="setting.html">CÀI ĐẶT</a>
+            <a class="nav-link" href="downloadfile.html">Download</a>
           </li>
         </ul>
       </div>
@@ -40,41 +50,56 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.body.insertAdjacentHTML('afterbegin', navbarHTML);
 
-  // Load the selected language from local storage
-  const selectedLanguage = localStorage.getItem('selected_language') || 'Japanese';
-  updateNavbar(selectedLanguage);
-
-  function updateNavbar(language) {
-    if (language === 'English') {
-      $('#nav-item-vocabulary a').attr('href', 'english.html');
-      $('#nav-item-contribute a').attr('href', 'addenglish.html');
-      $('.nav-item a[href="kanji.html"]').parent().hide();
-      $('.nav-item a[href="unit.html"]').parent().hide();
-      $('.nav-item a[href="audio.html"]').parent().hide();
-      $('.nav-item a[href="downloadfile.html"]').parent().hide();
-    } else if (language === 'Japanese') {
-      $('#nav-item-vocabulary a').attr('href', 'index.html');
-      $('#nav-item-contribute a').attr('href', 'addjapanese.html');
-      $('.nav-item a[href="kanji.html"]').parent().show();
-      $('.nav-item a[href="unit.html"]').parent().show();
-      $('.nav-item a[href="audio.html"]').parent().show();
-      $('.nav-item a[href="downloadfile.html"]').parent().show();
+  // Highlight the current page in the navbar
+  const currentPath = window.location.pathname.split('/').pop();
+  const currentNavItem = document.querySelector(`a[href="${currentPath}"]`);
+  if (currentNavItem) {
+    if (currentNavItem.classList.contains('dropdown-item')) {
+      // If it's a dropdown item, highlight both the item and its parent dropdown
+      currentNavItem.classList.add('active');
+      const dropdownParent = currentNavItem.closest('.dropdown').querySelector('.dropdown-toggle');
+      dropdownParent.classList.add('active');
+    } else {
+      currentNavItem.classList.add('active');
     }
   }
 
-  // Highlight the current page in the navbar
-  const currentPath = window.location.pathname.split('/').pop();
-  const currentNavItem = document.querySelector(`.nav-item a[href="${currentPath}"]`);
-  if (currentNavItem) {
-    currentNavItem.classList.add('active');
-  }
+  // Add touch support for dropdowns on mobile
+  if ('ontouchstart' in window) {
+    const dropdowns = document.querySelectorAll('.dropdown-toggle');
+    dropdowns.forEach(dropdown => {
+      dropdown.addEventListener('click', function(e) {
+        e.preventDefault();
+        const dropdownMenu = this.nextElementSibling;
+        const isOpen = dropdownMenu.classList.contains('show');
+        
+        // Close all other dropdowns
+        document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+          if (menu !== dropdownMenu) {
+            menu.classList.remove('show');
+            menu.previousElementSibling.setAttribute('aria-expanded', 'false');
+          }
+        });
 
-  // Update navbar when language changes
-  const languageDropdown = document.getElementById('languageDropdown');
-  if (languageDropdown) {
-    languageDropdown.addEventListener('change', function() {
-      const selectedLanguage = this.value;
-      updateNavbar(selectedLanguage);
+        // Toggle current dropdown
+        if (!isOpen) {
+          dropdownMenu.classList.add('show');
+          this.setAttribute('aria-expanded', 'true');
+        } else {
+          dropdownMenu.classList.remove('show');
+          this.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.dropdown')) {
+        document.querySelectorAll('.dropdown-menu.show').forEach(menu => {
+          menu.classList.remove('show');
+          menu.previousElementSibling.setAttribute('aria-expanded', 'false');
+        });
+      }
     });
   }
 });

@@ -156,19 +156,29 @@ function GetEnglishWordInformationListener(){
     }, 700);
 }
 
-function getEnglishWordInformation() {
+async function getEnglishWordInformation() {
   var keyword = $("#input_new_word").val();
   if (keyword.length == 0) {
     return;
   }
 
   setClearWordList();
-  setEnglishWordWithHint(keyword).then(function(hasData) {
-    if (!hasData) {
-      var url = DATA_SERVER_WORD_INFORMATION + keyword;
-      getNewWordInformation(url);
+  
+  try {
+    // Đợi setEnglishWordWithHint hoàn thành trước
+    const hintResults = await setEnglishWordWithHint(keyword);
+    
+    // Sau đó mới gọi getNewWordInformation
+    const newWordResults = await getNewWordInformation(DATA_SERVER_WORD_INFORMATION + keyword);
+    
+    // Hiển thị kết quả nếu có
+    if (hintResults.length > 0 || (newWordResults && newWordResults.suggestions.length > 0)) {
+      $("#result_list").show();
+      $("#scroll_word").show();
     }
-  });
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 }
 
 function setEnglishWordWithHint(keyword) {
@@ -177,16 +187,13 @@ function setEnglishWordWithHint(keyword) {
     var datalist = dataFromServer.data;
     var detail;
     var markup;
+    // Thêm class để đánh dấu kết quả từ hint
     for (let i = 0; i < datalist.length; i++) {
       detail = datalist[i];
-      markup = "<tr onclick='tdclickDBindex(" + detail['id'] + ");'><td>" + detail['word'] + "-->" + "</td><td>" + detail['note'] + "</td></tr>";
-      $('#myTable > tbody:last-child').append(markup);
+      markup = "<tr class='hint-result' onclick='tdclickDBindex(" + detail['id'] + ");'><td>" + detail['word'] + "-->" + "</td><td>" + detail['note'] + "</td></tr>";
+      $('#myTable > tbody:first').append(markup); // Thêm vào đầu bảng
     }
-    if (datalist.length > 0) {
-      $("#result_list").show();
-      $("#scroll_word").show();
-    }
-    return datalist.length > 0; // Trả về true nếu có dữ liệu, ngược lại trả về false
+    return datalist;
   });
 }
 
@@ -198,17 +205,15 @@ function getNewWordInformation(url) {
     var phonetic, definition, keyword;
     var markup;
 
+    // Thêm class để đánh dấu kết quả từ từ điển
     for (let i = 0; i < datalistLen; i++) {
       phonetic = extractPhonetic(dataFromServer, i);
       definition = extractDefinition(dataFromServer, i);
       keyword = getKeyword(dataFromServer, i);
-      markup = "<tr onclick='clickWordInformationIndex(\"" + i + "\");'><td>" + keyword + "</td><td>" + definition + "</td></tr>";
-      $('#myTable > tbody:last-child').append(markup);
+      markup = "<tr class='dictionary-result' onclick='clickWordInformationIndex(\"" + i + "\");'><td>" + keyword + "</td><td>" + definition + "</td></tr>";
+      $('#myTable > tbody').append(markup); // Thêm vào cuối bảng
     }
-    if (datalistLen > 0) {
-      $("#result_list").show();
-      $("#scroll_word").show();
-    }
+    return dataFromServer;
   });
 }
 
@@ -518,15 +523,7 @@ function splitIntoColumns(arr) {
 }
 
 function updateBrandLogo() {
-    // Load the selected language from local storage
-    const language = localStorage.getItem('selected_language') || 'Japanese';
-    let logoSrc = '';
-    if (language === 'Japanese') {
-      logoSrc = 'image/icon_japanese.png';
-    } else if (language === 'English') {
-      logoSrc = 'image/icon_english.png';
-    }
-    $('#app_icon').attr('src', logoSrc);
+    $('#app_icon').attr('src', 'image/icon.png');
 }
 
 function getWordTypeBaseOnSelectedLanguage() {
@@ -569,3 +566,23 @@ function getHintForWordJapanese() {
 function getHintForWordEnglish() {
     getHintForWord(TYPE_ENGLISH);
 }
+
+// Thêm CSS để phân biệt 2 loại kết quả
+function addCustomStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .hint-result {
+      background-color: rgba(9, 110, 235, 0.1);
+    }
+    .dictionary-result {
+      background-color: white;
+    }
+    .hint-result:hover, .dictionary-result:hover {
+      background-color: rgba(9, 110, 235, 0.2);
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// Gọi hàm thêm CSS khi trang được load
+document.addEventListener('DOMContentLoaded', addCustomStyles);
