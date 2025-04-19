@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Thêm Từ Vựng Tiếng Nhật Hack Não BK</title>
+  <title>Thêm Từ Vựng Hán Tự Hack Não BK</title>
   <link rel="icon" type="image/x-icon" href="https://hacknaobk.icu/favicon.ico">
   <meta charset="utf-8">
   <meta name="description" content="Đóng góp vào kho từ vựng. Ghi lại những từ vựng tiếng Nhật với cách nhớ nhanh chóng và lâu dài.">
@@ -51,17 +51,17 @@
   <div class="row content">
     <div class="col-sm-9">
       <div class="page_title">
-        <h1 id="pageheaderpc">Đóng góp từ vựng</h1>
+        <h1 id="pageheaderpc">Đóng góp Hán Tự</h1>
       </div>
       <br>
       <form id="myForm">
         <div class="form-group">
-          <label for="myword" id="mywordlabel">Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)</label>
-          <input type="text" class="form-control" id="myword" placeholder="勉強" maxlength="255" required onchange="setButtonDisable();">
+          <label for="myword" id="mywordlabel">Hán tự 漢字</label>
+          <input type="text" class="form-control" id="myword" placeholder="日" maxlength="255" required onchange="setButtonDisable();">
         </div>
         <div class="form-group">
-          <label for="myreading" id="myreadinglabel">Cách đọc( Viết bằng Hiragana)</label>
-          <input type="text" class="form-control" id="myreading" placeholder="べんきょう" maxlength="255" required onchange="setButtonDisable();">
+          <label for="myreading" id="myreadinglabel">Phiên âm Hán Việt</label>
+          <input type="text" class="form-control" id="myreading" placeholder="NHẬT" maxlength="255" required onchange="setButtonDisable();">
         </div>
         <div class="form-group">
           <label for="mymeaning">Nghĩa tiếng Việt</label>
@@ -69,7 +69,7 @@
         </div>
         <div class="form-group">
           <label for="mynote">Cách nhớ gợi ý</label>
-          <textarea class="form-control" id="mynote" rows="3"placeholder="BÊN CÔ em HỌC hành nghiêm túc hơn hẳn" maxlength="1000"  onchange="setButtonDisable();"></textarea>
+          <textarea class="form-control" id="mynote" rows="3"placeholder="trời giống Hình Chữ Nhật ロ, bị chia làm đôi 一 : nửa trên là Ngày 日, nửa dưới là đêm" maxlength="1000"  onchange="setButtonDisable();"></textarea>
         </div>
         <div class="form-group" id ="kun" style="display: none;">
           <label for="mykun">Âm kun</label>
@@ -84,14 +84,7 @@
           <input type="text" id="added_by" class="form-control" placeholder="member" onkeyup="saveAuthorName();">
         </div>
         <div class="d-flex justify-content-between">
-          <button id ="submitButton" class="btn btn-primary" type="submit" onclick="submitWord(0);" disabled><i class="fa fa-paper-plane"></i></button> 
-          <button class="btn btn-primary" type="button"  onclick="getHintForWordJapanese();">Xem Gợi Ý Cách Nhớ</button>
-        </div>
-        <div id="hint_text" class="row">
-          <div class="col-sm-3 hint-column" id="hint_text_1"></div>
-          <div class="col-sm-3 hint-column" id="hint_text_2"></div>
-          <div class="col-sm-3 hint-column" id="hint_text_3"></div>
-          <div class="col-sm-3 hint-column" id="hint_text_4"></div>
+          <button id ="submitButton" class="btn btn-primary" type="submit" onclick="submitWord(1);" disabled><i class="fa fa-paper-plane"></i></button> 
         </div>
       </form>
     </div>

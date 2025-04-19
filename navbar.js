@@ -27,9 +27,10 @@ document.addEventListener("DOMContentLoaded", function() {
             </a>
             <div class="dropdown-menu" aria-labelledby="japaneseDropdown">
               <a class="dropdown-item" href="index.html">Từ vựng</a>
-              <a class="dropdown-item" href="addjapanese.html">Đóng góp từ</a>
-              <a class="dropdown-item" href="audio.html">Nghe</a>
               <a class="dropdown-item" href="kanji.html">Hán tự</a>
+              <a class="dropdown-item" href="addjapanese.html">Đóng góp từ</a>
+              <a class="dropdown-item" href="addkanji.html">Đóng góp Hán Tự</a>
+              <a class="dropdown-item" href="audio.html">Nghe</a>
               <a class="dropdown-item" href="unit.html">Giáo trình</a>
             </div>
           </li>

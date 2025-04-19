@@ -262,7 +262,7 @@ function searchWord(wordtype =0){
 function getSearchParam(default_wordtype){
     var obj=new Object();
     var keyword =$("#input_keyword").val();
-    var type = getWordTypeForSearch(default_wordtype);;
+    var type = default_wordtype;
     var obj=new Object();
     if(type == TYPE_KANJI){
       obj.search_kanji = keyword;
@@ -271,23 +271,6 @@ function getSearchParam(default_wordtype){
     }
     obj.type = type;
     return obj;
-}
-function getWordTypeForSearch(default_wordtype){
-  var type;
-  if(default_wordtype===TYPE_KANJI){
-    type = TYPE_KANJI;
-  }else{
-    type = getWordTypeBaseOnSelectedLanguage();
-  }
-  return type;
-}
-
-function getWordTypeForAddWord(){
-    var type = getWordTypeBaseOnSelectedLanguage();
-    if(type===TYPE_JAPANESE){
-      type = $("#word_type_adding").val();
-    }
-    return type;
 }
 
 function setWordListWithDBindex(url){
@@ -381,7 +364,7 @@ function selectUnit(obj){
     $("#myTable").show();
 }
 
-function submitWord(){
+function submitWord(wordtype){
     var wordContent;
     var readingContent;
     var noteContent;
@@ -393,7 +376,7 @@ function submitWord(){
     readingContent= $("#myreading").val();
     meaningContent= $("#mymeaning").val();
     noteContent= $("#mynote").val();
-    typeContent= getWordTypeForAddWord();
+    typeContent= wordtype;
     kunContent=$("#mykun").val();
     onContent=  $("#myon").val();
     created_byContent = $("#added_by").val();
@@ -407,33 +390,6 @@ function submitWord(){
 
 function showThankYouAlert() {
   alert("Bạn ơi! Cám ơn bạn vì đã đóng góp nhé!");
-}
-
-function setwordtype(selectedtype){
-    var type;
-    if(selectedtype){
-      type = selectedtype.value;
-    }else{
-      type = TYPE_JAPANESE;
-    }
-
-    if(type==TYPE_KANJI){
-      $("#mywordlabel").text("Hán tự 漢字");
-      $("#myreadinglabel").text("Phiên âm Hán Việt");
-      $("#myword").attr("placeholder", "日");
-      $("#myreading").attr("placeholder", "NHẬT");
-      $("#mynote").attr("placeholder", "trời giống Hình Chữ Nhật ロ, bị chia làm đôi 一 : nửa trên là Ngày 日, nửa dưới là đêm.");
-      $("#kun").show();
-      $("#on").show();
-    }else{
-      $("#mywordlabel").text("Từ Vựng( Viết bằng Chữ hán hoặc Hiragana)");
-      $("#myreadinglabel").text("Cách đọc( Viết bằng Hiragana)");
-      $("#myword").attr("placeholder", "勉強");
-      $("#myreading").attr("placeholder", "べんきょう");
-      $("#mynote").attr("placeholder", "BÊN CÔ em HỌC hành nghiêm túc hơn hẳn");
-      $("#kun").hide();
-      $("#on").hide();
-    }
 }
 
 function setButtonDisable(){
@@ -524,15 +480,6 @@ function splitIntoColumns(arr) {
 
 function updateBrandLogo() {
     $('#app_icon').attr('src', 'image/icon.png');
-}
-
-function getWordTypeBaseOnSelectedLanguage() {
-    const language = localStorage.getItem('selected_language') || 'Japanese';
-    if (language === 'English') {
-      return TYPE_ENGLISH;
-    }else{
-      return TYPE_JAPANESE;
-    }
 }
 
 function searchWordJapanese(){
