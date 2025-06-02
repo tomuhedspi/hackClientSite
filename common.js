@@ -78,16 +78,28 @@ function submitComment(){
     var currentWordID;
     var commentContent;
     var commentUrl;
-    var DEFAULT_AUTHOR ="メンバー"
+    var author_name = $("#myname").val();
+    if (!author_name) {
+      author_name = "メンバー";
+    }
     currentWordID= $("#word_id").text();
     commentContent= $("#mycomment").val();
     commentUrl= DATA_SERVER_POST_COMMENT + currentWordID +DATA_SERVER_POST_COMMENT_SUFFIX;
-    $.post( commentUrl, { author_name: DEFAULT_AUTHOR, content:commentContent})
+    $.post( commentUrl, { author_name: author_name, content:commentContent})
     .done(function( data ) {
         $("#mycomment").val("");
-        markup = "<tr><td>" + commentContent + "</td><td>" + DEFAULT_AUTHOR + "</td></tr>";
+        markup = "<tr><td>" + commentContent + "</td><td>" + author_name + "</td></tr>";
         $('#table_comment > tbody:last-child').append(markup); 
     });
+}
+
+function setDefaultMyname() {
+    var myName = loadMyName();
+    if (myName) {
+      $("#myname").val(myName);
+    }else{
+      $("#myname").val("メンバー");
+    }
 }
 
 function getWordFromDB(wordID){
@@ -478,10 +490,6 @@ function splitIntoColumns(arr) {
   return result;
 }
 
-function updateBrandLogo() {
-    $('#app_icon').attr('src', 'image/icon.png');
-}
-
 function searchWordJapanese(){
     searchWord(TYPE_JAPANESE);
 }
@@ -533,3 +541,10 @@ function addCustomStyles() {
 
 // Gọi hàm thêm CSS khi trang được load
 document.addEventListener('DOMContentLoaded', addCustomStyles);
+function saveMyName(name) {
+  localStorage.setItem('myname', name);
+}
+
+function loadMyName() {
+  return localStorage.getItem('myname') || '';
+}

@@ -25,8 +25,8 @@
 
   <script>
     $(document).ready(function(){
-      updateBrandLogo();
       setUnit();
+      setDefaultMyname();
       loadMoreword();
       setScrollEvent();
       setIndicator();
@@ -81,6 +81,12 @@
         <div id="div_comment" style="height: 400px; overflow: auto;">
           <p id="comment_title">Comment:</p>
           <input type="text" name="mycomment" id="mycomment" class="form-control" placeholder="Góp ý của bạn"><br>
+          <div class="row">
+            <div class="col-sm-9"></div>
+            <div class="col-sm-3 text-right">
+            <input type="text" id="myname" class="form-control" placeholder="Tên bạn" style="font-size: xx-small; display: inline-block; width: 80%; border: none; text-align: right;" onchange="saveMyName(this.value)">
+          </div>
+        </div>
           <button class="btn btn-primary" type="submit" onclick="submitComment();"><i class="fa fa-paper-plane"></i></button>
           <table id="table_comment" class="table table-striped">
             <colgroup>
