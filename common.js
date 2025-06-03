@@ -44,15 +44,6 @@ function setScrollEvent(){
     });
 };
 
-function setIndicator(){
-    $(document).ajaxStart(function(){
-      $("#wait").css("display", "block");
-    });
-    $(document).ajaxComplete(function(){
-      $("#wait").css("display", "none");
-    });
-};
-
 function setWordComment(singleWord){
     var detail;
     var comment_list=new Object;
