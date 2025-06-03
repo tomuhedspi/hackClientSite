@@ -38,7 +38,7 @@
   <script>
     $(document).ready(function(){
       ignoreEnter();
-      setAuthorName();
+      setDefaultMyname();
     });
   </script>
 </head>
@@ -70,17 +70,25 @@
           <label for="mynote">Cách nhớ gợi ý</label>
           <textarea class="form-control" id="mynote" rows="3"placeholder="trời giống Hình Chữ Nhật ロ, bị chia làm đôi 一 : nửa trên là Ngày 日, nửa dưới là đêm" maxlength="1000"  onchange="setButtonDisable();"></textarea>
         </div>
-        <div class="form-group" id ="kun" style="display: none;">
+        <div class="form-group" id ="kun">
           <label for="mykun">Âm kun</label>
           <input type="text" class="form-control" id="mykun" placeholder="RYOKU, RIKI" maxlength="255">
         </div>
-        <div class="form-group" id ="on" style="display: none;">
+        <div class="form-group" id ="on">
           <label for="myon">Âm on</label>
           <input type="text" class="form-control" id="myon" placeholder="chikara" maxlength="255">
         </div>
+        <div class="form-group" id ="child">
+          <label for="mychild">Bộ thủ</label>
+          <input type="text" class="form-control" id="mychild" placeholder="十又一尢" maxlength="255">
+        </div>
         <div class="form-group">
-          <label for="added_by"></label>
-          <input type="text" id="added_by" class="form-control" placeholder="member" onkeyup="saveAuthorName();">
+          <div class="row">
+            <div class="col-10"></div>
+            <div class="col-2 text-right">
+              <input type="text" id="myname" class="form-control" placeholder="member" style="font-size: xx-small; width: 100%; border: none; text-align: right;" onchange="saveMyName(this.value)">
+            </div>
+          </div>
         </div>
         <div class="d-flex justify-content-between">
           <button id ="submitButton" class="btn btn-primary" type="submit" onclick="submitWord(1);" disabled><i class="fa fa-paper-plane"></i></button> 

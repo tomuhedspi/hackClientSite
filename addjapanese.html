@@ -38,7 +38,7 @@
   <script>
     $(document).ready(function(){
       ignoreEnter();
-      setAuthorName();
+      setDefaultMyname();
     });
   </script>
 </head>
@@ -79,8 +79,12 @@
           <input type="text" class="form-control" id="myon" placeholder="chikara" maxlength="255">
         </div>
         <div class="form-group">
-          <label for="added_by"></label>
-          <input type="text" id="added_by" class="form-control" placeholder="member" onkeyup="saveAuthorName();">
+          <div class="row">
+            <div class="col-10"></div>
+            <div class="col-2 text-right">
+              <input type="text" id="myname" class="form-control" placeholder="member" style="font-size: xx-small; width: 100%; border: none; text-align: right;" onchange="saveMyName(this.value)">
+            </div>
+          </div>
         </div>
         <div class="d-flex justify-content-between">
           <button id ="submitButton" class="btn btn-primary" type="submit" onclick="submitWord(0);" disabled><i class="fa fa-paper-plane"></i></button> 

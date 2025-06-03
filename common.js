@@ -375,6 +375,7 @@ function submitWord(wordtype){
     var typeContent;
     var kunContent;
     var onContent;
+    var childContent;
     wordContent= $("#myword").val();
     readingContent= $("#myreading").val();
     meaningContent= $("#mymeaning").val();
@@ -382,9 +383,10 @@ function submitWord(wordtype){
     typeContent= wordtype;
     kunContent=$("#mykun").val();
     onContent=  $("#myon").val();
-    created_byContent = $("#added_by").val();
+    childContent = $("#mychild").val();
+    created_byContent = $("#myname").val();
     
-    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on: onContent, created_by: created_byContent})
+    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on: onContent, created_by: created_byContent,child: childContent })
     .done(function( data ) {
 
     });
@@ -419,20 +421,6 @@ function updateAudio(audioName){
     document.getElementById("my-audio").setAttribute('src', audioName);
     var myAudio = document.getElementById("my-audio");
     myAudio.play();
-}
-
-function saveAuthorName() {
-    // Save the value to local storage
-    localStorage.setItem('added_by', $('#added_by').val());
-}
-
-function setAuthorName() {
-    const savedAddedBy = localStorage.getItem('added_by');
-    if (savedAddedBy) {
-      $('#added_by').val(savedAddedBy);
-    } else {
-      $('#added_by').val('member');
-    }
 }
 
 function getHintForWord(wordtype) {
