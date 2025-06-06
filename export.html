@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Kanji Data</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .input-area {
+            width: 100%;
+            min-height: 200px;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .export-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .export-btn:hover {
+            background-color: #45a049;
+        }
+        .loading {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .kanji-template {
+            display: none;
+        }
+        .kanji-item {
+            margin-bottom: 30px;
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .kanji-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ddd, transparent);
+        }
+        .kanji-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+            gap: 20px;
+        }
+        .kanji-index {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        .kanji-image {
+            width: auto;
+            max-width: 120px;
+            height: 120px;
+            object-fit: contain;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+        .kanji-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+            min-width: 0; /* Prevent flex item from overflowing */
+        }
+        .kanji-word-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap; /* Allow wrapping if needed */
+        }
+        .kanji-word {
+            font-size: 60px;
+            line-height: 1;
+        }
+        .kanji-reading {
+            font-size: 16px;
+            color: #666;
+        }
+        .kanji-details {
+            margin-left: 0;
+            margin-top: 5px;
+            width: 100%;
+        }
+        .kanji-details > div {
+            margin-bottom: 3px;
+            font-size: 12px;
+        }
+        .radicals-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .radicals-container.compact {
+            flex-direction: row;
+            align-items: flex-start;
+        }
+        .radicals-chart {
+            width: 100%;
+            height: 250px;
+            border: 1px solid #ddd;
+        }
+        .radicals-chart.compact {
+            width: 50%;
+            height: 180px;
+        }
+        .radicals-chart.large {
+            height: 375px; /* 1.5x of normal height */
+        }
+        .radicals-info {
+            width: 100%;
+            padding: 5px 0;
+            overflow-y: auto;
+            max-height: none;
+            font-size: 9px;
+        }
+        .radicals-info.compact {
+            width: 50%;
+            padding-left: 15px;
+            max-height: 180px;
+        }
+        .radical-item {
+            margin-bottom: 4px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #eee;
+        }
+        .radical-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .radical-main {
+            font-weight: bold;
+            margin-bottom: 1px;
+        }
+        .radical-note {
+            color: #666;
+            font-style: italic;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Export Kanji Data</h1>
+        <textarea id="kanjiInput" class="input-area" placeholder="Enter kanji characters separated by new lines, commas, periods, or tabs"></textarea>
+        <button id="exportBtn" class="export-btn">Export to PDF</button>
+        <div id="loading" class="loading">Processing... Please wait</div>
+    </div>
+
+    <div id="kanjiTemplate" class="kanji-template">
+        <div class="kanji-item">
+            <div class="kanji-header">
+                <div class="kanji-info">
+                    <div class="kanji-word-container">
+                        <span class="kanji-index"></span>
+                        <span class="kanji-word"></span>
+                        <span class="kanji-reading"></span>
+                    </div>
+                </div>
+                <img class="kanji-image" src="" alt="Kanji image">
+            </div>
+            <div class="kanji-details">
+                <div class="kanji-meaning"></div>
+                <div class="kanji-note"></div>
+                <div class="kanji-kun"></div>
+                <div class="kanji-on"></div>
+                <div class="radicals-container">
+                    <div class="radicals-chart"></div>
+                    <div class="radicals-info"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Main functionality will be implemented here
+        document.addEventListener('DOMContentLoaded', function() {
+            const exportBtn = document.getElementById('exportBtn');
+            const kanjiInput = document.getElementById('kanjiInput');
+            const loading = document.getElementById('loading');
+
+            exportBtn.addEventListener('click', async function() {
+                const input = kanjiInput.value.trim();
+                if (!input) {
+                    alert('Please enter some kanji characters');
+                    return;
+                }
+
+                loading.style.display = 'block';
+                exportBtn.disabled = true;
+
+                try {
+                    // Split input by various delimiters
+                    const kanjiList = input.split(/[\n,.\t]+/).filter(k => k.trim());
+                    
+                    // Process kanji and generate PDF
+                    await generatePDF(kanjiList);
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('An error occurred while generating the PDF');
+                } finally {
+                    loading.style.display = 'none';
+                    exportBtn.disabled = false;
+                }
+            });
+        });
+
+        async function generatePDF(kanjiList) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 15;
+            const topMargin = 5;
+            const kanjiSpacing = 15;
+            let currentPage = 1;
+            let currentY = topMargin;
+            let previousKanji = null;
+
+            // Process kanji in batches to avoid memory issues
+            const batchSize = 50;
+            for (let i = 0; i < kanjiList.length; i += batchSize) {
+                const batch = kanjiList.slice(i, i + batchSize);
+                const kanjiData = await Promise.all(
+                    batch.map(async (word, index) => {
+                        const data = await fetchKanjiData(word);
+                        if (data && data.length > 0) {
+                            const radicalsData = await fetchRadicalsData(data[0].id);
+                            return {
+                                ...data[0],
+                                radicalsData,
+                                index: i + index + 1
+                            };
+                        }
+                        return null;
+                    })
+                );
+
+                // Filter out null results and process each kanji
+                const validKanjiData = kanjiData.filter(data => data !== null);
+                
+                for (const data of validKanjiData) {
+                    const nodeCount = data.radicalsData ? data.radicalsData.nodes.length : 0;
+                    const isCompact = nodeCount <= 7;
+                    const isLarge = nodeCount >= 8;
+                    
+                    // Check if we can fit this kanji on the same page with the previous one
+                    const canFitOnSamePage = previousKanji && 
+                                           previousKanji.radicalsData && 
+                                           previousKanji.radicalsData.nodes.length <= 7 && 
+                                           isCompact;
+
+                    // Create temporary container for kanji item
+                    const container = document.createElement('div');
+                    container.style.width = `${pageWidth - 2 * margin}mm`;
+                    container.style.position = 'absolute';
+                    container.style.left = '-9999px';
+                    document.body.appendChild(container);
+
+                    // Clone and populate template
+                    const template = document.getElementById('kanjiTemplate').cloneNode(true);
+                    template.style.display = 'block';
+                    template.querySelector('.kanji-index').textContent = `#${data.index}`;
+                    
+                    // Set image source and wait for it to load
+                    if (data.image) {
+                        const imageUrl = `image/wordImage/${data.image}`;
+                        const imgElement = template.querySelector('.kanji-image');
+                        imgElement.style.display = 'block';
+                        
+                        try {
+                            const response = await fetch(imageUrl);
+                            const blob = await response.blob();
+                            const reader = new FileReader();
+                            const base64Image = await new Promise((resolve, reject) => {
+                                reader.onload = () => resolve(reader.result);
+                                reader.onerror = reject;
+                                reader.readAsDataURL(blob);
+                            });
+                            imgElement.src = base64Image;
+                        } catch (error) {
+                            console.warn(`Failed to load image: ${imageUrl}`, error);
+                            imgElement.style.display = 'none';
+                        }
+                    }
+                    
+                    template.querySelector('.kanji-word').textContent = data.word;
+                    template.querySelector('.kanji-reading').textContent = data.reading;
+                    template.querySelector('.kanji-meaning').textContent = `Meaning: ${data.meaning || 'N/A'}`;
+                    template.querySelector('.kanji-note').textContent = `Note: ${data.note || 'N/A'}`;
+                    template.querySelector('.kanji-kun').textContent = `Kun: ${data.kun || 'N/A'}`;
+                    template.querySelector('.kanji-on').textContent = `On: ${data.on || 'N/A'}`;
+
+                    container.appendChild(template);
+
+                    // Create radicals chart after template is in DOM
+                    if (data.radicalsData) {
+                        const radicalsContainer = template.querySelector('.radicals-container');
+                        const radicalsChart = template.querySelector('.radicals-chart');
+                        const radicalsInfo = template.querySelector('.radicals-info');
+
+                        if (isCompact) {
+                            radicalsContainer.classList.add('compact');
+                            radicalsChart.classList.add('compact');
+                            radicalsInfo.classList.add('compact');
+                        } else if (isLarge) {
+                            radicalsChart.classList.add('large');
+                        }
+
+                        createRadicalsChart(radicalsChart, data.radicalsData);
+                        
+                        // Populate radicals info
+                        const sortedNodes = [...data.radicalsData.nodes].sort((a, b) => {
+                            if (a.label === data.word) return -1;
+                            if (b.label === data.word) return 1;
+                            return 0;
+                        });
+
+                        radicalsInfo.innerHTML = sortedNodes.map(node => `
+                            <div class="radical-item">
+                                <div class="radical-main">${node.label}: ${node.reading || ''} - ${node.meaning || ''}</div>
+                                <div class="radical-note">${node.note || ''}</div>
+                            </div>
+                        `).join('');
+                    }
+
+                    // Wait for the radicals chart to render
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+
+                    // Convert to canvas and add to PDF
+                    const canvas = await html2canvas(container, {
+                        scale: 2,
+                        useCORS: true,
+                        logging: false,
+                        allowTaint: true,
+                        imageTimeout: 0,
+                        backgroundColor: '#ffffff'
+                    });
+
+                    const imgData = canvas.toDataURL('image/png');
+                    const imgWidth = pageWidth - 2 * margin;
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                    // Check if we need a new page
+                    if (!canFitOnSamePage || currentY + imgHeight > pageHeight - margin) {
+                        // Add footer to current page before adding new page
+                        if (currentPage > 1) {
+                            addFooter(doc, currentPage);
+                        }
+                        
+                        // Add new page if not the first kanji
+                        if (currentPage > 1 || currentY > topMargin) {
+                            doc.addPage();
+                            currentPage++;
+                        }
+                        currentY = topMargin;
+                    }
+
+                    // Add content to the page
+                    doc.addImage(imgData, 'PNG', margin, currentY, imgWidth, imgHeight);
+
+                    // Update current Y position with increased spacing
+                    currentY += imgHeight + kanjiSpacing;
+
+                    // Clean up
+                    document.body.removeChild(container);
+
+                    // Store this kanji for next iteration
+                    previousKanji = data;
+                }
+            }
+
+            // Add footer to the last page
+            addFooter(doc, currentPage);
+
+            // Save the PDF
+            doc.save('kanji-export.pdf');
+        }
+
+        async function fetchKanjiData(word) {
+            try {
+                const response = await fetch(`https://nguyenthithom.name.vn/api/exact?type=1&search=${encodeURIComponent(word)}`);
+                const data = await response.json();
+                return data.data;
+            } catch (error) {
+                console.error('Error fetching kanji data:', error);
+                return null;
+            }
+        }
+
+        async function fetchRadicalsData(id) {
+            try {
+                const response = await fetch(`https://nguyenthithom.name.vn/api/char/${id}/radicals-tree`);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching radicals data:', error);
+                return null;
+            }
+        }
+
+        function createRadicalsChart(container, data) {
+            const nodes = new vis.DataSet(data.nodes.map(node => ({
+                id: node.id,
+                label: node.label,
+                title: `${node.reading}\n${node.meaning}`,
+                font: { 
+                    size: node.label === data.nodes[0].label ? 90 : 60,
+                    face: 'Arial'
+                },
+                size: node.label === data.nodes[0].label ? 140 : 100,
+                color: {
+                    background: node.label === data.nodes[0].label ? '#f794fc' : '#6cc4fa',
+                    border: node.label === data.nodes[0].label ? '#f794fc' : '#6cc4fa'
+                },
+                borderWidth: node.label === data.nodes[0].label ? 3 : 2,
+                shadow: true
+            })));
+
+            const edges = new vis.DataSet(data.links.map(link => ({
+                from: link.source,
+                to: link.target,
+                arrows: 'to'
+            })));
+
+            const network = new vis.Network(container, { nodes, edges }, {
+                nodes: {
+                    shape: 'circle',
+                    shadow: true
+                },
+                edges: {
+                    color: '#666',
+                    width: 2
+                },
+                physics: {
+                    stabilization: true,
+                    barnesHut: {
+                        gravitationalConstant: -2000,
+                        springConstant: 0.04,
+                        springLength: 300
+                    }
+                }
+            });
+        }
+
+        function addFooter(doc, pageNumber) {
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            
+            doc.setFontSize(10);
+            doc.setTextColor(100);
+            doc.text('https://hacknaobk.icu/', pageWidth / 2, pageHeight - 10, { align: 'center' });
+            doc.text(`Page ${pageNumber}`, pageWidth / 2, pageHeight - 5, { align: 'center' });
+        }
+    </script>
+</body>
+</html>
