@@ -52,7 +52,7 @@
             display: none;
         }
         .kanji-item {
-            margin-bottom: 30px;
+            margin-bottom: 0 !important;
             page-break-inside: avoid;
             display: flex;
             flex-direction: column;
@@ -70,9 +70,11 @@
         .kanji-header {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 2px;
+            margin-top: 0;
             width: 100%;
             gap: 20px;
+            padding-top: 0;
         }
         .kanji-index {
             background-color: #4CAF50;
@@ -82,29 +84,34 @@
             margin-right: 10px;
         }
         .kanji-image {
+            height: 160px;
             width: auto;
-            max-width: 120px;
-            height: 120px;
+            max-width: 60%;
             object-fit: contain;
             flex-shrink: 0;
             margin-left: auto;
+            margin-top: 0;
         }
         .kanji-info {
             display: flex;
             flex-direction: column;
             justify-content: center;
             flex: 1;
-            min-width: 0; /* Prevent flex item from overflowing */
+            min-width: 0;
         }
         .kanji-word-container {
             display: flex;
             align-items: center;
             gap: 15px;
-            flex-wrap: wrap; /* Allow wrapping if needed */
+            flex-wrap: wrap;
+            margin: 0;
+            padding: 0;
         }
         .kanji-word {
             font-size: 60px;
             line-height: 1;
+            margin: 0;
+            padding: 0;
         }
         .kanji-reading {
             font-size: 16px;
@@ -123,7 +130,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 2px !important;
             width: 100%;
         }
         .radicals-container.compact {
@@ -140,7 +147,7 @@
             height: 180px;
         }
         .radicals-chart.large {
-            height: 375px; /* 1.5x of normal height */
+            height: 375px;
         }
         .radicals-info {
             width: 100%;
@@ -180,12 +187,62 @@
             font-size: 12px;
             color: #666;
         }
+        .kanji-separator {
+            border: none;
+            border-top: 1.5px dashed #bbb;
+            margin: 2px 0 2px 0 !important;
+            width: 100%;
+        }
+        .kanji-item.no-image .kanji-header {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .kanji-item.no-image .kanji-word-container {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .kanji-item.no-image .kanji-word {
+            font-size: 40px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .kanji-item.no-image .kanji-image {
+            display: none !important;
+        }
+        .kanji-item.no-image .kanji-details {
+            margin-top: 2px !important;
+            padding-top: 0 !important;
+        }
+        .kanji-item.no-image .kanji-meaning {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        .radicals-container,
+        .radicals-container.compact {
+            max-height: none !important;
+            overflow: visible !important;
+            flex: unset !important;
+            height: auto !important;
+        }
+        .radicals-info,
+        .radicals-info.compact {
+            max-height: none !important;
+            overflow: visible !important;
+            height: auto !important;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Export Kanji Data</h1>
-        <textarea id="kanjiInput" class="input-area" placeholder="Enter kanji characters separated by new lines, commas, periods, or tabs"></textarea>
+        <div style="margin-bottom: 10px;">
+            <label><input type="radio" name="inputType" value="id" checked> ID</label>
+            <label style="margin-left: 20px;"><input type="radio" name="inputType" value="kanji"> Kanji</label>
+            <label style="margin-left: 30px;">printIndex: 
+                <input type="number" id="printIndex" value="1" min="1" style="width: 80px;">
+            </label>
+        </div>
+        <textarea id="kanjiInput" class="input-area" placeholder="Enter kanji characters or IDs separated by new lines, commas, periods, or tabs"></textarea>
         <button id="exportBtn" class="export-btn">Export to PDF</button>
         <div id="loading" class="loading">Processing... Please wait</div>
     </div>
@@ -221,23 +278,28 @@
             const exportBtn = document.getElementById('exportBtn');
             const kanjiInput = document.getElementById('kanjiInput');
             const loading = document.getElementById('loading');
+            const printIndexInput = document.getElementById('printIndex');
+            let lastPrintIndex = 1;
 
             exportBtn.addEventListener('click', async function() {
                 const input = kanjiInput.value.trim();
                 if (!input) {
-                    alert('Please enter some kanji characters');
+                    alert('Please enter some kanji characters or IDs');
                     return;
                 }
+                const inputType = document.querySelector('input[name="inputType"]:checked').value;
+                let printIndex = parseInt(printIndexInput.value) || 1;
 
                 loading.style.display = 'block';
                 exportBtn.disabled = true;
 
                 try {
                     // Split input by various delimiters
-                    const kanjiList = input.split(/[\n,.\t]+/).filter(k => k.trim());
-                    
-                    // Process kanji and generate PDF
-                    await generatePDF(kanjiList);
+                    const inputList = input.split(/[\n,.\t]+/).filter(k => k.trim());
+                    await generatePDF(inputList, inputType, printIndex);
+
+                    // Sau khi export, cập nhật printIndex
+                    printIndexInput.value = printIndex + inputList.length;
                 } catch (error) {
                     console.error('Error:', error);
                     alert('An error occurred while generating the PDF');
@@ -248,7 +310,7 @@
             });
         });
 
-        async function generatePDF(kanjiList) {
+        async function generatePDF(inputList, inputType, printIndex) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({
                 orientation: 'portrait',
@@ -265,20 +327,35 @@
             let currentY = topMargin;
             let previousKanji = null;
 
-            // Process kanji in batches to avoid memory issues
+            // Process in batches to avoid memory issues
             const batchSize = 50;
-            for (let i = 0; i < kanjiList.length; i += batchSize) {
-                const batch = kanjiList.slice(i, i + batchSize);
+            for (let i = 0; i < inputList.length; i += batchSize) {
+                const batch = inputList.slice(i, i + batchSize);
                 const kanjiData = await Promise.all(
-                    batch.map(async (word, index) => {
-                        const data = await fetchKanjiData(word);
-                        if (data && data.length > 0) {
-                            const radicalsData = await fetchRadicalsData(data[0].id);
-                            return {
-                                ...data[0],
-                                radicalsData,
-                                index: i + index + 1
-                            };
+                    batch.map(async (item, index) => {
+                        let data;
+                        if (inputType === 'id') {
+                            // Lấy theo ID
+                            data = await fetchKanjiById(item);
+                            if (data) {
+                                const radicalsData = await fetchRadicalsData(data.id);
+                                return {
+                                    ...data,
+                                    radicalsData,
+                                    index: printIndex + i + index
+                                };
+                            }
+                        } else {
+                            // Lấy theo Kanji (logic cũ)
+                            const arr = await fetchKanjiData(item);
+                            if (arr && arr.length > 0) {
+                                const radicalsData = await fetchRadicalsData(arr[0].id);
+                                return {
+                                    ...arr[0],
+                                    radicalsData,
+                                    index: printIndex + i + index
+                                };
+                            }
                         }
                         return null;
                     })
@@ -287,16 +364,22 @@
                 // Filter out null results and process each kanji
                 const validKanjiData = kanjiData.filter(data => data !== null);
                 
-                for (const data of validKanjiData) {
+                for (let idx = 0; idx < validKanjiData.length; idx++) {
+                    const data = validKanjiData[idx];
                     const nodeCount = data.radicalsData ? data.radicalsData.nodes.length : 0;
-                    const isCompact = nodeCount <= 7;
+                    const isCompact = nodeCount > 1 && nodeCount <= 7;
                     const isLarge = nodeCount >= 8;
-                    
-                    // Check if we can fit this kanji on the same page with the previous one
-                    const canFitOnSamePage = previousKanji && 
-                                           previousKanji.radicalsData && 
-                                           previousKanji.radicalsData.nodes.length <= 7 && 
-                                           isCompact;
+                    const hasRadicalTree = nodeCount > 1;
+
+                    // Nếu không có radical tree, giảm spacing để in được nhiều chữ hơn
+                    const currentKanjiSpacing = hasRadicalTree ? kanjiSpacing : 5;
+
+                    // Check if we can fit on the same page with the previous kanji
+                    const canFitOnSamePage = previousKanji &&
+                        previousKanji.radicalsData &&
+                        previousKanji.radicalsData.nodes.length > 1 &&
+                        isCompact &&
+                        hasRadicalTree;
 
                     // Create temporary container for kanji item
                     const container = document.createElement('div');
@@ -309,13 +392,12 @@
                     const template = document.getElementById('kanjiTemplate').cloneNode(true);
                     template.style.display = 'block';
                     template.querySelector('.kanji-index').textContent = `#${data.index}`;
-                    
-                    // Set image source and wait for it to load
+
+                    let hasImage = false;
                     if (data.image) {
                         const imageUrl = `image/wordImage/${data.image}`;
                         const imgElement = template.querySelector('.kanji-image');
                         imgElement.style.display = 'block';
-                        
                         try {
                             const response = await fetch(imageUrl);
                             const blob = await response.blob();
@@ -326,23 +408,33 @@
                                 reader.readAsDataURL(blob);
                             });
                             imgElement.src = base64Image;
+                            hasImage = true;
                         } catch (error) {
-                            console.warn(`Failed to load image: ${imageUrl}`, error);
                             imgElement.style.display = 'none';
                         }
+                    } else {
+                        // Không có ảnh, thêm class no-image
+                        template.querySelector('.kanji-item').classList.add('no-image');
                     }
                     
                     template.querySelector('.kanji-word').textContent = data.word;
                     template.querySelector('.kanji-reading').textContent = data.reading;
-                    template.querySelector('.kanji-meaning').textContent = `Meaning: ${data.meaning || 'N/A'}`;
-                    template.querySelector('.kanji-note').textContent = `Note: ${data.note || 'N/A'}`;
-                    template.querySelector('.kanji-kun').textContent = `Kun: ${data.kun || 'N/A'}`;
-                    template.querySelector('.kanji-on').textContent = `On: ${data.on || 'N/A'}`;
+                    template.querySelector('.kanji-meaning').textContent = `Meaning: ${data.meaning || ''}`;
+                    template.querySelector('.kanji-note').textContent = `Note: ${data.note || ''}`;
+                    template.querySelector('.kanji-kun').textContent = `Kun: ${data.kun || ''}`;
+                    template.querySelector('.kanji-on').textContent = `On: ${data.on || ''}`;
+
+                    // Thêm separator nếu không phải chữ cuối cùng của batch
+                    if (idx < validKanjiData.length - 1) {
+                        const hr = document.createElement('hr');
+                        hr.className = 'kanji-separator';
+                        template.querySelector('.kanji-item').appendChild(hr);
+                    }
 
                     container.appendChild(template);
 
-                    // Create radicals chart after template is in DOM
-                    if (data.radicalsData) {
+                    // Chỉ tạo radicals chart/info nếu có nhiều hơn 1 node
+                    if (hasRadicalTree) {
                         const radicalsContainer = template.querySelector('.radicals-container');
                         const radicalsChart = template.querySelector('.radicals-chart');
                         const radicalsInfo = template.querySelector('.radicals-info');
@@ -356,7 +448,7 @@
                         }
 
                         createRadicalsChart(radicalsChart, data.radicalsData);
-                        
+
                         // Populate radicals info
                         const sortedNodes = [...data.radicalsData.nodes].sort((a, b) => {
                             if (a.label === data.word) return -1;
@@ -370,10 +462,12 @@
                                 <div class="radical-note">${node.note || ''}</div>
                             </div>
                         `).join('');
+                        // Wait for the radicals chart to render
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                    } else {
+                        // Ẩn phần radicals-container nếu không có radical tree
+                        template.querySelector('.radicals-container').style.display = 'none';
                     }
-
-                    // Wait for the radicals chart to render
-                    await new Promise(resolve => setTimeout(resolve, 2000));
 
                     // Convert to canvas and add to PDF
                     const canvas = await html2canvas(container, {
@@ -390,12 +484,12 @@
                     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
                     // Check if we need a new page
-                    if (!canFitOnSamePage || currentY + imgHeight > pageHeight - margin) {
+                    if (currentY + imgHeight > pageHeight - margin) {
                         // Add footer to current page before adding new page
                         if (currentPage > 1) {
                             addFooter(doc, currentPage);
                         }
-                        
+
                         // Add new page if not the first kanji
                         if (currentPage > 1 || currentY > topMargin) {
                             doc.addPage();
@@ -408,7 +502,7 @@
                     doc.addImage(imgData, 'PNG', margin, currentY, imgWidth, imgHeight);
 
                     // Update current Y position with increased spacing
-                    currentY += imgHeight + kanjiSpacing;
+                    currentY += imgHeight + currentKanjiSpacing;
 
                     // Clean up
                     document.body.removeChild(container);
@@ -499,6 +593,18 @@
             doc.setTextColor(100);
             doc.text('https://hacknaobk.icu/', pageWidth / 2, pageHeight - 10, { align: 'center' });
             doc.text(`Page ${pageNumber}`, pageWidth / 2, pageHeight - 5, { align: 'center' });
+        }
+
+        // Hàm fetch theo ID
+        async function fetchKanjiById(id) {
+            try {
+                const response = await fetch(`https://nguyenthithom.name.vn/api/chars/${id}`);
+                const data = await response.json();
+                return data.data;
+            } catch (error) {
+                console.error('Error fetching kanji by ID:', error);
+                return null;
+            }
         }
     </script>
 </body>
