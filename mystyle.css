@@ -52,6 +52,12 @@ footer {
 #scroll_word{
   height: 80%;
 }
+#word_pos {
+    font-size: 10px;
+    color: #787676;
+    margin-left: 8px;
+    font-style: italic;
+}
 .leftImage {
   top: 100px; /* your required value */
   align-self: flex-start;

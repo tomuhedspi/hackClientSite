@@ -30,7 +30,18 @@ function clickWordInformationIndex(i) {
 function setWordInformation(keyword, phonetic, meaning) {
   $("#myword").val(keyword);
   $("#myreading").val(phonetic);
-  $("#mymeaning").val(meaning);
+
+  // Xử lý tách từ loại và nghĩa
+  if (typeof meaning === "string" && meaning.includes(":")) {
+    const idx = meaning.indexOf(":");
+    const partOfSpeech = meaning.slice(0, idx).trim();
+    const meaningText = meaning.slice(idx + 1).trim();
+    $("#mypartofspeech").val(partOfSpeech);
+    $("#mymeaning").val(meaningText);
+  } else {
+    $("#mypartofspeech").val("");
+    $("#mymeaning").val(meaning);
+  }
 }
 
 
@@ -108,6 +119,7 @@ function setWordDetail(singleWord,nextID,prevID){
     $("#word_id").text(singleWord['id']);
     $("#word_text").text(singleWord['word']);
     $("#word_reading").text(singleWord['reading']);
+    $("#word_pos").text(singleWord['pos'] || "");
     $("#word_meaning").text(singleWord['meaning']);
     $("#word_note").text(singleWord['note']);
     $("#word_kun").text(singleWord['kun']);
@@ -385,8 +397,9 @@ function submitWord(wordtype){
     onContent=  $("#myon").val();
     childContent = $("#mychild").val();
     created_byContent = $("#myname").val();
+    var pos = $("#mypartofspeech").length ? $("#mypartofspeech").val() : "";
     
-    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on: onContent, created_by: created_byContent,child: childContent })
+    $.post( DATA_SERVER_POST_WORD, { word: wordContent, reading:readingContent, note:noteContent, meaning: meaningContent, type:typeContent, kun:kunContent, on: onContent, created_by: created_byContent,child: childContent,pos: pos })
     .done(function( data ) {
 
     });
