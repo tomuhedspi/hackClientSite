@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Missing Words</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 24px 32px 32px 32px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            font-size: 16px;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 16px;
+        }
+        select, button {
+            font-size: 16px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            margin-bottom: 16px;
+        }
+        button {
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+        button:disabled {
+            background: #aaa;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            background: #f9f9f9;
+            border-radius: 4px;
+            padding: 12px;
+            min-height: 40px;
+        }
+        .error {
+            color: #c00;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Kiểm tra các từ chưa có trong DB</h2>
+        <label for="words">Nhập danh sách các từ (separated by comma, dot, dash, newline, etc.):</label>
+        <textarea id="words" placeholder="Nhập từ vào đây nè..."></textarea>
+        <br>
+        <label for="type">Type:</label>
+        <select id="type">
+            <option value="2">English</option>
+            <option value="1">Kanji</option>
+            <option value="0">Tiếng Nhật</option>
+        </select>
+        <button id="checkBtn">Check</button>
+        <div class="result" id="result"></div>
+        <div class="error" id="error"></div>
+    </div>
+    <script>
+        document.getElementById('checkBtn').addEventListener('click', async function() {
+            const wordsInput = document.getElementById('words').value.trim();
+            const type = document.getElementById('type').value;
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            resultDiv.textContent = '';
+            errorDiv.textContent = '';
+            if (!wordsInput) {
+                errorDiv.textContent = 'Hãy nhập từ cần kiểm tra.';
+                return;
+            }
+            this.disabled = true;
+            try {
+                const response = await fetch('https://nguyenthithom.name.vn/api/check-missing-words', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        words: wordsInput,
+                        type: type
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error('Server error');
+                }
+                const data = await response.json();
+                if (data.status === 200 && Array.isArray(data.missing)) {
+                    if (data.missing.length > 0) {
+                        resultDiv.innerHTML = '<b>Các từ chưa có trong DB:</b><br>' + data.missing.map(w => `<span>${w}</span>`).join('<br>');
+                    } else {
+                        resultDiv.innerHTML = '<b>Tất cả các từ đều đã có trong DB.</b>';
+                    }
+                } else {
+                    resultDiv.innerHTML = '<b>Có lỗi gì đó rồi, bạn nghỉ ngơi một lát rồi thử lại sau nha</b> ' + JSON.stringify(data);
+                }
+            } catch (err) {
+                errorDiv.textContent = 'Error: ' + err.message;
+            } finally {
+                this.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
