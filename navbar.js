@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
   const navbarHTML = `
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: rgba(9, 110, 235, 0.754);">
+    <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
       <a class="navbar-brand" href="#">
         <img src="image/icon.png" alt="Hack Não BK" id="app_icon" style="width:40px;">
       </a>
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <a class="nav-link dropdown-toggle" href="#" id="englishDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Tiếng Anh
             </a>
-            <div class="dropdown-menu" aria-labelledby="englishDropdown">
+            <div class="dropdown-menu custom-dropdown" aria-labelledby="englishDropdown">
               <a class="dropdown-item" href="english.html">Từ vựng</a>
               <a class="dropdown-item" href="addenglish.html">Đóng góp từ</a>
             </div>
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
             <a class="nav-link dropdown-toggle" href="#" id="japaneseDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Tiếng Nhật
             </a>
-            <div class="dropdown-menu" aria-labelledby="japaneseDropdown">
+            <div class="dropdown-menu custom-dropdown" aria-labelledby="japaneseDropdown">
               <a class="dropdown-item" href="index.html">Từ vựng</a>
               <a class="dropdown-item" href="kanji.html">Hán tự</a>
               <a class="dropdown-item" href="addjapanese.html">Đóng góp từ</a>
@@ -37,12 +37,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
           <!-- Info Tab -->
           <li class="nav-item">
-            <a class="nav-link" href="info.html">Info</a>
+            <a class="nav-link" href="info.html">Giới Thiệu</a>
           </li>
 
           <!-- Download Tab -->
           <li class="nav-item">
-            <a class="nav-link" href="downloadfile.html">Download</a>
+            <a class="nav-link" href="downloadfile.html">Tài Liệu</a>
           </li>
         </ul>
       </div>

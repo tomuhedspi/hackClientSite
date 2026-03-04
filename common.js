@@ -58,6 +58,8 @@ function setScrollEvent(){
 function setWordComment(singleWord){
     var detail;
     var comment_list=new Object;
+    // Show comment area when comments are set for a selected DB word
+    $("#commentsCollapse").show();
     $("#comment_title").show();
     $("#table_comment > tbody").empty();
     comment_list=singleWord['comment'];
@@ -329,6 +331,8 @@ function setClearWordList(){
     $("#myTable > tbody").empty();
     CURRENT_PAGE=0;
     IS_THERE_MORE_DATA = true;
+  // hide comments area when clearing/searching
+  $("#commentsCollapse").hide();
 }
 
 function setUnit(){

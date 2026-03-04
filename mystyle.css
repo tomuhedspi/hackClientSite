@@ -46,6 +46,222 @@ footer {
 .page_title{
   width: 100%; border-style: none none groove none;
 }
+/* Sidebar and layout improvements */
+.sidenav {
+  padding-right: 0.5rem;
+}
+
+.sticky-sidebar {
+  position: sticky;
+  top: 72px;
+  max-height: calc(100vh - 90px);
+  overflow: auto;
+  padding-right: 0.25rem;
+}
+
+.result-list .table {
+  margin-bottom: 0;
+}
+
+/* Card and image layout */
+.word-image-wrapper img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 991px) {
+  .word-image-wrapper {
+    max-width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+/* Slight spacing for main card */
+.card {
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
+}
+
+/* Keep search input fixed inside the sidebar while result list scrolls */
+.search-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  background-color: #ffffff;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.result-list {
+  /* leave room for page header + search area */
+  max-height: calc(100vh - 220px);
+  overflow: auto;
+}
+
+/* Emphasize main word details */
+.word-card {
+  border-left: 6px solid rgba(30,144,255,0.9);
+  box-shadow: 0 14px 40px rgba(16,24,40,0.12);
+}
+
+/* Enhanced word detail styling */
+.word-card .card-body {
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
+  padding: 1.5rem;
+}
+
+.word_textstl{
+  font-size:3.2rem;
+  font-weight: 700;
+  color: rgba(9,110,235,0.98);
+  line-height: 1.02;
+  margin-bottom: 0.25rem;
+}
+
+.word_readingstl{
+  font-size: 0.8rem;
+  color: rgba(8,40,120,0.85);
+  background: rgba(30,144,255,0.07);
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+#word_pos{
+  display: inline-block;
+  background: rgba(15,23,42,0.06);
+  color: rgba(15,23,42,0.8);
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  margin-left: 0.4rem;
+}
+
+.word_meaningstl{
+  font-size: 0.95rem;
+  color: rgba(12,34,80,0.92);
+  margin-top: 0.6rem;
+  white-space: pre-line;
+}
+
+.word_notestl{
+  font-size: 1.1rem;
+  color: rgb(36, 39, 43);
+  margin-top: 0.8rem;
+  background: rgba(240,246,255,0.6);
+  border-left: 3px solid rgba(30,144,255,0.18);
+  padding: 0.6rem;
+  border-radius: 6px;
+}
+
+/* subtle divider between header and content */
+.word-card .card-body > .d-flex + .word_textstl {
+  margin-top: 0.4rem;
+}
+
+@media (max-width: 767px) {
+  .word_textstl { font-size: 2.2rem; }
+  .word_meaningstl { font-size: 1rem; }
+  .word_notestl { font-size: 0.9rem; }
+  .word-card .card-body { padding: 1rem; }
+}
+
+/* Layout for reading and part-of-speech on small screens */
+@media (max-width: 576px) {
+  .word-meta {
+    display: flex !important;
+    width: 100%;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Allocate ~2/3 width to reading and fixed 1/3 to POS */
+  #word_reading {
+    flex: 1 1 calc(66.666% - 0.5rem);
+    text-align: left;
+    overflow: hidden;
+    white-space: normal;
+  }
+
+  #word_pos {
+    flex: 0 0 33.333% !important;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 1.6rem; /* keep space even when empty */
+  }
+}
+
+.word_textstl{
+  font-size:3em;
+}
+
+/* De-emphasize comments */
+#div_comment{
+  background-color: #f6f8fa;
+  color: #6b7280;
+  border-radius: 6px;
+  padding: 0.5rem;
+}
+
+.comment-input-area .form-control{
+  background: #fff;
+}
+
+.comment-input-area .btn-primary{
+  background-color: rgba(30,144,255,0.9);
+  border-color: rgba(30,144,255,0.9);
+}
+
+/* Muted name input for comment author */
+.comment-input-area .comment-name{
+  max-width: 120px;
+  font-size: 0.85rem;
+  color: rgba(0,0,0,0.45);
+  background: transparent;
+  border: none;
+  padding-left: 0.4rem;
+}
+
+.comment-input-area .comment-name::placeholder{
+  color: rgba(0,0,0,0.32);
+}
+
+.comment-input-area .comment-name:focus{
+  outline: none;
+  box-shadow: none;
+  color: rgba(0,0,0,0.7);
+}
+
+/* Mobile: keep comment input + send on one row filling width, name below */
+@media (max-width: 576px) {
+  .comment-input-area .input-row {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .comment-input-area .input-row .form-control {
+    flex: 1 1 auto;
+  }
+
+  .comment-input-area .input-row .input-group-append .btn {
+    flex: 0 0 88px;
+  }
+
+  .comment-input-area .comment-name {
+    width: 38%;
+    margin-top: 8px;
+    margin-left: auto;
+    font-size: 0.78rem;
+    text-align: right;
+  }
+}
 #result_list{
   height: 80%;
 }
@@ -94,7 +310,8 @@ footer {
   .sidenav {
     height: fit-content;
   }
-  .nav-link{
+  .nav-link,
+  .custom-navbar .dropdown-item {
     font-size: small;
   }
   .page_title{
@@ -116,16 +333,16 @@ footer {
     height:350px;
   }
   #word_reading{
-    float: right; width:100%; text-align:  right;
+    float: none; width: auto; text-align: left;
   }
   #word_text{
-    float: left;  width:100%; text-align:  left;
+    float: none; width:100%; text-align: left;
   }
   #word_meaning{
-    float: left;  width:100%; text-align:  left;
+    float: none; width:100%; text-align: left;
   }
   #word_note{
-    float: left;  width:100%; text-align:  left;
+    float: none; width:100%; text-align: left;
   }
   #pageheaderpc {
     color: #555;
@@ -171,6 +388,125 @@ footer {
 .navbar-nav .dropdown-menu {
   border: none;
   background-color: rgba(9, 110, 235, 0.5);
+}
+
+/* Unified custom navbar styles */
+.custom-navbar {
+  background: linear-gradient(90deg, rgba(6,78,200,1) 0%, rgba(9,110,235,1) 100%);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-weight: 500;
+}
+
+.custom-navbar .navbar-brand {
+  color: rgba(255,255,255,0.98);
+  display: inline-flex;
+  align-items: center;
+}
+
+.custom-navbar .navbar-brand img {
+  width: 40px;
+  height: auto;
+  margin-right: 8px;
+}
+
+.custom-navbar .nav-link,
+.custom-navbar .navbar-text {
+  color: rgba(255,255,255,0.92);
+  font-size: 0.95rem;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .nav-link:focus {
+  color: #ffffff;
+  background-color: rgba(255,255,255,0.06);
+  border-radius: 6px;
+}
+
+.custom-navbar .nav-link.active {
+  color: #fff;
+  background-color: rgba(255,255,255,0.08);
+  border-radius: 6px;
+}
+
+.custom-navbar .navbar-toggler {
+  border-color: rgba(255,255,255,0.18);
+}
+
+.custom-navbar .navbar-toggler-icon {
+  filter: invert(1) brightness(1.8) contrast(0.9);
+}
+
+/* Dropdown toggles */
+.custom-navbar .dropdown-toggle::after {
+  border-top-color: rgba(255,255,255,0.85);
+}
+
+/* Make custom-dropdown consistent with navbar */
+.navbar-nav .custom-dropdown {
+  border: none;
+  background-color: rgba(9, 110, 235, 0.98);
+  min-width: 220px;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(6,40,90,0.25);
+  padding: 0.25rem 0;
+  transform-origin: top center;
+  transition: transform 180ms ease, opacity 180ms ease;
+  opacity: 0;
+  transform: translateY(-6px);
+  margin-top: 6px;
+}
+
+.navbar-nav .custom-dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navbar-nav .custom-dropdown .dropdown-item {
+  color: #ffffff;
+  padding: 0.6rem 1.25rem;
+}
+
+.navbar-nav .custom-dropdown .dropdown-item:hover,
+.navbar-nav .custom-dropdown .dropdown-item:focus {
+  background-color: rgba(255,255,255,0.08);
+  color: #fff;
+}
+
+/* Enhanced custom dropdown appearance */
+.navbar-nav .custom-dropdown {
+  border: none;
+  background-color: rgba(9, 110, 235, 0.98);
+  min-width: 200px;
+  border-radius: 8px;
+  box-shadow: 0 10px 22px rgba(9, 40, 90, 0.25);
+  padding: 0.25rem 0;
+  transform-origin: top center;
+  transition: transform 180ms ease, opacity 180ms ease;
+  opacity: 0;
+  transform: translateY(-6px);
+  margin-top: 6px;
+}
+
+.navbar-nav .custom-dropdown.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.navbar-nav .custom-dropdown .dropdown-item {
+  color: #ffffff;
+  padding: 0.6rem 1.25rem;
+}
+
+.navbar-nav .custom-dropdown .dropdown-item:hover,
+.navbar-nav .custom-dropdown .dropdown-item:focus {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+/* Highlight active parent toggle */
+.navbar-nav .dropdown-toggle.active {
+  color: #fff;
+  font-weight: 600;
 }
 
 .dropdown-item {
