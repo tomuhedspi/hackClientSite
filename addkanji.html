@@ -12,8 +12,8 @@
   <meta property="og:title" content="Thêm Từ Vựng Tiếng Nhật Hack Não BK">
   <meta property="og:type" content="article" />
   <meta property="og:description" content="Đóng góp vào kho từ vựng. Ghi lại những từ vựng tiếng Nhật với cách nhớ nhanh chóng và lâu dài.">
-  <meta property="og:image" content="https://nhotuvung.io.vn/image/icon.png">
-  <meta property="og:url" content="https://nhotuvung.io.vn/addjapanese.html">
+  <meta property="og:image" content="/image/icon.png">
+  <meta property="og:url" content="addkanji.html">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
@@ -24,76 +24,110 @@
   <script src="navbar.js"></script>
   <link rel="stylesheet" href="mystyle.css">
   <style>
-    @media (max-width: 767px) {
-      .hint-column {
-        width: 50%;
-      }
+    /* Center page and improve input/text prominence (match addjapanese.html) */
+    :root{
+      --page-bg: #f6f8fb;
+      --accent: #3b82f6;
+      --muted: #6b7280;
+      --input-border: rgba(59,130,246,0.18);
+      --input-focus-shadow: rgba(59,130,246,0.12);
     }
-    @media (min-width: 768px) {
-      .hint-column {
-        width: 25%;
-      }
-    }
+    body{ background: var(--page-bg); font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial; color:#0f172a; }
+    .center-page{ display:flex; justify-content:center; padding:24px 12px; }
+    .content{ width:100%; max-width:980px; }
+    .page_title h1{ font-size:1.5rem; color:var(--accent); font-weight:700; margin-bottom:0; }
+    label{ font-weight:700; color:#111827; }
+    .form-control{ border-radius:10px; padding:.7rem .85rem; font-size:1rem; background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid var(--input-border); color:#021124; }
+    .form-control:focus{ outline:none; border-color:var(--accent); box-shadow:0 8px 24px var(--input-focus-shadow); }
+    textarea.form-control{ min-height:120px; }
+    .hint-column{ padding:.5rem; }
+    .hint-box{ background:#fff; border-radius:10px; padding:.6rem; min-height:56px; border:1px solid rgba(0,0,0,0.04); box-shadow:0 6px 18px rgba(2,6,23,0.03); color:#0b1220; }
+    #myname{ font-size:.9rem; text-align:right; border:none; background:transparent; color:var(--muted); width:120px; }
+    .btn-primary, .btn-outline-secondary{ border-radius:10px; }
+    @media (max-width:767px){ .hint-column{ width:50%; } .content{ padding:0 8px; } #myname{ width:90px; } }
+    @media (min-width:768px){ .hint-column{ width:25%; } }
   </style>
   <script>
     $(document).ready(function(){
       ignoreEnter();
       setDefaultMyname();
     });
+    
+      // Hàm kiểm tra và enable/disable nút submit cho Kanji
+      function setButtonDisableKanji(){
+        var word = $("#myword").val().trim();
+        var reading = $("#myreading").val().trim();
+        var meaning = $("#mymeaning").val().trim();
+        var note = $("#mynote").val().trim();
+      
+        if(word.length >= 1 && reading.length >= 1 && meaning.length >= 1 && note.length >= 1){
+          $('#submitButton').prop('disabled', false);
+          $('#submitButton').removeClass('btn-disabled');
+        }else{
+          $('#submitButton').prop('disabled', true);
+          $('#submitButton').addClass('btn-disabled');
+        }
+      }
   </script>
 </head>
 <body>
 
 <div id="navbar"></div>
 
-<div class="container-fluid">
+<div class="container-fluid center-page">
   <div class="row content">
     <div class="col-sm-9">
       <div class="page_title">
+        <h2 id="pageheadersp">Đóng góp Hán Tự</h2>
         <h1 id="pageheaderpc">Đóng góp Hán Tự</h1>
       </div>
       <br>
-      <form id="myForm">
-        <div class="form-group">
-          <label for="myword" id="mywordlabel">Hán tự 漢字</label>
-          <input type="text" class="form-control" id="myword" placeholder="日" maxlength="255" required onchange="setButtonDisable();">
-        </div>
-        <div class="form-group">
-          <label for="myreading" id="myreadinglabel">Phiên âm Hán Việt</label>
-          <input type="text" class="form-control" id="myreading" placeholder="NHẬT" maxlength="255" required onchange="setButtonDisable();">
-        </div>
-        <div class="form-group">
-          <label for="mymeaning">Nghĩa tiếng Việt</label>
-          <input type="text" class="form-control" id="mymeaning" placeholder="Nghĩa của từ" maxlength="255" required onchange="setButtonDisable();">
-        </div>
-        <div class="form-group">
-          <label for="mynote">Cách nhớ gợi ý</label>
-          <textarea class="form-control" id="mynote" rows="3"placeholder="trời giống Hình Chữ Nhật ロ, bị chia làm đôi 一 : nửa trên là Ngày 日, nửa dưới là đêm" maxlength="1000"  onchange="setButtonDisable();"></textarea>
-        </div>
-        <div class="form-group" id ="kun">
-          <label for="mykun">Âm kun</label>
-          <input type="text" class="form-control" id="mykun" placeholder="RYOKU, RIKI" maxlength="255">
-        </div>
-        <div class="form-group" id ="on">
-          <label for="myon">Âm on</label>
-          <input type="text" class="form-control" id="myon" placeholder="chikara" maxlength="255">
-        </div>
-        <div class="form-group" id ="child">
-          <label for="mychild">Bộ thủ</label>
-          <input type="text" class="form-control" id="mychild" placeholder="十又一尢" maxlength="255">
-        </div>
-        <div class="form-group">
-          <div class="row">
-            <div class="col-10"></div>
-            <div class="col-2 text-right">
-              <input type="text" id="myname" class="form-control" placeholder="member" style="font-size: xx-small; width: 100%; border: none; text-align: right;" onchange="saveMyName(this.value)">
+      <div class="card form-card my-3">
+        <div class="card-body">
+          <form id="myForm">
+            <div class="form-group">
+              <label for="myword" id="mywordlabel">Hán tự 漢字</label>
+              <input type="text" class="form-control" id="myword" placeholder="日" maxlength="255" required onchange="setButtonDisableKanji();" oninput="setButtonDisableKanji();">
             </div>
-          </div>
+            <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="myreading" id="myreadinglabel">Phiên âm Hán Việt</label>
+                <input type="text" class="form-control" id="myreading" placeholder="NHẬT" maxlength="255" required onchange="setButtonDisableKanji();" oninput="setButtonDisableKanji();">
+              </div>
+              <div class="form-group col-md-9">
+                <label for="mymeaning">Nghĩa tiếng Việt</label>
+                <input type="text" class="form-control" id="mymeaning" placeholder="Mặt trời, ngày" maxlength="255" required onchange="setButtonDisableKanji();" oninput="setButtonDisableKanji();">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mynote">Cách nhớ gợi ý</label>
+              <textarea class="form-control" id="mynote" rows="3" placeholder="trời giống Hình Chữ Nhật ロ, bị chia làm đôi 一 : nửa trên là Ngày 日, nửa dưới là đêm" maxlength="1000" onchange="setButtonDisableKanji();" oninput="setButtonDisableKanji();"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6" id="kun">
+                <label for="mykun">Âm kun</label>
+                <input type="text" class="form-control" id="mykun" placeholder="例: ちから" maxlength="255">
+              </div>
+              <div class="form-group col-md-6" id="on">
+                <label for="myon">Âm on</label>
+                <input type="text" class="form-control" id="myon" placeholder="例: チカラ" maxlength="255">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="mychild">Bộ thủ</label>
+              <input type="text" class="form-control" id="mychild" placeholder="十又一尢" maxlength="255">
+            </div>
+
+            <div class="form-group d-flex align-items-center justify-content-between mt-3">
+              <div></div>
+              <div class="d-flex align-items-center">
+                <input type="text" id="myname" class="form-control" placeholder="member" onchange="saveMyName(this.value)">
+                <button id="submitButton" class="btn btn-gradient ml-2" type="submit" onclick="submitWord(1);" disabled title="Gửi"><i class="fa fa-paper-plane"></i></button>
+              </div>
+            </div>
+          </form>
         </div>
-        <div class="d-flex justify-content-between">
-          <button id ="submitButton" class="btn btn-primary" type="submit" onclick="submitWord(1);" disabled><i class="fa fa-paper-plane"></i></button> 
-        </div>
-      </form>
+      </div>
     </div>
   </div>
 </div>

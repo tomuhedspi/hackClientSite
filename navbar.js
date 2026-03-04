@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", function() {
   const navbarHTML = `
     <nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
-      <a class="navbar-brand" href="#">
-        <img src="image/icon.png" alt="Hack Não BK" id="app_icon" style="width:40px;">
+      <a class="navbar-brand" href="index.html" title="Về trang chủ">
+        <img src="image/icon.png" alt="Hack Não BK" id="app_icon">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>

@@ -11,8 +11,8 @@
   <meta property="og:title" content="Giới Thiệu Hack Não BK">
   <meta property="og:type" content="article" />
   <meta property="og:description" content="Tải danh sách từ vựng tiếng Nhật dạng pdf. Từ Vựng trong Hack Não BK là phương pháp giúp bạn nhớ từ vựng tiếng Nhật nhanh chóng và lâu dài. ">
-  <meta property="og:image" content="https://nhotuvung.io.vn/image/icon.png">
-  <meta property="og:url" content="https://nhotuvung.io.vn/info.html">
+  <meta property="og:image" content="/image/icon.png">
+  <meta property="og:url" content="downloadfile.html">
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
@@ -50,6 +50,49 @@
     width: 200px; /* Increased width */
     margin: 10px; /* Added margin */
   }
+  /* Download page hero and button styling */
+  .download-hero{
+    font-size: 1.15rem;
+    color: #ffffff;
+    background: linear-gradient(90deg,#2b7be9 0%, #6dd5fa 100%);
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: 0 12px 30px rgba(43,123,233,0.15);
+  }
+  .download-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:10px}
+  .download-btn{
+    background: linear-gradient(90deg,#6dd5fa 0%, #2b7be9 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 12px;
+    min-width: 120px;
+    font-weight: 600;
+    box-shadow: 0 10px 24px rgba(43,123,233,0.14);
+    transition: transform .12s ease, box-shadow .12s ease;
+    display:inline-flex;align-items:center;gap:8px;justify-content:center;
+  }
+  .download-btn:hover{transform:translateY(-4px);box-shadow:0 18px 34px rgba(43,123,233,0.18)}
+  .download-btn i{font-size:16px}
+  .hero-wrap{display:inline-block;padding:10px;border-radius:50%;background: radial-gradient(120px 120px at 30% 20%, rgba(255,255,255,0.15), rgba(255,255,255,0.02) 10%, rgba(43,123,233,0.03) 40%, transparent 60%);box-shadow: 0 18px 40px rgba(43,123,233,0.08);position:relative}
+  .hero-wrap::after{content:'';position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), rgba(255,255,255,0.06) 12%, transparent 30%)}
+  .hero-icon{width:200px;height:200px;object-fit:cover;border-radius:50%;display:block;border:6px solid rgba(255,255,255,0.08);box-shadow: 0 20px 50px rgba(43,123,233,0.18), inset 0 6px 18px rgba(255,255,255,0.06);transition: transform .18s ease, box-shadow .18s ease, filter .18s ease}
+  .hero-icon:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 30px 70px rgba(43,123,233,0.26);filter:drop-shadow(0 14px 30px rgba(43,123,233,0.18))}
+  /* Footer message styling */
+  .footer-message{
+    display:inline-block;
+    padding:14px 20px;
+    font-weight:700;
+    letter-spacing:1px;
+    color:#ffffff;
+    background: linear-gradient(90deg,#1f2937 0%, #111827 100%);
+    border-radius:10px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    text-transform:uppercase;
+    font-size:0.95rem;
+  }
+  .footer-sub{display:block;font-size:0.78rem;color:rgba(255,255,255,0.7);margin-top:6px}
   </style>
 </head>
 <body>
@@ -58,33 +101,28 @@
 
 <!-- First Container -->
 <div class="container-fluid text-center">
-  <img src="image/icon.png" alt="icon Hack Não BK" class="img-responsive rounded-circle margin" style="display:inline" width="200" height="200">
+  <div class="hero-wrap">
+    <img src="image/icon.png" alt="icon Hack Não BK" class="hero-icon img-responsive rounded-circle margin">
+  </div>
 </div>
 
 <!-- Third Container (Grid) -->
-<div class="container-fluid bg-2 text-center">    
-  <p class="margin word_notestl">Hãy nhấn vào nút để tải tài liệu nhé!</p><br>
-  <div class="w3-container">
-        <button class="btn btn-primary w3-button" type="submit" onclick="window.open('document/N1.pdf')">N1
-        </button>
-        <button class="btn btn-primary w3-button" type="submit" onclick="window.open('document/N2.pdf')">N2
-        </button>
-        <button class="btn btn-primary w3-button" type="submit" onclick="window.open('document/N3.pdf')">N3
-        </button>
-        <button class="btn btn-primary w3-button" type="submit" onclick="window.open('document/N4.pdf')">N4
-        </button>
-        <button class="btn btn-primary w3-button" type="submit" onclick="window.open('document/N5.pdf')">N5
-        </button>
-        <button class="btn btn-primary w3-button" type="submit" onclick="window.open('document/HiraKana.pdf')">Chữ Cái
-        </button>
-        <button class="btn btn-primary w3-button" type="submit" onclick="window.open('document/Kanji.pdf')">Bộ thủ Hán Tự
-        </button>
+  <div class="container-fluid bg-2 text-center">    
+  <p class="margin download-hero">Hãy nhấn vào nút để tải tài liệu nhé!</p>
+  <div class="download-grid w3-container">
+        <button class="download-btn" type="button" onclick="window.open('document/N1.pdf')"><i class="fas fa-download"></i>N1</button>
+        <button class="download-btn" type="button" onclick="window.open('document/N2.pdf')"><i class="fas fa-download"></i>N2</button>
+        <button class="download-btn" type="button" onclick="window.open('document/N3.pdf')"><i class="fas fa-download"></i>N3</button>
+        <button class="download-btn" type="button" onclick="window.open('document/N4.pdf')"><i class="fas fa-download"></i>N4</button>
+        <button class="download-btn" type="button" onclick="window.open('document/N5.pdf')"><i class="fas fa-download"></i>N5</button>
+        <button class="download-btn" type="button" onclick="window.open('document/HiraKana.pdf')"><i class="fas fa-download"></i>Chữ Cái</button>
+        <button class="download-btn" type="button" onclick="window.open('document/Kanji.pdf')"><i class="fas fa-download"></i>Bộ thủ Hán Tự</button>
   </div>
 </div>
 
 <!-- Footer -->
 <footer class="container-fluid bg-4 text-center">
-  <p>CHÚC CÁC BẠN HỌC TỐT</p> 
+  <p class="footer-message">CHÚC CÁC BẠN HỌC TỐT<span class="footer-sub">Chúc bạn tiến bộ mỗi ngày</span></p>
 </footer>
 
 </body>

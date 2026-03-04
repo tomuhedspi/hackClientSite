@@ -134,6 +134,11 @@ function setWordDetail(singleWord,nextID,prevID){
     }else{
       $('#word_image').attr("src", "image/default.jpg" );
     }
+    
+    // Hiển thị navigation buttons khi đã có dữ liệu từ vựng
+    if(singleWord['word'] && singleWord['meaning']){
+      $('.word-navigation-buttons').show();
+    }
 }
 
 function setWordList(url){
@@ -348,27 +353,75 @@ function addUnitButtons(units){
     var markup;
     for (let i = 0; i < units.length; i++) {
       detail = units[i];
-      markup = "<button  value='"+detail['code']+"'  class='btn btn-outline-secondary btn-sm unit' onclick='selectUnit(this);' >"+detail['namevn']+"</button>"
+      markup = "<button value='"+detail['code']+"' class='unit' onclick='selectUnit(this);'>"+detail['namevn']+"</button>"
         $("#unitsList").append(markup);
     }
 }
 
 function showWordList(){
-    $("#scroll_word").show();
-    $("#unitsList").hide();
-    $("#myTable").show();
+  $("#scroll_word").show();
+  $("#unitsList").hide();
+  $("#myTable").show();
+  // toggle button styles
+  $("#btnShowWords").addClass('active').removeClass('inactive');
+  $("#btnShowUnits").removeClass('active').addClass('inactive');
 }
 
 function loadAudio(audioName){
     document.getElementById("my-audio").setAttribute('src', audioName);
     var myAudio = document.getElementById("my-audio");
     myAudio.play();
+    updateAudioPlayerTitle(audioName);
 }
 
+function updateAudioPlayerTitle(audioName) {
+    var titleEl = document.getElementById("audio-player-title");
+    if (!titleEl) {
+      return;
+    }
+
+    var displayTitle = "";
+    var rows = document.querySelectorAll("#word_table tr");
+    for (var i = 0; i < rows.length; i++) {
+      var onclickValue = rows[i].getAttribute("onclick") || "";
+      if (onclickValue.indexOf(audioName) !== -1) {
+        var cells = rows[i].querySelectorAll("td");
+        if (cells.length >= 2) {
+          var lesson = (cells[0].textContent || "").trim();
+          var section = (cells[1].textContent || "").trim();
+          displayTitle = lesson + " - " + section;
+        }
+        break;
+      }
+    }
+
+    titleEl.textContent = displayTitle || "Audio Player";
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  var audioEl = document.getElementById("my-audio");
+  if (!audioEl) {
+    return;
+  }
+
+  var currentSrc = audioEl.getAttribute("src");
+  if (!currentSrc) {
+    var sourceEl = audioEl.querySelector("source");
+    currentSrc = sourceEl ? sourceEl.getAttribute("src") : "";
+  }
+
+  if (currentSrc) {
+    updateAudioPlayerTitle(currentSrc);
+  }
+});
+
 function showUnits(){
-    $("#scroll_word").show();
-    $("#myTable").hide();
-    $("#unitsList").show();
+  $("#scroll_word").show();
+  $("#myTable").hide();
+  $("#unitsList").show();
+  // toggle button styles
+  $("#btnShowUnits").addClass('active').removeClass('inactive');
+  $("#btnShowWords").removeClass('active').addClass('inactive');
 }
 
 function selectUnit(obj){
@@ -379,8 +432,10 @@ function selectUnit(obj){
       $("#scroll_word").show();
     }
     $("#unitLabel").text(obj.innerHTML);
+    $("#unitLabelMobile").text(obj.innerHTML);
+    // After selecting a unit, show the word list and update button states
+    showWordList();
     $("#unitsList").hide();
-    $("#myTable").show();
 }
 
 function submitWord(wordtype){
@@ -543,4 +598,16 @@ function saveMyName(name) {
 
 function loadMyName() {
   return localStorage.getItem('myname') || '';
+}
+
+// Hàm lấy từ trước đó từ bảng từ vựng
+function getPreviousWord() {
+  var prevWordId = parseInt($("#word_prev").text());
+  tdclickDBindex(prevWordId);
+}
+
+// Hàm lấy từ tiếp theo từ bảng từ vựng
+function getNextWord() {
+    var nextWordId = parseInt($("#word_next").text());
+    tdclickDBindex(nextWordId);
 }

@@ -11,8 +11,8 @@
   <meta property="og:title" content="Giới Thiệu Hack Não BK">
   <meta property="og:type" content="article" />
   <meta property="og:description" content="Từ Vựng trong Hack Não BK là phương pháp giúp bạn nhớ từ vựng tiếng Nhật nhanh chóng và lâu dài. Tìm hiểu cách học và ghi nhớ từ mới hiệu quả.">
-  <meta property="og:image" content="https://nhotuvung.io.vn/image/icon.png">
-  <meta property="og:url" content="https://nhotuvung.io.vn/info.html">
+  <meta property="og:image" content="/image/icon.png">
+  <meta property="og:url" content="info.html">
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.slim.min.js"></script>
@@ -68,77 +68,140 @@
     text-align: center;
     margin-top: 5px; /* Reduced margin */
   }
+  /* Hero and intro styling */
+  .info-hero{
+    display:flex;flex-direction:column;align-items:center;gap:18px;margin-bottom:18px
+  }
+  .info-hero .hero-wrap{display:inline-block;padding:12px;border-radius:50%;background: radial-gradient(120px 120px at 30% 20%, rgba(255,255,255,0.15), rgba(255,255,255,0.02) 10%, rgba(59,130,246,0.03) 40%, transparent 60%);box-shadow: 0 22px 48px rgba(59,130,246,0.08);position:relative}
+  .info-hero .hero-wrap::after{content:'';position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 30% 25%, rgba(255,255,255,0.35), rgba(255,255,255,0.06) 12%, transparent 30%)}
+  .info-hero .hero-icon{width:180px;height:180px;object-fit:cover;border-radius:50%;display:block;border:6px solid rgba(255,255,255,0.06);box-shadow: 0 20px 60px rgba(59,130,246,0.16), inset 0 6px 18px rgba(255,255,255,0.06);transition: transform .18s ease, box-shadow .18s ease}
+  .info-hero .hero-icon:hover{transform:translateY(-6px) scale(1.03);box-shadow:0 34px 90px rgba(59,130,246,0.22)}
+
+  .intro-card{max-width:960px;margin:0 auto;background:linear-gradient(180deg,#ffffff,#f3f8ff);padding:22px;border-radius:12px;box-shadow:0 14px 40px rgba(16,24,40,0.06);}
+  .intro-card .heading{font-size:1.25rem;color:rgba(8,40,120,0.95);margin-bottom:8px}
+  .intro-card p{color:rgba(40,50,70,0.9);line-height:1.6}
+
+  /* Store icons smaller + hover glow */
+  .store-icon{width:72px;display:block;margin:6px auto}
+  .icon-container div{transition:transform .12s ease}
+  .icon-container div:hover{transform:translateY(-6px)}
+  .language-icon-card{
+    min-width: 170px;
+    padding: 14px 12px 10px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%);
+    border: 1px solid rgba(59,130,246,0.22);
+    box-shadow: 0 10px 28px rgba(59,130,246,0.16), 0 4px 10px rgba(15,23,42,0.06);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .language-icon-card:hover{
+    transform: translateY(-6px) scale(1.02);
+    border-color: rgba(59,130,246,0.45);
+    box-shadow: 0 18px 40px rgba(59,130,246,0.24), 0 8px 18px rgba(15,23,42,0.08);
+  }
+  .language-icon-card .store-icon{
+    width: 82px;
+    filter: drop-shadow(0 8px 14px rgba(59,130,246,0.22));
+  }
+  .language-icon-card p{
+    margin-top: 8px;
+    margin-bottom: 0;
+    font-weight: 700;
+    color: rgba(8,40,120,0.95);
+    letter-spacing: 0.01em;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.75);
+  }
+  .bg-3 .col-sm-3 a{
+    display: inline-block;
+    padding: 10px 12px 14px;
+    border-radius: 14px;
+    background: linear-gradient(180deg, #ffffff 0%, #f4f9ff 100%);
+    border: 1px solid rgba(59,130,246,0.18);
+    box-shadow: 0 10px 26px rgba(59,130,246,0.12), 0 3px 10px rgba(15,23,42,0.05);
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+  .bg-3 .col-sm-3 a:hover{
+    transform: translateY(-5px);
+    border-color: rgba(59,130,246,0.36);
+    box-shadow: 0 16px 34px rgba(59,130,246,0.2), 0 7px 16px rgba(15,23,42,0.08);
+    text-decoration: none;
+  }
+  .bg-3 .store-icon{
+    width: 180px;
+    margin-top: 8px;
+    filter: drop-shadow(0 8px 16px rgba(59,130,246,0.28));
+    animation: iconShimmer 2.4s ease-in-out infinite;
+  }
+  @keyframes iconShimmer {
+    0%, 100% { filter: drop-shadow(0 8px 16px rgba(59,130,246,0.22)); }
+    50% { filter: drop-shadow(0 12px 24px rgba(59,130,246,0.38)); }
+  }
+  /* Smaller store/download icons under "Where To Find Me?" */
   </style>
 </head>
 <body>
 
 <div id="navbar"></div>
 
-<!-- First Container -->
+<!-- First Container: hero + intro -->
 <div class="container-fluid text-center">
-  <img src="image/icon.png" alt="icon Hack Não BK" class="img-responsive rounded-circle margin" style="display:inline" width="350" height="350">
-  <p style="color: #2f2f2f;" class="word_notestl">Hack Não BK</p>
-</div>
-
-<!-- New Div with Icons -->
-<div class="container-fluid text-center">
-  <div class="icon-container">
-    <div>
-      <img src="image/icon_english.png" alt="Tiếng Anh">
-      <p>Tiếng Anh</p>
-    </div>
-    <div>
-      <img src="image/icon_japanese.png" alt="Tiếng Nhật">
-      <p>Tiếng Nhật</p>
+  <div class="info-hero">
+    <div class="hero-wrap">
+      <img src="image/icon.png" alt="icon Hack Não BK" class="hero-icon">
     </div>
   </div>
-</div>
 
-<!-- Second Container -->
-<div class="container-fluid bg-2 text-center">
-  <div class="row justify-content-center">
-    <div class="col-sm-8">
-      <p class="heading">
-        Bạn yêu dấu ơi!
-      </p>
-      <p>
-        Trước tiên, mình xin gửi lời tri ân sâu sắc nhất từ đáy lòng vì bạn đã tin tưởng lựa chọn ứng dụng làm người bạn đồng hành trên hành trình học tập đầy thử thách. Sự ủng hộ của bạn không chỉ là động lực mà còn là niềm tự hào lớn lao, thôi thúc mình không ngừng cải tiến để mang đến trải nghiệm giáo dục tốt nhất.
-      </p>
-      <p>
-        Giữa vô vàn lựa chọn công nghệ hiện nay, việc bạn gửi gắm niềm tin vào sản phẩm là một vinh dự đặc biệt. Mình hiểu rằng, học tập chưa bao giờ là con đường dễ dàng, và việc kiên trì theo đuổi mục tiêu đòi hỏi rất nhiều nỗ lực. Vì vậy, mỗi ngày, đội ngũ của mình luôn nỗ lực để ứng dụng không chỉ là công cụ, mà còn là nguồn cảm hứng, giúp bạn chinh phục kiến thức một cách chủ động và sáng tạo.
-      </p>
-      <p>
-        Những phản hồi, góp ý chân thành từ bạn là "kim chỉ nam" để mình hoàn thiện hơn. Thành công của bạn chính là thành công của mình, và mỗi bước tiến của bạn chính là lý do để mình không ngừng cố gắng.
-      </p>
-      <p>
-        Tương lai, mình mong tiếp tục được đồng hành cùng bạn, không chỉ trong học tập mà còn trên hành trình phát triển bản thân. Một lần nữa, trân trọng cảm ơn vì bạn đã trao cho mình cơ hội này!
-      </p>
+  <div class="intro-card">
+    <div class="heading">Bạn yêu dấu ơi!</div>
+    <p>
+      Trước tiên, mình xin gửi lời tri ân sâu sắc nhất từ đáy lòng vì bạn đã tin tưởng lựa chọn ứng dụng làm người bạn đồng hành trên hành trình học tập đầy thử thách. Sự ủng hộ của bạn không chỉ là động lực mà còn là niềm tự hào lớn lao, thôi thúc mình không ngừng cải tiến để mang đến trải nghiệm giáo dục tốt nhất.
+    </p>
+    <p>
+      Giữa vô vàn lựa chọn công nghệ hiện nay, việc bạn gửi gắm niềm tin vào sản phẩm là một vinh dự đặc biệt. Mình hiểu rằng, học tập chưa bao giờ là con đường dễ dàng, và việc kiên trì theo đuổi mục tiêu đòi hỏi rất nhiều nỗ lực. Vì vậy, mỗi ngày, đội ngũ của mình luôn nỗ lực để ứng dụng không chỉ là công cụ, mà còn là nguồn cảm hứng, giúp bạn chinh phục kiến thức một cách chủ động và sáng tạo.
+    </p>
+    <p>
+      Những phản hồi, góp ý chân thành từ bạn là "kim chỉ nam" để mình hoàn thiện hơn. Thành công của bạn chính là thành công của mình, và mỗi bước tiến của bạn chính là lý do để mình không ngừng cố gắng.
+    </p>
+    <p>
+      Tương lai, mình mong tiếp tục được đồng hành cùng bạn, không chỉ trong học tập mà còn trên hành trình phát triển bản thân. Một lần nữa, trân trọng cảm ơn vì bạn đã trao cho mình cơ hội này!
+    </p>
+  </div>
+
+  <!-- Icons -->
+  <div class="icon-container" style="margin-top:22px">
+    <div class="language-icon-card">
+      <img src="image/icon_english.png" alt="Tiếng Anh" class="store-icon">
+      <p>Tiếng Anh</p>
+    </div>
+    <div class="language-icon-card">
+      <img src="image/icon_japanese.png" alt="Tiếng Nhật" class="store-icon">
+      <p>Tiếng Nhật</p>
     </div>
   </div>
 </div>
 
 <!-- Third Container (Grid) -->
 <div class="container-fluid bg-3 text-center">    
-  <p class="margin word_notestl">Where To Find Me?</p><br>
+  <p class="margin word_notestl">Kết Nối Cùng Bọn Mình</p><br>
   <div class="row">
-    <div class="col-sm-3">
+    <div class="col-6 col-sm-3 mb-3">
       <a href="https://play.google.com/store/apps/details?id=com.hackbktiengnhatapp">Google Play
-        <img src="image/googleplay.png" class="img-responsive margin" style="width:100%" alt="Google Play">
+        <img src="image/googleplay.png" class="img-responsive margin store-icon" alt="Google Play">
       </a>
     </div>
-    <div class="col-sm-3"> 
+    <div class="col-6 col-sm-3 mb-3"> 
       <a href="https://apps.apple.com/vn/app/hack-n%C3%A3o-bk-ti%E1%BA%BFng-nh%E1%BA%ADt/id6447099863">Appstore
-       <img src="image/appstore.png" class="img-responsive margin" style="width:100%" alt="Appstore">
+       <img src="image/appstore.png" class="img-responsive margin store-icon" alt="Appstore">
       </a>
     </div>
-    <div class="col-sm-3"> 
+    <div class="col-6 col-sm-3 mb-3"> 
       <a href="https://nhotuvung.io.vn">Website
-        <img src="image/web.png" class="img-responsive margin" style="width:100%" alt="Website">
+        <img src="image/web.png" class="img-responsive margin store-icon" alt="Website">
       </a>
     </div>
-    <div class="col-sm-3"> 
+    <div class="col-6 col-sm-3 mb-3"> 
       <a href="https://www.facebook.com/hacknaotiengnhatn12345">Facebook
-        <img src="image/facebook.png" class="img-responsive margin" style="width:100%" alt="Facebook">
+        <img src="image/facebook.png" class="img-responsive margin store-icon" alt="Facebook">
       </a>
     </div>
   </div>
