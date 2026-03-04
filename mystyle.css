@@ -25,7 +25,15 @@ h2 {
   font-size:2.5em;
 }
 .kanji_textstl{
-  font-size:4.5em;
+  font-size:5.2rem;
+  font-weight: 800;
+  color: rgba(8,40,120,0.98);
+  line-height: 0.98;
+}
+
+/* Make the Kanji `#word_text` use the same accent color as `.word_textstl` in index.html */
+#word_text {
+  color: rgba(9,110,235,0.98);
 }
 .word_readingstl{
   font-size:0.8em;
@@ -145,13 +153,40 @@ footer {
 }
 
 .word_notestl{
-  font-size: 1.1rem;
+  font-size: 1.28rem;
+  color: rgb(34, 38, 42);
+  margin-top: 0.9rem;
+  background: rgba(230,245,255,0.85);
+  border-left: 4px solid rgba(30,144,255,0.22);
+  padding: 0.8rem;
+  border-radius: 8px;
+}
+
+/* Make meaning / kun / on blocks visually consistent with notes */
+#word_meaning,
+#word_kun,
+#word_on {
+  font-size: 1rem;
   color: rgb(36, 39, 43);
-  margin-top: 0.8rem;
-  background: rgba(240,246,255,0.6);
-  border-left: 3px solid rgba(30,144,255,0.18);
-  padding: 0.6rem;
+  margin-top: 0.6rem;
+  background: rgba(240,246,255,0.55);
+  border-left: 3px solid rgba(30,144,255,0.14);
+  padding: 0.5rem;
   border-radius: 6px;
+  white-space: pre-line;
+}
+
+/* Subtitle label for sub-sections (Âm kun / Âm On) */
+.word-subtitle{
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgba(8,40,120,0.6);
+  margin-bottom: 0.35rem;
+}
+
+/* Slightly larger meaning / kun / on within card for better hierarchy */
+.word-meaning-block {
+  font-size: 1.02rem;
 }
 
 /* subtle divider between header and content */
