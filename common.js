@@ -278,6 +278,8 @@ function searchWord(wordtype =0){
     var url = DATA_SERVER_GET + '?'+ $.param(obj);
     setClearWordList();
     setWordList(url);
+    // Reset zoom trên mobile sau khi search
+    document.getElementById('input_keyword').blur();
 }
 
 
