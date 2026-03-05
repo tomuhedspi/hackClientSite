@@ -112,8 +112,9 @@
     text-shadow: 0 1px 0 rgba(255,255,255,0.75);
   }
   .bg-3 .col-sm-3 a{
-    display: inline-block;
-    padding: 10px 12px 14px;
+    display: block;
+    width: 100%;
+    padding: 16px 20px 18px;
     border-radius: 14px;
     background: linear-gradient(180deg, #ffffff 0%, #f4f9ff 100%);
     border: 1px solid rgba(59,130,246,0.18);
@@ -127,10 +128,24 @@
     text-decoration: none;
   }
   .bg-3 .store-icon{
-    width: 180px;
+    width: 100px;
+    height: 100px;
     margin-top: 8px;
+    object-fit: cover;
     filter: drop-shadow(0 8px 16px rgba(59,130,246,0.28));
     animation: iconShimmer 2.4s ease-in-out infinite;
+  }
+  @media (min-width: 576px) {
+    .bg-3 .store-icon{
+      width: 140px;
+      height: 140px;
+    }
+  }
+  @media (min-width: 992px) {
+    .bg-3 .store-icon{
+      width: 180px;
+      height: 180px;
+    }
   }
   @keyframes iconShimmer {
     0%, 100% { filter: drop-shadow(0 8px 16px rgba(59,130,246,0.22)); }
