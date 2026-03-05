@@ -92,16 +92,13 @@
           <input type="text" class="form-control" id="myon" placeholder="chikara" maxlength="255">
         </div>
         <div class="form-group">
-          <div class="row">
-            <div class="col-10"></div>
-            <div class="col-2 text-right">
-              <input type="text" id="myname" class="form-control" placeholder="member" style="font-size: xx-small; width: 100%; border: none; text-align: right;" onchange="saveMyName(this.value)">
-            </div>
+          <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 10px; gap: 10px;">
+            <input type="text" id="myname" class="form-control" placeholder="member" style="font-size: 0.7rem; border: none; text-align: left; width: 50%;" onchange="saveMyName(this.value)">
+            <button id="submitButton" class="btn btn-primary" type="submit" onclick="submitWord(0);" disabled><i class="fa fa-paper-plane"></i></button>
           </div>
-        </div>
-        <div class="d-flex justify-content-between">
-          <button id ="submitButton" class="btn btn-primary" type="submit" onclick="submitWord(0);" disabled><i class="fa fa-paper-plane"></i></button> 
-          <button class="hint-btn" type="button" onclick="getHintForWordJapanese();">Xem Gợi Ý Cách Nhớ</button>
+          <div style="display: flex; justify-content: flex-end; margin-bottom: 30px;">
+            <button class="hint-btn" type="button" onclick="getHintForWordJapanese();">Xem Gợi Ý Cách Nhớ</button>
+          </div>
         </div>
         <div id="hint_text" class="row">
           <div class="col-sm-3 hint-column" id="hint_text_1"></div>

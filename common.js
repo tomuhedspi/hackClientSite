@@ -65,7 +65,7 @@ function setWordComment(singleWord){
     comment_list=singleWord['comment'];
     for (let i = 0; i < comment_list.length; i++) {
       detail= comment_list[i];
-      markup = "<tr><td>" + detail['content'] + "</td><td>" + detail['author_name'] + "</td></tr>";
+      markup = "<tr><td><div class='comment-content'>" + detail['content'] + "</div><small class='comment-author'>" + detail['author_name'] + "</small></td></tr>";
       $('#table_comment > tbody:last-child').append(markup); 
     }
 };
@@ -92,7 +92,7 @@ function submitComment(){
     $.post( commentUrl, { author_name: author_name, content:commentContent})
     .done(function( data ) {
         $("#mycomment").val("");
-        markup = "<tr><td>" + commentContent + "</td><td>" + author_name + "</td></tr>";
+        markup = "<tr><td><div class='comment-content'>" + commentContent + "</div><small class='comment-author'>" + author_name + "</small></td></tr>";
         $('#table_comment > tbody:last-child').append(markup); 
     });
 }
